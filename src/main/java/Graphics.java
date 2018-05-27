@@ -14,6 +14,8 @@ import static org.lwjgl.system.MemoryUtil.*;
 
 public class Graphics {
     private static long window = NULL;
+    private static int windowWidth;
+    private static int windowHeight;
 
     public static long init(int width, int height, String title) {
         // Setup an error callback. The default implementation
@@ -30,7 +32,9 @@ public class Graphics {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
         // Create the window
-        window = glfwCreateWindow(width, height, title, NULL, NULL);
+        windowWidth=width;
+        windowHeight=height;
+        window = glfwCreateWindow(windowWidth, windowHeight, title, NULL, NULL);
         if (window == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
 
@@ -86,7 +90,7 @@ public class Graphics {
 
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        glOrtho(0, 600, 400, 0, 1, -1);
+        glOrtho(0, windowWidth, windowHeight, 0, 1, -1);
         glMatrixMode(GL_MODELVIEW);
 
 
@@ -96,7 +100,7 @@ public class Graphics {
 
             rectangle(200,200,100,100);
 
-            hexagonal(100,100,100);
+            hexagonal(100,500,100);
 
             glfwSwapBuffers(window); // swap the color buffers
 

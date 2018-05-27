@@ -5,7 +5,7 @@ public class View {
 
     public View()
     {
-        window = Graphics.init(720,720,"GOL");
+        window = Graphics.init(1280,720,"GOL");
     }
 
 
