@@ -1,14 +1,14 @@
 public class Game {
-    private Model model;
-    private View view;
-    private Controller controller;
+    private static Model model;
+    private static View view;
+    private static Controller controller;
 
     public Game() {
         super();
     }
 
     public static void main(String[] args) {
-        System.out.println("witam witam siema");
-        System.out.println("no elo");
+       view = new View();
+       view.display();
     }
 }

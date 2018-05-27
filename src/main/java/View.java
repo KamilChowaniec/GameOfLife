@@ -1,11 +1,13 @@
 public class View {
-    private int window;
+    private long window;
     private Button buttons;
     private Checkbox checkboxes;
 
-    public View() {
-        super();
+    public View()
+    {
+        window = Graphics.init(720,720,"GOL");
     }
+
 
     public void getEvents() {
         // TODO implement me
@@ -13,5 +15,6 @@ public class View {
 
     public void display() {
         // TODO implement me
+        Graphics.loop();
     }
 }
