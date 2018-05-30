@@ -1,4 +1,4 @@
-public class Button implements Positionable{
+public class Button implements Positionable {
     private int width;
     private int height;
     private String text;
@@ -24,4 +24,12 @@ public class Button implements Positionable{
     public void changeColor() {
         // TODO implement me
     }
+
+    @Override
+    public void setPosition()
+    {
+
+    }
+
+
 }

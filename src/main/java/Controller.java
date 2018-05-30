@@ -1,16 +1,27 @@
-public class Controller {
-    private View View;
-    private Model Model;
+public class Controller
+{
+    private View view;
+    private Model model;
 
-    public Controller() {
-        super();
+    public Controller(Model model, View view)
+    {
+        this.model = model;
+        this.view = view;
+    }
+    public void run()
+    {
+        while(view.shouldRun())
+        {
+            view.getEvents();
+            handleEvents();
+            model.update();
+            //TODO: sth=model.getGridValues();
+            view.display();
+        }
     }
 
-    public void handleEvents() {
-        // TODO implement me
-    }
-
-    public void run() {
+    private void handleEvents()
+    {
         // TODO implement me
     }
 }

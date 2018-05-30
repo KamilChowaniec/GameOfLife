@@ -25,4 +25,12 @@ public class Checkbox implements Positionable {
     public void changeColor() {
         // TODO implement me
     }
+
+    @Override
+    public void setPosition()
+    {
+
+    }
+
+
 }

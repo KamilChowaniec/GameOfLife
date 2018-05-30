@@ -1,4 +1,4 @@
-public interface Positionable {
-    int x = 0;
-    int y = 0;
+public interface Positionable
+{
+    public void setPosition();
 }

@@ -1,14 +1,14 @@
-public class Game {
+public class Game
+{
     private static Model model;
     private static View view;
     private static Controller controller;
 
-    public Game() {
-        super();
-    }
-
-    public static void main(String[] args) {
-       view = new View();
-       view.display();
+    public static void main(String[] args)
+    {
+        Model model = new Model();
+        View view = new View();
+        Controller controller = new Controller(model, view);
+        controller.run();
     }
 }
