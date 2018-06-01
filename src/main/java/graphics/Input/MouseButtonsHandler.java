@@ -3,6 +3,7 @@ package graphics.Input;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import static org.lwjgl.glfw.GLFW.*;
 
+
 public class MouseButtonsHandler extends GLFWMouseButtonCallback
 {
     public static boolean[] buttons = new boolean[2];
