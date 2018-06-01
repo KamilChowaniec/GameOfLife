@@ -31,6 +31,10 @@ public class View
     {
         return window.getKeys();
     }
+    public boolean[] getMouseButtons()
+    {
+        return window.getMouseButtons();
+    }
 
 
     public void display()

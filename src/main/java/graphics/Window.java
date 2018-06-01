@@ -24,6 +24,7 @@ public class Window
 
     private GLFWKeyCallback   keyCallback;
     private GLFWCursorPosCallback mouseCallback;
+    private GLFWMouseButtonCallback   mouseButtonCallback;
 
     public Window(int windowWidth, int windowHeight, String windowTitle)
     {
@@ -60,6 +61,7 @@ public class Window
 
         glfwSetKeyCallback(handle, keyCallback = new KeyboardHandler());
         glfwSetCursorPosCallback(handle, mouseCallback = new MouseHandler());
+        glfwSetMouseButtonCallback(handle, mouseButtonCallback = new MouseButtonsHandler());
         // Get the thread stack and push a new frame
         try (MemoryStack stack = stackPush())
         {
@@ -137,5 +139,9 @@ public class Window
     public  double[] getMousePosition()
     {
         return MouseHandler.getMousePosition();
+    }
+    public boolean[] getMouseButtons()
+    {
+        return MouseButtonsHandler.getMouseButtons();
     }
 }

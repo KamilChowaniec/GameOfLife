@@ -5,8 +5,9 @@ public class Button implements Positionable {
     private int color;
     private boolean focused;
 
-    public Button() {
-        super();
+    public Button()
+    {
+
     }
 
     public void draw() {

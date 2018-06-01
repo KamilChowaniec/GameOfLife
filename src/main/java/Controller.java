@@ -1,3 +1,4 @@
+import static org.lwjgl.glfw.GLFW.*;
 
 public class Controller
 {
@@ -5,6 +6,7 @@ public class Controller
     private Model model;
     private double[] mousePosition;
     private boolean[] keys;
+    private boolean[] mouseButtons;
 
     public Controller(Model model, View view)
     {
@@ -12,6 +14,7 @@ public class Controller
         this.view = view;
         mousePosition=view.getMousePosition();
         keys=view.getKeys();
+        mouseButtons=view.getMouseButtons();
     }
 
     public void run()
@@ -28,6 +31,7 @@ public class Controller
     private void handleEvents()
     {
         System.out.println("Mouse pos:x=" + mousePosition[0] + " y=" + mousePosition[1]);
-        System.out.println("Space pressed:"+keys[32]);
+        System.out.println("Up arrow pressed:"+keys[GLFW_KEY_UP]);
+        System.out.println("LMB:"+mouseButtons[GLFW_MOUSE_BUTTON_2]+"RMB:"+mouseButtons[GLFW_MOUSE_BUTTON_2]);
     }
 }

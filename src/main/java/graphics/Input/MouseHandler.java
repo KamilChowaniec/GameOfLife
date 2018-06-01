@@ -11,6 +11,7 @@ public class MouseHandler extends GLFWCursorPosCallback
     {
         mousePos[0]=xpos;
         mousePos[1]=ypos;
+
     }
 
     public static double[] getMousePosition()
