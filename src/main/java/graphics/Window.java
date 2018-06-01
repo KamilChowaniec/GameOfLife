@@ -1,13 +1,14 @@
 package graphics;
 
-import org.lwjgl.*;
+import graphics.Input.*;
+
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
 import java.nio.*;
 import java.util.*;
-import static org.lwjgl.glfw.Callbacks.*;
+
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
@@ -20,6 +21,9 @@ public class Window
     private int height;
     private String title;
     private Vector<Displayable> toDispaly;
+
+    private GLFWKeyCallback   keyCallback;
+    private GLFWCursorPosCallback mouseCallback;
 
     public Window(int windowWidth, int windowHeight, String windowTitle)
     {
@@ -45,12 +49,19 @@ public class Window
     {
         if (handle == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
-        // Setup a key callback. It will be called every time a key is pressed, repeated or released.
+
+
+
+        /* Setup a key callback. It will be called every time a key is pressed, repeated or released.
         glfwSetKeyCallback(handle, (window, key, scancode, action, mods) ->
         {
             if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
         });
+        */
+        
+        glfwSetKeyCallback(handle, keyCallback = new KeyboardHandler());
+        glfwSetCursorPosCallback(handle, mouseCallback = new MouseHandler());
         // Get the thread stack and push a new frame
         try (MemoryStack stack = stackPush())
         {
@@ -113,6 +124,20 @@ public class Window
         // Poll for window events. The key callback above will only be
         // invoked during this call.
         glfwPollEvents();
+
+    }
+
+    public long getHandle()
+    {
+        return handle;
+    }
+
+    public boolean[] getKeys()
+    {
+        return KeyboardHandler.getKeys();
+    }
+    public  double[] getMousePosition()
+    {
+        return MouseHandler.getMousePosition();
     }
 }
-

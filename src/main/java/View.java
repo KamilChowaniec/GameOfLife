@@ -1,5 +1,4 @@
 import graphics.*;
-
 import java.util.Vector;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -15,6 +14,7 @@ public class View
     {
         window = new Window(1280,720,"GOL");
         //TODO implement me
+
         shapes = new Vector<Shape>();
         shapes.add(new Rectangle(100,100,100,100));
         shapes.add(new Rectangle(105,105,90,90));
@@ -23,11 +23,15 @@ public class View
         shapes.add(new Triangle(500,500,100));
     }
 
-
-    public void getEvents()
+    public double[] getMousePosition()
     {
-        // TODO implement me
+        return window.getMousePosition();
     }
+    public boolean[] getKeys()
+    {
+        return window.getKeys();
+    }
+
 
     public void display()
     {

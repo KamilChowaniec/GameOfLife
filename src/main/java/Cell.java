@@ -1,18 +1,31 @@
-public class Cell {
+public class Cell
+{
 
     private boolean alive;
     private int lived;
     private int color;
 
-    public Cell() {
-        super();
+    public Cell()
+    {
+        alive=false;
+        lived=0;
     }
 
-    public void isDead() {
-        // TODO implement me
+    public void update()
+    {
+        lived++;
     }
 
-    public void changeState() {
-        // TODO implement me
+
+
+    public boolean isDead()
+    {
+        return !alive;
+    }
+
+    public void changeState()
+    {
+       alive=!alive;
+       lived=0;
     }
 }
