@@ -50,8 +50,6 @@ public class Window
         if (handle == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
 
-
-
         /* Setup a key callback. It will be called every time a key is pressed, repeated or released.
         glfwSetKeyCallback(handle, (window, key, scancode, action, mods) ->
         {
@@ -59,7 +57,7 @@ public class Window
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
         });
         */
-        
+
         glfwSetKeyCallback(handle, keyCallback = new KeyboardHandler());
         glfwSetCursorPosCallback(handle, mouseCallback = new MouseHandler());
         // Get the thread stack and push a new frame
