@@ -1,14 +1,17 @@
-public class Game
-{
-    private static Model model;
-    private static View view;
-    private static Controller controller;
+public class Game {
+    public static int GRIDSIZE = 1000;
+    private Model model;
+    private View view;
+    private Controller controller;
 
-    public static void main(String[] args)
-    {
-        Model model = new Model();
-        View view = new View();
-        Controller controller = new Controller(model, view);
+    Game() {
+        model = new Model();
+        view = new View();
+        controller = new Controller(model, view);
         controller.run();
+    }
+
+    public static void main(String[] args) {
+        new Game();
     }
 }

@@ -14,30 +14,27 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
-public class Window
-{
-    long handle=NULL;
+public class Window {
+    long handle = NULL;
     private int width;
     private int height;
     private String title;
     private Vector<Displayable> toDispaly;
 
-    private GLFWKeyCallback   keyCallback;
+    private GLFWKeyCallback keyCallback;
     private GLFWCursorPosCallback mouseCallback;
-    private GLFWMouseButtonCallback   mouseButtonCallback;
+    private GLFWMouseButtonCallback mouseButtonCallback;
 
-    public Window(int windowWidth, int windowHeight, String windowTitle)
-    {
+    public Window(int windowWidth, int windowHeight, String windowTitle) {
         init1();
-        width=windowWidth;
-        height=windowHeight;
-        title=windowTitle;
+        width = windowWidth;
+        height = windowHeight;
+        title = windowTitle;
         handle = glfwCreateWindow(width, height, title, NULL, NULL);
         init2();
     }
 
-    private void init1()
-    {
+    private void init1() {
         GLFWErrorCallback.createPrint(System.err).set();
         if (!glfwInit())
             throw new IllegalStateException("Unable to initialize GLFW");
@@ -46,8 +43,7 @@ public class Window
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
     }
 
-    private void init2()
-    {
+    private void init2() {
         if (handle == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
 
@@ -63,8 +59,7 @@ public class Window
         glfwSetCursorPosCallback(handle, mouseCallback = new MouseHandler());
         glfwSetMouseButtonCallback(handle, mouseButtonCallback = new MouseButtonsHandler());
         // Get the thread stack and push a new frame
-        try (MemoryStack stack = stackPush())
-        {
+        try (MemoryStack stack = stackPush()) {
             IntBuffer pWidth = stack.mallocInt(1); // int*
             IntBuffer pHeight = stack.mallocInt(1); // int*
             // Get the window size passed to glfwCreateWindow
@@ -98,28 +93,23 @@ public class Window
         glMatrixMode(GL_MODELVIEW);
     }
 
-    public void setPosition(int x, int y)
-    {
+    public void setPosition(int x, int y) {
         glfwSetWindowPos(handle, x, y);
     }
 
-    public boolean isOpen()
-    {
+    public boolean isOpen() {
         return !glfwWindowShouldClose(handle);
     }
 
-    public void clear()
-    {
+    public void clear() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
     }
 
-    public void display(Displayable d)
-    {
+    public void display(Displayable d) {
         d.display();
     }
 
-    public void update()
-    {
+    public void update() {
         glfwSwapBuffers(handle); // swap the color buffers
         // Poll for window events. The key callback above will only be
         // invoked during this call.
@@ -127,21 +117,11 @@ public class Window
 
     }
 
-    public long getHandle()
-    {
+    public long getHandle() {
         return handle;
     }
 
-    public boolean[] getKeys()
-    {
-        return KeyboardHandler.getKeys();
-    }
-    public  double[] getMousePosition()
-    {
+    public double[] getMousePosition() {
         return MouseHandler.getMousePosition();
-    }
-    public boolean[] getMouseButtons()
-    {
-        return MouseButtonsHandler.getMouseButtons();
     }
 }

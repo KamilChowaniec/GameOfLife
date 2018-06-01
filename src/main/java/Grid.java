@@ -1,11 +1,21 @@
-public interface Grid {
-    Cell[][] cells = null;
+public abstract class Grid {
+    protected CellProperties[][] cellProperties;
+    protected boolean[][] alive;
+    protected boolean[][] buffer;
 
-    void countNeighbors();
+    Grid() {
+        cellProperties = new CellProperties[Game.GRIDSIZE][Game.GRIDSIZE];
+    }
 
-    void draw();
+    protected abstract int countNeighbors(int x, int y);
 
-    void drawOnGrind();
+    public abstract void drawOnGrind();
 
-    void mechanic();
+    public abstract void mechanic(int[][] rules);
+
+    protected void swapBuffers() {
+        boolean[][] tmp = alive;
+        alive = buffer;
+        buffer = tmp;
+    }
 }
