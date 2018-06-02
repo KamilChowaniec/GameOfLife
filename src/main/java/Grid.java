@@ -19,7 +19,21 @@ public abstract class Grid {
 
     public abstract void drawOnGrind();
 
-    public abstract void mechanic(boolean[][] rules);
+    public void mechanic(boolean[][] rules) {
+        for (int i = 0; i < Game.GRIDSIZE; i++) {
+            for (int j = 0; j < Game.GRIDSIZE; j++) {
+                int a = countNeighbors(i, j);
+                if (alive[i][j]) {
+                    buffer[i][j] = rules[0][a];
+                    cellProperties[i][j].incLived();
+                } else {
+                    buffer[i][j] = rules[1][a];
+                    cellProperties[i][j].setLived(0);
+                }
+            }
+        }
+        swapBuffers();
+    }
 
     protected void swapBuffers() {
         boolean[][] tmp = alive;
