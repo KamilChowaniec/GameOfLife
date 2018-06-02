@@ -26,9 +26,12 @@ public class Controller
 
     private void handleEvents()
     {
-        if (KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE))
+        if (KeyboardHandler.isButtonDown(GLFW_KEY_ESCAPE))
             view.closeWindow();
-        if (KeyboardHandler.isKeyDown(GLFW_KEY_SPACE))
+        if (KeyboardHandler.isButtonClicked(GLFW_KEY_SPACE))
             model.randomize();
+
+        KeyboardHandler.clear();
+        MouseButtonsHandler.clear();
     }
 }

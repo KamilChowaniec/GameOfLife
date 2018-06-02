@@ -2,22 +2,25 @@ public class Squared extends Grid {
 
     public Squared() {
         super();
-        randomize();
+        //randomize();
+        alive[4][3] = true;
+        alive[4][4] = true;
+        alive[4][5] = true;
     }
 
     @Override
     public int countNeighbors(int x, int y) {
         int neighbors = 0;
-        int i = x - 1, j = y - 1, imax = x + 1, jmax = y + 1;
+        int starti = x - 1, startj = y - 1, imax = x + 1, jmax = y + 1;
 
-        if (x == 0) i = x;
+        if (x == 0) starti = x;
         else if (x == Game.GRIDSIZE - 1) imax = x;
-        if (y == 0) j = x;
+        if (y == 0) startj = x;
         else if (y == Game.GRIDSIZE - 1) jmax = x;
 
 
-        for (; i <= imax; i++)
-            for (; j <= jmax; j++)
+        for (int i=starti; i <= imax; i++)
+            for (int j=startj; j <= jmax; j++)
                 if (i != x || j != y)
                     neighbors += alive[i][j] ? 1 : 0;
 
@@ -43,6 +46,6 @@ public class Squared extends Grid {
                 }
             }
         }
-        swapBuffers2();
+        swapBuffers();
     }
 }

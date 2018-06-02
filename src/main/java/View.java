@@ -48,7 +48,7 @@ public class View {
     }
 
     public void displaySquared(Grid grid) {
-        int size = 10;
+        int size = 1;
         for (int i = 0; i < Game.GRIDSIZE; i++) {
             for (int j = 0; j < Game.GRIDSIZE; j++) {
                 if (grid.isCellAlive(i, j)) {
