@@ -18,8 +18,7 @@ import static org.lwjgl.stb.STBTruetype.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 import static org.lwjgl.system.MemoryUtil.memAllocFloat;
 
-public class Text implements Displayable
-{
+public class Text implements Displayable {
     private int x, y;
     private Color c;
     private String txt;
@@ -29,7 +28,7 @@ public class Text implements Displayable
 
     private static final float[] scale = {
             84.0f,
-            10.0f
+            44.0f
     };
 
     private static final int[] sf = {
@@ -37,25 +36,23 @@ public class Text implements Displayable
             0, 1, 2
     };
 
-    private final STBTTAlignedQuad q  = STBTTAlignedQuad.malloc();
+    private final STBTTAlignedQuad q = STBTTAlignedQuad.malloc();
     private final FloatBuffer xb = memAllocFloat(1);
-    private final FloatBuffer      yb = memAllocFloat(1);
+    private final FloatBuffer yb = memAllocFloat(1);
 
     private static int font_tex;
     private static STBTTPackedchar.Buffer chardata;
     private int font = 3;
 
-    public Text(int x, int y, String txt,float r, float g, float b)
-    {
-        this.x=x;
-        this.y=y;
-        this.txt=txt;
-        this.c=new Color(r,g,b,1f);
+    public Text(int x, int y, String txt, float r, float g, float b) {
+        this.x = x;
+        this.y = y;
+        this.txt = txt;
+        this.c = new Color(r, g, b, 1f);
     }
 
     @Override
-    public void display()
-    {
+    public void display() {
         int sfont = sf[font];
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -75,8 +72,7 @@ public class Text implements Displayable
         glVertex2f(x0, y1);
     }
 
-    private void print(float x, float y, int font, String text)
-    {
+    private void print(float x, float y, int font, String text) {
         xb.put(0, x);
         yb.put(0, y);
 
@@ -96,20 +92,17 @@ public class Text implements Displayable
         glEnd();
     }
 
-    public static void load_font(String path)
-    {
+    public static void load_font(String path) {
         font_tex = glGenTextures();
         chardata = STBTTPackedchar.malloc(6 * 128);
 
-        try (STBTTPackContext pc = STBTTPackContext.malloc())
-        {
+        try (STBTTPackContext pc = STBTTPackContext.malloc()) {
             ByteBuffer ttf = ioResourceToByteBuffer(path, 512 * 1024);
 
             ByteBuffer bitmap = BufferUtils.createByteBuffer(BITMAP_W * BITMAP_H);
 
             stbtt_PackBegin(pc, bitmap, BITMAP_W, BITMAP_H, 0, 1, NULL);
-            for (int i = 0; i < scale.length; i++)
-            {
+            for (int i = 0; i < 2; i++) {
                 int p = (i * 3 + 0) * 128 + 32;
                 chardata.limit(p + 95);
                 chardata.position(p);
@@ -135,8 +128,7 @@ public class Text implements Displayable
             glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, BITMAP_W, BITMAP_H, 0, GL_ALPHA, GL_UNSIGNED_BYTE, bitmap);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

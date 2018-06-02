@@ -82,16 +82,19 @@ public class View {
         float s=(float) Math.sqrt(3);
         for (int i = 0; i < Game.GRIDSIZE/a; i++)
         {
+
             for (int j = 0; j < Game.GRIDSIZE/a; j+=2)
             {
                 if (grid.isCellAlive(i, j))
                 {
-                    Hexagon.display(x + 3 * a * i, y + j * a * s, a);
+                    Hexagon.display(x + 3 * a * i, y + j * a * s/2, a);
                 }
                 if (grid.isCellAlive(i, j+1))
                 {
-                    Hexagon.display(x + 3 * a * i + 1.5f * a, y + j * a * s + a * s / 2, a);
+                    Hexagon.display(x + 3 * a * i + 1.5f * a, y + j * a * s/2 + a * s / 2, a);
                 }
+                Hexagon.displayvoid(x + 3 * a * i, y + j * a * s/2, a);
+                Hexagon.displayvoid(x + 3 * a * i + 1.5f * a, y + j * a * s/2 + a * s / 2, a);
             }
         }
     }

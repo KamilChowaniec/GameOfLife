@@ -18,7 +18,7 @@ public class Controller
         {
             view.clearScreen();
             handleEvents();
-            model.update();
+            //model.update();
             view.display(model.getGridValues());
             view.display();
         }
@@ -30,6 +30,8 @@ public class Controller
             view.closeWindow();
         if (KeyboardHandler.isButtonClicked(GLFW_KEY_SPACE))
             model.randomize();
+        if (KeyboardHandler.isButtonClicked(GLFW_KEY_ENTER))
+            model.update();
 
         KeyboardHandler.clear();
         MouseButtonsHandler.clear();

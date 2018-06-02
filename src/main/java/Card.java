@@ -17,16 +17,16 @@ public class Card {
             case 1:
                 grid = new Triangular();
                 rules = new boolean[2][13];
-                rules[0][2] = true;
                 rules[0][3] = true;
-                rules[1][3] = true;
+                rules[0][4] = true;
+                rules[1][2] = true;
                 break;
             case 2:
                 grid = new Hexagonal();
                 rules = new boolean[2][7];
-                rules[0][2] = true;
                 rules[0][3] = true;
-                rules[1][3] = true;
+                rules[0][4] = true;
+                rules[1][2] = true;
                 break;
             default:
                 System.out.println("Unknown Grid type");
