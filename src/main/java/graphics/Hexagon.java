@@ -40,8 +40,7 @@ public class Hexagon extends Shape
         glVertex2f(x - 0.5f * a, y + (float) Math.sqrt(3) * a / 2.0f);
         glEnd();
     }
-
-    public static void displayvoid(float x, float y, float a)
+    public static void display2(float x, float y, float a)
     {
         glBegin(GL_LINE_LOOP);
         glVertex2f(x, y);
