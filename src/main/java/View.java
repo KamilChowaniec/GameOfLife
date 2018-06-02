@@ -104,19 +104,23 @@ public class View {
         float s = (float) Math.sqrt(3);
         for (int i = 0; i < Game.GRIDSIZE; i++)
         {
-            for (int j = 0; j < Game.GRIDSIZE; j += 2)
+            for (int j = 0; j < Game.GRIDSIZE; j++)
             {
                 if (grid.isCellAlive(i, j))
                 {
-                    Triangle.display(x + j * a/2+(i%2)*a/2, y + i * a * s / 2, a, false);
-                } else Triangle.display2(x + j * a/2+(i%2)*a/2, y + i * a * s / 2, a, false);
-                if (grid.isCellAlive(i, j + 1))
-                {
-                    Triangle.display(x + j * a/2-(i%2)*a/2, y + i * a * s / 2, a, true);
-                } else Triangle.display2(x + j * a/2-(i%2)*a/2, y + i * a * s / 2, a, true);
+                    Triangle.display(x + j * a/2 + (i % 2) * a / 2, y + i * a * s / 2, a, (j % 2) > 0);
+                }
+
+                else
+                    Triangle.display2(x + j * a/2 + (i % 2) * a / 2, y + i * a * s / 2, a, (j % 2) > 0);
             }
+
         }
     }
+
+
+
+
 
     public boolean shouldRun() {
         return window.isOpen();
