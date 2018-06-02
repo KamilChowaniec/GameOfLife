@@ -27,9 +27,9 @@ public class Triangle extends Shape
         glBegin(GL_TRIANGLES);
         if(upsideDown)
         {
-            glVertex2f(x, y);
-            glVertex2f(x+a,y);
-            glVertex2f(x+a/2,y+a*(float)Math.sqrt(3)/2);
+            glVertex2f(x-a/2, y);
+            glVertex2f(x+a/2,y);
+            glVertex2f(x,y+a*(float)Math.sqrt(3)/2);
 
         }
         else
@@ -46,9 +46,10 @@ public class Triangle extends Shape
         glBegin(GL_LINE_LOOP);
         if(upsideDown)
         {
-            glVertex2f(x, y);
-            glVertex2f(x+a,y);
-            glVertex2f(x+a/2,y+a*(float)Math.sqrt(3)/2);
+            glVertex2f(x-a/2, y);
+            glVertex2f(x+a/2,y);
+            glVertex2f(x,y+a*(float)Math.sqrt(3)/2);
+
 
         }
         else
