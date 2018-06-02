@@ -106,15 +106,13 @@ public class View {
         {
             for (int j = 0; j < Game.GRIDSIZE; j++)
             {
-                if (grid.isCellAlive(i, j))
+                if (grid.isCellAlive(i, (j+(i%2))%Game.GRIDSIZE))
                 {
                     Triangle.display(x + j * a/2 + (i % 2) * a / 2, y + i * a * s / 2, a, (j % 2) > 0);
                 }
-
                 else
                     Triangle.display2(x + j * a/2 + (i % 2) * a / 2, y + i * a * s / 2, a, (j % 2) > 0);
             }
-
         }
     }
 
