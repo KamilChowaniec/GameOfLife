@@ -112,8 +112,8 @@ public class View {
                 } else Triangle.display2(x + j * a/2+(i%2)*a/2, y + i * a * s / 2, a, false);
                 if (grid.isCellAlive(i, j + 1))
                 {
-                    Triangle.display(x + j * a/2+(i%2)*a/2, y + i * a * s / 2, a, true);
-                } else Triangle.display2(x + j * a/2+(i%2)*a/2, y + i * a * s / 2, a, true);
+                    Triangle.display(x + j * a/2-(i%2)*a/2, y + i * a * s / 2, a, true);
+                } else Triangle.display2(x + j * a/2-(i%2)*a/2, y + i * a * s / 2, a, true);
             }
         }
     }
