@@ -55,28 +55,53 @@ public class View {
 
     }
 
-    public void displaySquared(Grid grid) {
-        int size = 1;
-        for (int i = 0; i < Game.GRIDSIZE; i++) {
-            for (int j = 0; j < Game.GRIDSIZE; j++) {
-                if (grid.isCellAlive(i, j)) {
-                    glColor3f(1, 1, 1);
-                    glBegin(GL_QUADS);
-                    glVertex2f(i*size, j*size);
-                    glVertex2f(i*size + size, j*size);
-                    glVertex2f(i*size + size, j*size + size);
-                    glVertex2f(i*size, j*size + size);
-                    glEnd();
+    public void displaySquared(Grid grid)
+    {
+        glColor3f(0.8f, 0.8f, 0.8f);
+
+        int size = 10;
+        for (int i = 0; i < Game.GRIDSIZE/size; i++)
+        {
+            for (int j = 0; j < Game.GRIDSIZE/size; j++)
+            {
+                if (grid.isCellAlive(i, j))
+                {
+
+                    Rectangle.display(i * size, j * size, size, size);
                 }
             }
         }
     }
 
+    public void displayHexagonal(Grid grid)
+    {
+        glColor3f(0.8f, 0.8f, 0.8f);
+        float x=0;
+        float y=0;
+        float a = 10;
+        float s=(float) Math.sqrt(3);
+        for (int i = 0; i < Game.GRIDSIZE/a; i++)
+        {
+            for (int j = 0; j < Game.GRIDSIZE/a; j+=2)
+            {
+                if (grid.isCellAlive(i, j))
+                {
+                    Hexagon.display(x + 3 * a * i, y + j * a * s, a);
+                }
+                if (grid.isCellAlive(i, j+1))
+                {
+                    Hexagon.display(x + 3 * a * i + 1.5f * a, y + j * a * s + a * s / 2, a);
+                }
+            }
+        }
+    }
+
+
+
+
     public void displayTriangular(Grid grid) {
     }
 
-    public void displayHexagonal(Grid grid) {
-    }
 
 
     public boolean shouldRun() {
