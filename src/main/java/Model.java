@@ -1,16 +1,29 @@
+import java.util.ArrayList;
+
 public class Model {
-    private Card[] cards;
+    private ArrayList<Card> cards;
     private int cardIndex;
 
     public Model() {
-        super();
+        cards = new ArrayList<>();
+        cards.add(new Card(0));
+        cardIndex=0;
     }
 
     public void update() {
-        // TODO implement me
+        cards.get(cardIndex).mechanic();
     }
 
-    public void getGridValues() {
-        // TODO implement me
+    public Grid getGridValues() {
+        return cards.get(cardIndex).getGrid();
+    }
+
+    public void addCard(int gridType){
+        cards.add(new Card(gridType));
+        cardIndex = cards.size()-1;
+    }
+
+    public void setCardIndex(int cardIndex) {
+        this.cardIndex = cardIndex;
     }
 }

@@ -14,7 +14,7 @@ public class CellProperties {
     }
 
     public void incLived(){
-        lived++;
+        this.lived++;
     }
 
     public void setColor(Color color) {

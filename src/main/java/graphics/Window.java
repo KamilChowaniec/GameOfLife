@@ -124,4 +124,8 @@ public class Window {
     public double[] getMousePosition() {
         return MouseHandler.getMousePosition();
     }
+
+    public void close(){
+        glfwSetWindowShouldClose(handle, true);
+    }
 }

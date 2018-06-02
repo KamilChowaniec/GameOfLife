@@ -2,6 +2,7 @@ public class Squared extends Grid {
 
     public Squared() {
         super();
+        randomize();
     }
 
     @Override
@@ -29,16 +30,16 @@ public class Squared extends Grid {
     }
 
     @Override
-    public void mechanic(int[][] rules) {
+    public void mechanic(boolean[][] rules) {
         for (int i = 0; i < Game.GRIDSIZE; i++) {
             for (int j = 0; j < Game.GRIDSIZE; j++) {
                 int a = countNeighbors(i, j);
                 if (alive[i][j]) {
-                    buffer[i][j] = rules[0][a] == 1;
-                    cellProperties[i][j].setLived(0);
-                } else {
-                    buffer[i][j] = rules[0][a] == 1;
+                    buffer[i][j] = rules[0][a];
                     cellProperties[i][j].incLived();
+                } else {
+                    buffer[i][j] = rules[0][a];
+                    cellProperties[i][j].setLived(0);
                 }
             }
         }
