@@ -13,7 +13,7 @@ public class View {
 
     public View() {
         window = new Window(1280, 720, "GOL");
-        Text.load_font("C:\\Users\\bartl\\IdeaProjects\\GameOfLife\\sansation.ttf");
+        Text.load_font("sansation.ttf");
         //TODO implement me
 
         shapes = new Vector<Shape>();
