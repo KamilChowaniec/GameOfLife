@@ -9,9 +9,11 @@ public class View {
     private Button buttons;
     private Checkbox checkboxes;
     private Vector<Shape> shapes;
+    private Text t;
 
     public View() {
         window = new Window(1280, 720, "GOL");
+        Text.load_font("C:\\Users\\bartl\\IdeaProjects\\GameOfLife\\sansation.ttf");
         //TODO implement me
 
         shapes = new Vector<Shape>();
@@ -20,6 +22,8 @@ public class View {
         shapes.add(new Hexagon(300, 300, 100));
         shapes.add(new Circle(200, 200, 50));
         shapes.add(new Triangle(500, 500, 100));
+
+        t=new Text(600,300,"Lubie placki", 1.0f,0f,0f);
     }
 
     public double[] getMousePosition() {
@@ -38,6 +42,8 @@ public class View {
         //    window.display(s);
 
 
+
+        t.display();
         window.update();
     }
 
@@ -45,6 +51,8 @@ public class View {
         if (grid instanceof Squared) displaySquared(grid);
         else if (grid instanceof Triangular) displayTriangular(grid);
         else if (grid instanceof Hexagonal) displayHexagonal(grid);
+
+
     }
 
     public void displaySquared(Grid grid) {
