@@ -23,7 +23,7 @@ public class View {
         shapes.add(new Circle(200, 200, 50));
         shapes.add(new Triangle(500, 500, 100));
 
-        t=new Text(600,300,"Lubie placki", 1.0f,0f,0f);
+        t = new Text(600, 300, "Lubie placki", 1.0f, 0f, 0f);
     }
 
     public double[] getMousePosition() {
@@ -42,30 +42,25 @@ public class View {
         //    window.display(s);
 
 
-
         t.display();
         window.update();
     }
 
     public void display(Grid grid) {
         if (grid instanceof Squared) displaySquared(grid);
-        else if (grid instanceof Triangular) displayTriangular(grid);
+        else if (grid instanceof Triangular) displaySquared(grid);
         else if (grid instanceof Hexagonal) displayHexagonal(grid);
 
 
     }
 
-    public void displaySquared(Grid grid)
-    {
+    public void displaySquared(Grid grid) {
         glColor3f(0.8f, 0.8f, 0.8f);
 
         int size = 10;
-        for (int i = 0; i < Game.GRIDSIZE/size; i++)
-        {
-            for (int j = 0; j < Game.GRIDSIZE/size; j++)
-            {
-                if (grid.isCellAlive(i, j))
-                {
+        for (int i = 0; i < Game.GRIDSIZE / size; i++) {
+            for (int j = 0; j < Game.GRIDSIZE / size; j++) {
+                if (grid.isCellAlive(i, j)) {
 
                     Rectangle.display(i * size, j * size, size, size);
                 }
@@ -73,38 +68,24 @@ public class View {
         }
     }
 
-    public void displayHexagonal(Grid grid)
-    {
+    public void displayHexagonal(Grid grid) {
         glColor3f(0.8f, 0.8f, 0.8f);
-        float x=0;
-        float y=0;
+        float x = 0;
+        float y = 0;
         float a = 10;
-        float s=(float) Math.sqrt(3);
-        for (int i = 0; i < Game.GRIDSIZE/a; i++)
-        {
-
-            for (int j = 0; j < Game.GRIDSIZE/a; j+=2)
-            {
-                if (grid.isCellAlive(i, j))
-                {
-                    Hexagon.display(x + 3 * a * i, y + j * a * s/2, a);
-                }
-                if (grid.isCellAlive(i, j+1))
-                {
-                    Hexagon.display(x + 3 * a * i + 1.5f * a, y + j * a * s/2 + a * s / 2, a);
-                }
-                Hexagon.displayvoid(x + 3 * a * i, y + j * a * s/2, a);
-                Hexagon.displayvoid(x + 3 * a * i + 1.5f * a, y + j * a * s/2 + a * s / 2, a);
+        float s = (float) Math.sqrt(3);
+        for (int i = 0; i < Game.GRIDSIZE / a; i++) {
+            for (int j = 0; j < Game.GRIDSIZE / a; j++) {
+                if (grid.isCellAlive(i, j)) {
+                    Hexagon.display(x + 3 * j * a / 2, y + i * a * s + (j % 2) * a * s / 2, a);
+                } else Hexagon.displayvoid(x + 3 * j * a / 2, y + i * a * s + (j % 2) * a * s / 2, a);
             }
         }
     }
 
 
-
-
     public void displayTriangular(Grid grid) {
     }
-
 
 
     public boolean shouldRun() {

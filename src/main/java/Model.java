@@ -6,7 +6,7 @@ public class Model {
 
     public Model() {
         cards = new ArrayList<>();
-        cards.add(new Card(2));
+        cards.add(new Card(1));
         cardIndex=0;
     }
 

@@ -17,9 +17,8 @@ public class Card {
             case 1:
                 grid = new Triangular();
                 rules = new boolean[2][13];
-                rules[0][3] = true;
-                rules[0][4] = true;
-                rules[1][2] = true;
+                rules[1][9] = true;
+                rules[1][0] = true;
                 break;
             case 2:
                 grid = new Hexagonal();

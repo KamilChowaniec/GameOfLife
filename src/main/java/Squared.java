@@ -15,8 +15,8 @@ public class Squared extends Grid {
 
         if (x == 0) starti = x;
         else if (x == Game.GRIDSIZE - 1) imax = x;
-        if (y == 0) startj = x;
-        else if (y == Game.GRIDSIZE - 1) jmax = x;
+        if (y == 0) startj = y;
+        else if (y == Game.GRIDSIZE - 1) jmax = y;
 
 
         for (int i=starti; i <= imax; i++)
