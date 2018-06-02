@@ -27,14 +27,6 @@ public abstract class Grid {
         buffer = tmp;
     }
 
-    protected void swapBuffers2(){
-        for (int i = 0; i < Game.GRIDSIZE; i++) {
-            for (int j = 0; j < Game.GRIDSIZE; j++) {
-                alive[i][j] = buffer[i][j];
-            }
-        }
-    }
-
     public boolean isCellAlive(int x, int y) {
         return alive[x][y];
     }
