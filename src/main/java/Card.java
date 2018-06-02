@@ -10,13 +10,9 @@ public class Card {
             case 0:
                 grid = new Squared();
                 rules = new boolean[2][9];
-                rules[0][0] = true;
-                rules[0][1] = true;
-                rules[0][4] = true;
-                rules[0][5] = true;
+                rules[0][2] = true;
+                rules[0][3] = true;
                 rules[1][3] = true;
-                rules[0][4] = true;
-                rules[1][6] = true;
                 break;
             case 1:
                 grid = new Triangular();
@@ -47,5 +43,9 @@ public class Card {
 
     public Grid getGrid(){
         return grid;
+    }
+
+    public void randomize(){
+        grid.randomize();
     }
 }

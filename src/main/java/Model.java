@@ -26,4 +26,8 @@ public class Model {
     public void setCardIndex(int cardIndex) {
         this.cardIndex = cardIndex;
     }
+
+    public void randomize(){
+        cards.get(cardIndex).randomize();
+    }
 }

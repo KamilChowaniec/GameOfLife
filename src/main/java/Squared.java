@@ -38,11 +38,11 @@ public class Squared extends Grid {
                     buffer[i][j] = rules[0][a];
                     cellProperties[i][j].incLived();
                 } else {
-                    buffer[i][j] = rules[0][a];
+                    buffer[i][j] = rules[1][a];
                     cellProperties[i][j].setLived(0);
                 }
             }
         }
-        swapBuffers();
+        swapBuffers2();
     }
 }

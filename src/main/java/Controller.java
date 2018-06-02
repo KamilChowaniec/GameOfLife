@@ -28,5 +28,7 @@ public class Controller
     {
         if (KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE))
             view.closeWindow();
+        if (KeyboardHandler.isKeyDown(GLFW_KEY_SPACE))
+            model.randomize();
     }
 }
