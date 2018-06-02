@@ -61,6 +61,7 @@ public class Text implements Displayable
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glColor3f(c.getR(), c.getG(), c.getB());
         print(x, y, sfont, txt);
+        glDisable(GL_BLEND);
     }
 
     private static void drawBoxTC(float x0, float y0, float x1, float y1, float s0, float t0, float s1, float t1) {
