@@ -104,17 +104,15 @@ public class View {
         float s = (float) Math.sqrt(3);
         for (int i = 0; i < Game.GRIDSIZE; i++)
         {
-            for (int j = 0; j < Game.GRIDSIZE; j++)
+            for (int j = 0; j < Game.GRIDSIZE-1; j++)
             {
-                if (grid.isCellAlive(i, j))
+                if (grid.isCellAlive(i, j+(i%2)))
                 {
                     Triangle.display(x + j * a/2 + (i % 2) * a / 2, y + i * a * s / 2, a, (j % 2) > 0);
                 }
-
                 else
                     Triangle.display2(x + j * a/2 + (i % 2) * a / 2, y + i * a * s / 2, a, (j % 2) > 0);
             }
-
         }
     }
 
