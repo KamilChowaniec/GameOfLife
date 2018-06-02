@@ -29,7 +29,7 @@ public class Text implements Displayable
 
     private static final float[] scale = {
             84.0f,
-            44.0f
+            10.0f
     };
 
     private static final int[] sf = {
@@ -108,7 +108,7 @@ public class Text implements Displayable
             ByteBuffer bitmap = BufferUtils.createByteBuffer(BITMAP_W * BITMAP_H);
 
             stbtt_PackBegin(pc, bitmap, BITMAP_W, BITMAP_H, 0, 1, NULL);
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < scale.length; i++)
             {
                 int p = (i * 3 + 0) * 128 + 32;
                 chardata.limit(p + 95);
