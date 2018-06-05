@@ -19,18 +19,18 @@ public class Controller
             view.clearScreen();
             handleEvents();
             //model.update();
-            view.display(model.getGridValues());
+            //view.display(model.getGridValues());
             view.display();
         }
     }
 
     private void handleEvents()
     {
-        if (KeyboardHandler.isButtonDown(GLFW_KEY_ESCAPE))
+        if (KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE))
             view.closeWindow();
-        if (KeyboardHandler.isButtonClicked(GLFW_KEY_SPACE))
+        if (KeyboardHandler.isKeyClicked(GLFW_KEY_SPACE))
             model.randomize();
-        if (KeyboardHandler.isButtonClicked(GLFW_KEY_ENTER))
+        if (KeyboardHandler.isKeyClicked(GLFW_KEY_ENTER))
             model.update();
 
         KeyboardHandler.clear();

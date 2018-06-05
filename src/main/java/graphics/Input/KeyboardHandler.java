@@ -16,11 +16,11 @@ public class KeyboardHandler extends GLFWKeyCallback {
     }
 
     // returns true if a given key is pressed
-    public static boolean isButtonDown(int keycode) {
+    public static boolean isKeyDown(int keycode) {
         return keys[keycode];
     }
 
-    public static boolean isButtonClicked(int keycode) {
+    public static boolean isKeyClicked(int keycode) {
         return (keys[keycode] && Clicked[keycode]);
     }
 

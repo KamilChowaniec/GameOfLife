@@ -1,8 +1,10 @@
 import graphics.*;
+import graphics.Input.KeyboardHandler;
 
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
 import static org.lwjgl.opengl.GL11.*;
 
 public class View {
@@ -42,14 +44,32 @@ public class View {
         //for (Shape s : shapes)
         //    window.display(s);
 
+        //glClear(GL_COLOR_BUFFER_BIT);
+        /* select white for all lines  */
+        glColor3f(1.0f, 1.0f, 1.0f);
+
+        /* in 1st row, 3 lines, each with a different stipple  */
+        glEnable(GL_LINE_STIPPLE);
+
+        glLineStipple(5, (short)(255/2));  /*  dotted  */
+        drawOneLine(0.0f, 125.0f, 500.0f, 500.0f);
 
 
-        t.display();
+        glDisable(GL_LINE_STIPPLE);
+        glFlush();
+        //t.display();
         window.update();
     }
 
+    public void drawOneLine(float x1,float y1,float x2,float y2) {
+        glBegin(GL_LINES);
+        glVertex2f((x1), (y1));
+        glVertex2f((x2), (y2));
+        glEnd();
+    }
+
     public void display(Grid grid) {
-        if (grid instanceof Squared) displayTriangular(grid);
+        if (grid instanceof Squared) displaySquared(grid);
         else if (grid instanceof Triangular) displayTriangular(grid);
         else if (grid instanceof Hexagonal) displayHexagonal(grid);
 
@@ -61,9 +81,9 @@ public class View {
         glColor3f(0.8f, 0.8f, 0.8f);
 
         int size = 10;
-        for (int i = 0; i < Game.GRIDSIZE/size; i++)
+        for (int i = 0; i < Game.GRIDSIZE; i++)
         {
-            for (int j = 0; j < Game.GRIDSIZE/size; j++)
+            for (int j = 0; j < Game.GRIDSIZE; j++)
             {
                 if (grid.isCellAlive(i, j))
                 {
@@ -87,9 +107,9 @@ public class View {
 
                 if (grid.isCellAlive(i, j))
                 {
-                    Hexagon.display(x+3*j*a/2, y+i*a*s+(j%2)*a*s/2, a);
+                    Hexagon.display(x+3*i*a/2, y+j*a*s+((i)%2)*a*s/2, a);
                 }
-                else Hexagon.display2(x+3*j*a/2, y+i*a*s+(j%2)*a*s/2, a);
+                else Hexagon.display2(x+3*i*a/2, y+j*a*s+((i)%2)*a*s/2, a);
                // window.update();
             }
         }
@@ -102,18 +122,23 @@ public class View {
         float y = 0;
         float a = 20;
         float s = (float) Math.sqrt(3);
-        for (int i = 0; i < Game.GRIDSIZE; i++)
+        for (int i = 0; i < Game.GRIDSIZE/a; i++)
         {
-            for (int j = 0; j < Game.GRIDSIZE; j++)
+            for (int j = 0; j < Game.GRIDSIZE/a; j++)
             {
-                if (grid.isCellAlive(i, (j+(i%2))%Game.GRIDSIZE))
+                //if (grid.isCellAlive(i, (j+(i%2))%Game.GRIDSIZE))
+                if (grid.isCellAlive((i+(j%2))%Game.GRIDSIZE, j))
                 {
-                    Triangle.display(x + j * a/2 + (i % 2) * a / 2, y + i * a * s / 2, a, (j % 2) > 0);
+                    glColor3f(1f, 0f, 0f);
+                    Triangle.display(x + i * a/2 + (j % 2) * a / 2, y + j * a * s / 2, a, (i % 2) > 0);
                 }
-                else
-                    Triangle.display2(x + j * a/2 + (i % 2) * a / 2, y + i * a * s / 2, a, (j % 2) > 0);
+                //else
+                glColor3f(0f, 1f, 0f);
+                Triangle.display2(x + i * a/2 + (j % 2) * a / 2, y + j * a * s / 2, a, (i % 2) > 0);
+
             }
         }
+
     }
 
 

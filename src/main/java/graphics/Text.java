@@ -27,7 +27,7 @@ public class Text implements Displayable {
     private static final int BITMAP_H = 512;
 
     private static final float[] scale = {
-            84.0f,
+            24.0f,
             44.0f
     };
 

@@ -42,6 +42,13 @@ public class Hexagon extends Shape
     }
     public static void display2(float x, float y, float a)
     {
+
+
+//        glEnable( GL_LINE_SMOOTH );
+//        glEnable( GL_POLYGON_SMOOTH );
+//        glHint( GL_LINE_SMOOTH_HINT, GL_NICEST );
+//        glHint( GL_POLYGON_SMOOTH_HINT, GL_NICEST );
+
         glBegin(GL_LINE_LOOP);
         glVertex2f(x, y);
         glVertex2f(x + a, y);
