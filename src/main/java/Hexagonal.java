@@ -1,6 +1,8 @@
 public class Hexagonal extends Grid {
     public Hexagonal() {
         super();
+        alive[20][20] = true;
+
     }
 
     @Override
@@ -11,15 +13,15 @@ public class Hexagonal extends Grid {
 
         if (x == 0) starti = x;
         else if (x == Game.GRIDSIZE - 1) imax = x;
-        if (y == 0) startj = x;
-        else if (y == Game.GRIDSIZE - 1) jmax = x;
+        if (y == 0) startj = y;
+        else if (y == Game.GRIDSIZE - 1) jmax = y;
 
         for (int i = starti; i <= imax; i++)
             for (int j = startj; j <= jmax; j++)
-                if ((j != miss || (i != x - 1 && i != x + 1)) && (i != x || j != y))
+                if ((j != miss || (i != x - 1 && i != x + 1)))
                     neighbors += alive[i][j] ? 1 : 0;
 
-        return neighbors;
+        return neighbors - (alive[x][y] ? 1 : 0);
     }
 
     @Override

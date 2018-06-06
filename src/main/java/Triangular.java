@@ -46,7 +46,6 @@ public class Triangular extends Grid {
             }
             neighbors -= a;
         }
-
         return neighbors - (alive[x][y] ? 1 : 0);
     }
 

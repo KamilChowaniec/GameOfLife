@@ -46,17 +46,17 @@ public class View {
 
         //glClear(GL_COLOR_BUFFER_BIT);
         /* select white for all lines  */
-        glColor3f(1.0f, 1.0f, 1.0f);
+        //glColor3f(1.0f, 1.0f, 1.0f);
 
         /* in 1st row, 3 lines, each with a different stipple  */
-        glEnable(GL_LINE_STIPPLE);
+        //glEnable(GL_LINE_STIPPLE);
 
-        glLineStipple(5, (short)(255/2));  /*  dotted  */
-        drawOneLine(0.0f, 125.0f, 500.0f, 500.0f);
+        //glLineStipple(5, (short)(255/2));  /*  dotted  */
+        //drawOneLine(0.0f, 125.0f, 500.0f, 500.0f);
 
 
-        glDisable(GL_LINE_STIPPLE);
-        glFlush();
+        //glDisable(GL_LINE_STIPPLE);
+        //glFlush();
         //t.display();
         window.update();
     }
@@ -126,7 +126,6 @@ public class View {
         {
             for (int j = 0; j < Game.GRIDSIZE/a; j++)
             {
-                //if (grid.isCellAlive(i, (j+(i%2))%Game.GRIDSIZE))
                 if (grid.isCellAlive((i+(j%2))%Game.GRIDSIZE, j))
                 {
                     glColor3f(1f, 0f, 0f);
@@ -140,10 +139,6 @@ public class View {
         }
 
     }
-
-
-
-
 
     public boolean shouldRun() {
         return window.isOpen();
