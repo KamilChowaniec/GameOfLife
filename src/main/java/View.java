@@ -125,9 +125,14 @@ public class View {
     {
         double mouseX = MouseHandler.xPos();
         double mouseY = MouseHandler.yPos();
-        if(zoomSlider.isFocused((int)mouseX, (int)mouseY)&& MouseButtonsHandler.isKeyDown(0))
+        if(zoomSlider.isFocused((int)mouseX, (int)mouseY)&& MouseButtonsHandler.isKeyDown(0) && !zoomSlider.state())
         {
-            zoomSlider.slide((int)mouseX);
+            zoomSlider.changeState();
+        }
+        if(zoomSlider.state())
+        {
+            if(!MouseButtonsHandler.isKeyDown(0)) zoomSlider.changeState();
+            zoomSlider.slide((int) mouseX);
         }
         zoomSlider.draw();
         return zoomSlider.getPercent();

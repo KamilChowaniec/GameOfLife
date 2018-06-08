@@ -6,7 +6,7 @@ public class Slider
     private int xR,yR;
     private int width,height, widthR,heightR;
     private int color;
-    private boolean grabbed;
+    private boolean state;
 
     public Slider(int x, int y, int width,int height)
     {
@@ -34,6 +34,8 @@ public class Slider
     public void slide(int xR)
     {
         this.xR = xR - widthR/2;
+        if(xR<x) this.xR=x;
+        else if(xR>(x+width)) this.xR=x+width;
     }
 
     public int getPercent()
@@ -41,4 +43,13 @@ public class Slider
         return 100*(xR-x)/(width-widthR);
     }
 
+    public void changeState()
+    {
+        state=!state;
+    }
+
+    public boolean state()
+    {
+        return state;
+    }
 }
