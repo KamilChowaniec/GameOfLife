@@ -27,7 +27,7 @@ public class Checkbox implements Positionable {
     }
 
     @Override
-    public void setPosition()
+    public void setPosition(int x, int y)
     {
 
     }

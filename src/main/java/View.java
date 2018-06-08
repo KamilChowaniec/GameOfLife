@@ -20,11 +20,16 @@ public class View {
         //TODO implement me
 
         shapes = new Vector<Shape>();
-        shapes.add(new Rectangle(100, 100, 100, 100));
-        shapes.add(new Rectangle(105, 105, 90, 90));
-        shapes.add(new Hexagon(300, 300, 100));
-        shapes.add(new Circle(200, 200, 50));
-        shapes.add(new Triangle(500, 500, 100));
+
+        shapes.add(new Rectangle(60, 20, 250, 1040));//tools
+        shapes.add(new Rectangle(440, 20, 150, 30));//card
+        shapes.add(new Rectangle(615, 20, 150, 30));//card
+        shapes.add(new Rectangle(790, 20, 150, 30));//card
+        shapes.add(new Rectangle(965, 20, 150, 30));//card
+        shapes.add(new Rectangle(1140, 20, 150, 30));//card
+        shapes.add(new Rectangle(440, 60, 1000, 1000));//grid
+        shapes.add(new Rectangle(1540, 20, 300, 500));//rules
+        shapes.add(new Rectangle(1540, 540, 300, 500));//clipboard
 
         t=new Text(600,300,"Lubie placki", 1.0f,0f,0f);
     }
@@ -41,8 +46,8 @@ public class View {
         //shapes.elementAt(2).setColor(0.5f, 0.5f, 0.5f, 0.5f);
 
 
-        //for (Shape s : shapes)
-        //    window.display(s);
+        for (Shape s : shapes)
+            window.display(s);
 
         //glClear(GL_COLOR_BUFFER_BIT);
         /* select white for all lines  */
@@ -81,9 +86,9 @@ public class View {
         glColor3f(0.8f, 0.8f, 0.8f);
 
         int size = 10;
-        for (int i = 0; i < Game.GRIDSIZE; i++)
+        for (int i = 0; i < Game.GRIDSIZE/size; i++)
         {
-            for (int j = 0; j < Game.GRIDSIZE; j++)
+            for (int j = 0; j < Game.GRIDSIZE/size; j++)
             {
                 if (grid.isCellAlive(i, j))
                 {

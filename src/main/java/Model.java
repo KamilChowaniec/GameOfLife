@@ -6,7 +6,7 @@ public class Model {
 
     public Model() {
         cards = new ArrayList<>();
-        cards.add(new Card(2));
+        cards.add(new Card(gridType.Squared));
         cardIndex = 0;
     }
 
@@ -18,8 +18,8 @@ public class Model {
         return cards.get(cardIndex).getGrid();
     }
 
-    public void addCard(int gridType) {
-        cards.add(new Card(gridType));
+    public void addCard(gridType type) {
+        cards.add(new Card(type));
         cardIndex = cards.size() - 1;
     }
 
