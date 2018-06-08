@@ -17,7 +17,9 @@ public abstract class Grid {
 
     protected abstract int countNeighbors(int x, int y);
 
-    public abstract void drawOnGrind();
+    public void drawOnGrid(int x, int y){
+        alive[x][y] = !alive[x][y];
+    }
 
     public void mechanic(boolean[][] rules) {
         for (int i = 0; i < Game.GRIDSIZE; i++) {

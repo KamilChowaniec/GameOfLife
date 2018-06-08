@@ -38,4 +38,13 @@ public class Model {
     public void prevCard() {
         if (cardIndex > 0) cardIndex--;
     }
+
+    public void draw(int codedPosition) {
+        int y = codedPosition % Game.GRIDSIZE;
+        cards.get(cardIndex).draw((codedPosition - y)/Game.GRIDSIZE,y);
+    }
+
+    public void pause(){
+        cards.get(cardIndex).switchPause();
+    }
 }

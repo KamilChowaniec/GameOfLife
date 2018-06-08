@@ -5,9 +5,12 @@ public class Card {
 
     private boolean[][] rules;
 
+    private boolean pause;
+
     // gridType: 0-Squared, 1-Triangular, 2-Hexagonal
     public Card(gridType type) {
-        switch(type){
+        pause = false;
+        switch (type) {
             case Squared:
                 grid = new Squared();
                 rules = new boolean[2][9];
@@ -37,14 +40,22 @@ public class Card {
     }
 
     public void mechanic() {
-        grid.mechanic(rules);
+        if (!pause) grid.mechanic(rules);
     }
 
-    public Grid getGrid(){
+    public Grid getGrid() {
         return grid;
     }
 
-    public void randomize(){
+    public void randomize() {
         grid.randomize();
+    }
+
+    public void draw(int x, int y) {
+        grid.drawOnGrid(x, y);
+    }
+
+    public void switchPause() {
+        pause = !pause;
     }
 }

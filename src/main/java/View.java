@@ -195,7 +195,7 @@ public class View {
                 int j=(int)((mouseY-y)/size);
                 glColor3f(0, 1, 0);
                 Rectangle.display(x + i * size, y + j * size, size, size, grid.isCellAlive(i, j));
-                if(MouseButtonsHandler.isKeyDown(0))codedPosition=Game.GRIDSIZE*i+j;
+                codedPosition=Game.GRIDSIZE*i+j;
             }
         }
         return codedPosition;
@@ -235,7 +235,7 @@ public class View {
                 int j = (int) ((mouseY - y - (i % 2) * a * s / 2 ) /a/s);
                 glColor3f(0, 1, 0);
                 Hexagon.display(x + 3 * i * a / 2, y + j * a * s + (i % 2) * a * s / 2, a, grid.isCellAlive(i, j));
-                if(MouseButtonsHandler.isKeyDown(0))codedPosition=Game.GRIDSIZE*i+j;
+                codedPosition=Game.GRIDSIZE*i+j;
             }
         }
         return codedPosition;
@@ -275,7 +275,7 @@ public class View {
                 int i = (int) ((mouseX - x - (j % 2) * a / 2) * 2 / a);
                 glColor3f(0, 1, 0);
                 Triangle.display(x + i * a / 2 + (j % 2) * a / 2, y + j * a * s / 2, a, (i % 2) > 0, grid.isCellAlive((i + (j % 2)) % Game.GRIDSIZE, j));
-                if(MouseButtonsHandler.isKeyDown(0))codedPosition=Game.GRIDSIZE*i+j;
+                codedPosition=Game.GRIDSIZE*i+j;
             }
         }
         return codedPosition;

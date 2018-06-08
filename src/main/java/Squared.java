@@ -21,9 +21,4 @@ public class Squared extends Grid {
                 neighbors += alive[i][j] ? 1 : 0;
         return neighbors - (alive[x][y] ? 1 : 0);
     }
-
-    @Override
-    public void drawOnGrind() {
-
-    }
 }

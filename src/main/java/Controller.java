@@ -1,53 +1,65 @@
 import static org.lwjgl.glfw.GLFW.*;
+
 import graphics.Input.*;
-public class Controller
-{
+
+public class Controller {
     private View view;
     private Model model;
+    private int codedPos = -1;
 
-    public Controller(Model model, View view)
-    {
+    public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
     }
 
-    public void run()
-    {
+    public void run() {
 
-        while(view.shouldRun())
-        {
-            view.clearScreen();
+        while (view.shouldRun()) {
+            clearScreen();
             handleEvents();
-            model.update();
-            int codedPosition = view.display(model.getGridValues());
-
-            view.display();
+            update();
+            display();
         }
     }
 
-    private void handleEvents()
-    {
+    private void clearScreen(){
+        view.clearScreen();
+    }
+
+    private void update(){
+        model.update();
+    }
+
+    private void display(){
+        codedPos = view.display(model.getGridValues());
+        view.display();
+    }
+
+    private void handleEvents() {
         if (KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE))
             view.closeWindow();
         if (KeyboardHandler.isKeyClicked(GLFW_KEY_SPACE))
             model.randomize();
         if (KeyboardHandler.isKeyClicked(GLFW_KEY_ENTER))
             model.update();
-        if(KeyboardHandler.isKeyClicked(GLFW_KEY_D))
+        if (KeyboardHandler.isKeyClicked(GLFW_KEY_D))
             model.nextCard();
-        if(KeyboardHandler.isKeyClicked(GLFW_KEY_A))
+        if (KeyboardHandler.isKeyClicked(GLFW_KEY_A))
             model.prevCard();
-        if(KeyboardHandler.isKeyDown(GLFW_KEY_LEFT_CONTROL)){
-            if(KeyboardHandler.isKeyClicked(GLFW_KEY_1))
+        if (KeyboardHandler.isKeyClicked(GLFW_KEY_P))
+            model.pause();
+        if (KeyboardHandler.isKeyDown(GLFW_KEY_LEFT_CONTROL)) {
+            if (KeyboardHandler.isKeyClicked(GLFW_KEY_1))
                 model.addCard(gridType.Squared);
-            if(KeyboardHandler.isKeyClicked(GLFW_KEY_2))
+            if (KeyboardHandler.isKeyClicked(GLFW_KEY_2))
                 model.addCard(gridType.Triangular);
-            if(KeyboardHandler.isKeyClicked(GLFW_KEY_3))
+            if (KeyboardHandler.isKeyClicked(GLFW_KEY_3))
                 model.addCard(gridType.Hexagonal);
 
         }
-
-
+        if(MouseButtonsHandler.isKeyClicked(GLFW_MOUSE_BUTTON_LEFT)){
+            if(codedPos!=-1)model.draw(codedPos);
+        }
 
 
         KeyboardHandler.clear();

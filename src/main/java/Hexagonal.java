@@ -23,9 +23,4 @@ public class Hexagonal extends Grid {
 
         return neighbors - (alive[x][y] ? 1 : 0);
     }
-
-    @Override
-    public void drawOnGrind() {
-
-    }
 }
