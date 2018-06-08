@@ -271,15 +271,55 @@ public class View {
         {
             if (mouseY > gridY && mouseY < (gridY + gridHeight))
             {
-                int j = (int) ((mouseY - y) * 2 / a / s);
-                int i = (int) ((mouseX - x - (j % 2) * a / 2) * 2 / a);
+                int j = (int) ((mouseY - y) * 2. / a / s);
+                int i = (int) ((mouseX - x - (j % 2.) * a / 2.) * 2. / a);
+
+                // srodek wybranego trojkata = xM , yyy
+                double xM = x + i * a / 2. + (j % 2.) * a / 2.;
+                double yyy = y + j * a * s / 2. + a*Math.sqrt(3.)/4.;
+                // srodek lewego somsiada =  xL , yyy
+                double xL = xM-a;
+                // srodek prawego somsiada =  xR , yyy
+                double xR= xM+a;
+
+                double rM=Math.sqrt((mouseX-xM)*(mouseX-xM)+ (mouseY-yyy)*(mouseY-yyy));// odleglosc myszki od srodka wybranego
+                double rL=Math.sqrt((mouseX-xL)*(mouseX-xL)+ (mouseY-yyy)*(mouseY-yyy)); // odleglosc myszki od srodka lewego sasiada
+                double rR=Math.sqrt((mouseX-xR)*(mouseX-xR)+ (mouseY-yyy)*(mouseY-yyy));// odleglosc myszki od srodka prawego sasiada
+
+                if(rL<rR)
+                {
+                    if (rL < rM)
+                        i--;
+                }
+                else if(rR<rM) i++;
+
+
                 glColor3f(0, 1, 0);
                 Triangle.display(x + i * a / 2 + (j % 2) * a / 2, y + j * a * s / 2, a, (i % 2) > 0, grid.isCellAlive((i + (j % 2)) % Game.GRIDSIZE, j));
-                codedPosition=Game.GRIDSIZE*i+j;
+                codedPosition=Game.GRIDSIZE*(i+j%2)+j;
             }
         }
         return codedPosition;
     }
+
+//
+//
+//        if (upsideDown)
+//        {
+//            glVertex2f(x - a / 2, y);
+//            glVertex2f(x + a / 2, y);
+//            glVertex2f(x, y + a * (float) Math.sqrt(3) / 2);
+//
+//        } else
+//        {
+//            glVertex2f(x, y);
+//            glVertex2f(x + a / 2, y + a * (float) Math.sqrt(3) / 2);
+//            glVertex2f(x - a / 2, y + a * (float) Math.sqrt(3) / 2);
+//        }
+//
+//
+//
+
 
     public boolean shouldRun() { return window.isOpen(); }
 
