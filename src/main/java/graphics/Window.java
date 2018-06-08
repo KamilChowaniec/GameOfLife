@@ -18,6 +18,7 @@ public class Window {
     long handle = NULL;
     private int width;
     private int height;
+    private boolean fullScreen;
     private String title;
     private Vector<Displayable> toDispaly;
 
@@ -25,12 +26,14 @@ public class Window {
     private GLFWCursorPosCallback mouseCallback;
     private GLFWMouseButtonCallback mouseButtonCallback;
 
-    public Window(int windowWidth, int windowHeight, String windowTitle) {
+    public Window(int windowWidth, int windowHeight, String windowTitle, boolean fullScreen)
+    {
         init1();
         width = windowWidth;
         height = windowHeight;
         title = windowTitle;
-        handle = glfwCreateWindow(width, height, title, NULL, NULL);
+        this.fullScreen = fullScreen;
+        handle = glfwCreateWindow(width, height, title, fullScreen ? glfwGetPrimaryMonitor() : NULL, NULL);
         init2();
     }
 
