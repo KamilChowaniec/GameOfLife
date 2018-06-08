@@ -18,38 +18,19 @@ public class Hexagon extends Shape
     public void display()
     {
         glColor3f(c.getR(), c.getG(), c.getB());
-        glBegin(GL_POLYGON);
-        glVertex2f(x, y);
-        glVertex2f(x + a, y);
-        glVertex2f(x + 3.0f / 2 * a, y + (float) Math.sqrt(3) * a / 2.0f);
-        glVertex2f(x + a, y + (float) Math.sqrt(3) * a);
-        glVertex2f(x, y + (float) Math.sqrt(3) * a);
-        glVertex2f(x - 0.5f * a, y + (float) Math.sqrt(3) * a / 2.0f);
-        glEnd();
+        display(x, y, a, false);
     }
 
 
-    public static void display(float x, float y, float a)
+    public static void display(float x, float y, float a, boolean filled)
     {
-        glBegin(GL_POLYGON);
-        glVertex2f(x, y);
-        glVertex2f(x + a, y);
-        glVertex2f(x + 3.0f / 2 * a, y + (float) Math.sqrt(3) * a / 2.0f);
-        glVertex2f(x + a, y + (float) Math.sqrt(3) * a);
-        glVertex2f(x, y + (float) Math.sqrt(3) * a);
-        glVertex2f(x - 0.5f * a, y + (float) Math.sqrt(3) * a / 2.0f);
-        glEnd();
-    }
-    public static void display2(float x, float y, float a)
-    {
-
-
 //        glEnable( GL_LINE_SMOOTH );
 //        glEnable( GL_POLYGON_SMOOTH );
 //        glHint( GL_LINE_SMOOTH_HINT, GL_NICEST );
 //        glHint( GL_POLYGON_SMOOTH_HINT, GL_NICEST );
 
-        glBegin(GL_LINE_LOOP);
+        if (filled) glBegin(GL_POLYGON);
+        else glBegin(GL_LINE_LOOP);
         glVertex2f(x, y);
         glVertex2f(x + a, y);
         glVertex2f(x + 3.0f / 2 * a, y + (float) Math.sqrt(3) * a / 2.0f);
@@ -58,4 +39,5 @@ public class Hexagon extends Shape
         glVertex2f(x - 0.5f * a, y + (float) Math.sqrt(3) * a / 2.0f);
         glEnd();
     }
+
 }

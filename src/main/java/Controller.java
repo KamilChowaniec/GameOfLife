@@ -18,8 +18,8 @@ public class Controller
         {
             view.clearScreen();
             handleEvents();
-            model.update();
-            view.display(model.getGridValues());
+           model.update();
+//            view.display(model.getGridValues());
             view.display();
         }
     }

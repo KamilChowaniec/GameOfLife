@@ -15,18 +15,22 @@ public class View {
     private Text t;
 
     public View() {
-        window = new Window(1280, 720, "GOL");
+        window = new Window(1920, 1080, "GOL", false);
         Text.load_font("sansation.ttf");
         //TODO implement me
 
         shapes = new Vector<Shape>();
-        shapes.add(new Rectangle(100, 100, 100, 100));
-        shapes.add(new Rectangle(105, 105, 90, 90));
-        shapes.add(new Hexagon(300, 300, 100));
-        shapes.add(new Circle(200, 200, 50));
-        shapes.add(new Triangle(500, 500, 100));
+        shapes.add(new Rectangle(60, 20, 250, 1040));//tools
+        shapes.add(new Rectangle(440, 20, 150, 30));//card
+        shapes.add(new Rectangle(615, 20, 150, 30));//card
+        shapes.add(new Rectangle(790, 20, 150, 30));//card
+        shapes.add(new Rectangle(965, 20, 150, 30));//card
+        shapes.add(new Rectangle(1140, 20, 150, 30));//card
+        shapes.add(new Rectangle(440, 60, 1000, 1000));//grid
+        shapes.add(new Rectangle(1540, 20, 300, 500));//rules
+        shapes.add(new Rectangle(1540, 540, 300, 500));//clipboard
 
-        t=new Text(600,300,"Lubie placki", 1.0f,0f,0f);
+       // t=new Text(600,300,"Lubie placki", 1.0f,0f,0f);
     }
 
     public double[] getMousePosition() {
@@ -41,8 +45,8 @@ public class View {
         //shapes.elementAt(2).setColor(0.5f, 0.5f, 0.5f, 0.5f);
 
 
-        //for (Shape s : shapes)
-        //    window.display(s);
+        for (Shape s : shapes)
+            window.display(s);
 
         //glClear(GL_COLOR_BUFFER_BIT);
         /* select white for all lines  */
@@ -79,18 +83,10 @@ public class View {
     public void displaySquared(Grid grid)
     {
         glColor3f(0.8f, 0.8f, 0.8f);
-
         int size = 10;
         for (int i = 0; i < Game.GRIDSIZE; i++)
-        {
             for (int j = 0; j < Game.GRIDSIZE; j++)
-            {
-                if (grid.isCellAlive(i, j))
-                {
-                    Rectangle.display(i * size, j * size, size, size);
-                }
-            }
-        }
+                Rectangle.display(i * size, j * size, size, size, grid.isCellAlive(i, j));
     }
 
     public void displayHexagonal(Grid grid)
@@ -101,18 +97,8 @@ public class View {
         float a = 10;
         float s = (float) Math.sqrt(3);
         for (int i = 0; i < Game.GRIDSIZE / a; i++)
-        {
             for (int j = 0; j < Game.GRIDSIZE / a; j++)
-            {
-
-                if (grid.isCellAlive(i, j))
-                {
-                    Hexagon.display(x+3*i*a/2, y+j*a*s+((i)%2)*a*s/2, a);
-                }
-                else Hexagon.display2(x+3*i*a/2, y+j*a*s+((i)%2)*a*s/2, a);
-               // window.update();
-            }
-        }
+                Hexagon.display(x + 3 * i * a / 2, y + j * a * s + ((i) % 2) * a * s / 2, a, grid.isCellAlive(i, j));
     }
 
     public void displayTriangular(Grid grid)
@@ -122,33 +108,14 @@ public class View {
         float y = 0;
         float a = 20;
         float s = (float) Math.sqrt(3);
-        for (int i = 0; i < Game.GRIDSIZE/a; i++)
-        {
-            for (int j = 0; j < Game.GRIDSIZE/a; j++)
-            {
-                if (grid.isCellAlive((i+(j%2))%Game.GRIDSIZE, j))
-                {
-                    glColor3f(1f, 0f, 0f);
-                    Triangle.display(x + i * a/2 + (j % 2) * a / 2, y + j * a * s / 2, a, (i % 2) > 0);
-                }
-                //else
-                glColor3f(0f, 1f, 0f);
-                Triangle.display2(x + i * a/2 + (j % 2) * a / 2, y + j * a * s / 2, a, (i % 2) > 0);
-
-            }
-        }
-
+        for (int i = 0; i < Game.GRIDSIZE ; i++)
+            for (int j = 0; j < Game.GRIDSIZE / a; j++)
+                Triangle.display(x + i * a / 2 + (j % 2) * a / 2, y + j * a * s / 2, a, (i % 2) > 0, grid.isCellAlive((i + (j % 2)) % Game.GRIDSIZE, j));
     }
 
-    public boolean shouldRun() {
-        return window.isOpen();
-    }
+    public boolean shouldRun() { return window.isOpen(); }
 
-    public void closeWindow() {
-        window.close();
-    }
+    public void closeWindow() { window.close(); }
 
-    public void clearScreen() {
-        window.clear();
-    }
+    public void clearScreen() { window.clear(); }
 }
