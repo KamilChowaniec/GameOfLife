@@ -1,5 +1,5 @@
 public class Game {
-    public static int GRIDSIZE = 1000;
+    public static int GRIDSIZE = 1200;
     private Model model;
     private View view;
     private Controller controller;
