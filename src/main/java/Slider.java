@@ -28,14 +28,12 @@ public class Slider
 
     public boolean isFocused(int mouseX, int mouseY)
     {
-        return (mouseX > x && mouseX < (xR + widthR) && mouseY > y && mouseY < (yR + heightR));
+        return (mouseX > x && mouseX < (x + width) && mouseY > y && mouseY < (y + height));
     }
 
     public void slide(int xR)
     {
-        this.xR = xR;
-        if(xR<x) xR=x;
-        if((xR+widthR)>(x+width)) xR=x+width-widthR;
+        this.xR = xR - widthR/2;
     }
 
     public int getPercent()
