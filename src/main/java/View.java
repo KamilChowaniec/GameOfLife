@@ -1,5 +1,6 @@
 import graphics.*;
 import graphics.Input.KeyboardHandler;
+import graphics.Input.MouseButtonsHandler;
 import graphics.Input.MouseHandler;
 
 import java.util.Vector;
@@ -11,10 +12,12 @@ import static org.lwjgl.opengl.GL11.*;
 public class View {
     private Window window;
     private Button buttons;
-    private Checkbox checkboxes;
     private Vector<Shape> shapes;
+    private Vector<Checkbox> checkboxesS;
     private Text t;
-    private int gridX=404, gridY=34, gridWidth=1114, gridHeight=1044, gridZoom=50;   //zoom w przedziale [0,100] -  na sliderze?
+    private int gridX=404, gridY=34, gridWidth=1114, gridHeight=1044, gridZoom=0;   //zoom w przedziale [0,100] -  ustawiany na sliderze
+    private int rulesX=1520, rulesY = 2,rulesWidth= 400, rulesHeight= 535;
+    private Slider zoomSlider;
 
 
     public View() {
@@ -22,34 +25,83 @@ public class View {
         Text.load_font("sansation.ttf");
         //TODO implement me
         shapes = new Vector<Shape>();
+        createLayout();
+        checkboxesS=new Vector<Checkbox>();
+        createCheckboxes();
+
+        zoomSlider=new Slider(rulesX+50,rulesY+400, 300, 10);
+
+
+
+       // t=new Text(600,300,"Lubie placki", 1.0f,0f,0f);
+    }
+
+    private void createLayout()
+    {
         shapes.add(new Rectangle(2, 2, 400, 1076));//tools
         shapes.add(new Rectangle(404, 2, 150, 30));//card
         shapes.add(new Rectangle(556, 2, 150, 30));//card
         shapes.add(new Rectangle(708, 2, 150, 30));//card
         shapes.add(new Rectangle(860, 2, 150, 30));//card
         shapes.add(new Rectangle(1012, 2, 150, 30));//card
-
         shapes.add(new Rectangle(gridX, gridY, gridWidth, gridHeight));//grid
-
-        shapes.add(new Rectangle(1520, 2, 400, 535));//rules
+        shapes.add(new Rectangle(rulesX, rulesY, rulesWidth, rulesHeight));//rules
         shapes.add(new Rectangle(1520, 540, 400, 537));//clipboard
+    }
 
-       // t=new Text(600,300,"Lubie placki", 1.0f,0f,0f);
+    private void displayLayout()
+    {
+        for (Shape s : shapes)
+            window.display(s);
+    }
+
+    private void createCheckboxes()
+    {
+        int x=35;
+        int y=100;
+        for(int i=1;i<3;i++)
+            for (int j = 1; j < 9; j++)
+                checkboxesS.add(new Checkbox(rulesX + j * x, rulesY + i * y, 25));
+    }
+
+    private void displayCheckboxes()
+    {
+
+
+        double mouseX = MouseHandler.xPos();
+        double mouseY = MouseHandler.yPos();
+        if (mouseX > rulesX && mouseX < (rulesX + rulesWidth)&&mouseY > rulesY && mouseY < (rulesY + rulesHeight))
+        {
+            for (Checkbox c : checkboxesS)
+                if(c.isFocused((int)mouseX, (int)mouseY)&& MouseButtonsHandler.isKeyDown(0))
+                {
+                    c.changeState();
+                    break;
+                }
+        }
+
+        for (Checkbox c : checkboxesS)
+            c.draw();
+
     }
 
     public double[] getMousePosition() {
         return window.getMousePosition();
     }
 
-    public void display() {
+    public void display()
+    {
         // TODO display everything here: window.display(something); example below
         //shapes.elementAt(1).setColor(0, 0, 0, 1);
         //shapes.elementAt(2).setColor(0.5f, 0.5f, 0.5f, 0.5f);
 
         displayMask();
 
-        for (Shape s : shapes)
-            window.display(s);
+        displayLayout();
+
+        displayCheckboxes();
+
+        gridZoom=displaySlider();
 
         //glClear(GL_COLOR_BUFFER_BIT);
         /* select white for all lines  */
@@ -68,7 +120,19 @@ public class View {
         window.update();
     }
 
-    public void displayMask()
+    private int displaySlider()
+    {
+        double mouseX = MouseHandler.xPos();
+        double mouseY = MouseHandler.yPos();
+        if(zoomSlider.isFocused((int)mouseX, (int)mouseY)&& MouseButtonsHandler.isKeyDown(0))
+        {
+            zoomSlider.slide((int)mouseX);
+        }
+        zoomSlider.draw();
+        return zoomSlider.getPercent();
+    }
+
+    private void displayMask()
     {
         glColor3f(0,0,0);
         Rectangle.display(0,0,gridX,1080,true);
@@ -93,7 +157,7 @@ public class View {
         return codedPosition;
     }
 
-    public int displaySquared(Grid grid)
+    private int displaySquared(Grid grid)
     {
         int codedPosition=-1;
         glColor3f(0.8f, 0.8f, 0.8f);
@@ -117,7 +181,6 @@ public class View {
 
         double mouseX = MouseHandler.xPos();
         double mouseY = MouseHandler.yPos();
-
         if (mouseX > gridX && mouseX < (gridX + gridWidth))
         {
             if (mouseY > gridY && mouseY < (gridY + gridHeight))
@@ -126,13 +189,13 @@ public class View {
                 int j=(int)((mouseY-y)/size);
                 glColor3f(0, 1, 0);
                 Rectangle.display(x + i * size, y + j * size, size, size, grid.isCellAlive(i, j));
-                codedPosition=Game.GRIDSIZE*i+j;
+                if(MouseButtonsHandler.isKeyDown(0))codedPosition=Game.GRIDSIZE*i+j;
             }
         }
         return codedPosition;
     }
 
-    public int displayHexagonal(Grid grid)
+    private int displayHexagonal(Grid grid)
     {
         int codedPosition=-1;
         glColor3f(0.8f, 0.8f, 0.8f);
@@ -147,8 +210,6 @@ public class View {
         for (int i = 0; i < columns; i++)
             for (int j = 0; j < rows; j++)
                 Hexagon.display(x + 3 * i * a / 2, y + j * a * s + (i % 2) * a * s / 2, a, grid.isCellAlive(i, j));
-
-
         //i
         // M = x + 3 * i * a / 2
         // i = (M-x) *2/3/a
@@ -168,13 +229,13 @@ public class View {
                 int j = (int) ((mouseY - y - (i % 2) * a * s / 2 ) /a/s);
                 glColor3f(0, 1, 0);
                 Hexagon.display(x + 3 * i * a / 2, y + j * a * s + (i % 2) * a * s / 2, a, grid.isCellAlive(i, j));
-                codedPosition=Game.GRIDSIZE*i+j;
+                if(MouseButtonsHandler.isKeyDown(0))codedPosition=Game.GRIDSIZE*i+j;
             }
         }
         return codedPosition;
     }
 
-    public int displayTriangular(Grid grid)
+    private int displayTriangular(Grid grid)
     {
         int codedPosition=-1;
         glColor3f(0.8f, 0.8f, 0.8f);
@@ -208,7 +269,7 @@ public class View {
                 int i = (int) ((mouseX - x - (j % 2) * a / 2) * 2 / a);
                 glColor3f(0, 1, 0);
                 Triangle.display(x + i * a / 2 + (j % 2) * a / 2, y + j * a * s / 2, a, (i % 2) > 0, grid.isCellAlive((i + (j % 2)) % Game.GRIDSIZE, j));
-                codedPosition=Game.GRIDSIZE*i+j;
+                if(MouseButtonsHandler.isKeyDown(0))codedPosition=Game.GRIDSIZE*i+j;
             }
         }
         return codedPosition;

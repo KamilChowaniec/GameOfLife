@@ -20,6 +20,7 @@ public class Controller
             handleEvents();
             model.update();
             int codedPosition = view.display(model.getGridValues());
+
             view.display();
         }
     }
