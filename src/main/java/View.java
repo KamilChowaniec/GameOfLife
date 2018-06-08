@@ -118,6 +118,7 @@ public class View {
         //glFlush();
         //t.display();
         window.update();
+
     }
 
     private int displaySlider()
