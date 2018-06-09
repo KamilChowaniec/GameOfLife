@@ -216,6 +216,7 @@ public class View {
                 int i = (int) ((mouseX - x) * 2 / 3 / a);
                 int j = (int) ((mouseY - y - (i % 2) * a * s / 2) / a / s);
 
+
                 double xM = x + 3 * i * a / 2 + a / 2;
                 double xxxR = xM + 3 * a / 2;
                 double yyy = y + j * a * s + (i % 2) * a * s / 2 + a * Math.sqrt(3) / 2;
@@ -240,7 +241,7 @@ public class View {
                 double rM = radius(mouseX, mouseY, xM, yyy);
                 double rRDS = radius(mouseX, mouseY, xxxR, yDS);
                 double rRUS = radius(mouseX, mouseY, xxxR, yUS);
-                double min = Math.min(rRDS, rRUS);
+                double min = Math.min(Math.min(rRDS, rRUS), rM);
 
                 if (rM != min) {
                     if (rRDS == min) {
