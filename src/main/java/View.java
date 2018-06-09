@@ -6,7 +6,7 @@ import graphics.Input.MouseHandler;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
+import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public class View {
@@ -18,6 +18,8 @@ public class View {
     private int gridX = 404, gridY = 34, gridWidth = 1114, gridHeight = 1044, gridZoom = 0;   //zoom w przedziale [0,100] -  ustawiany na sliderze
     private int rulesX = 1520, rulesY = 2, rulesWidth = 400, rulesHeight = 535;
     private Slider zoomSlider;
+    private double xoff = 0;
+    private double yoff=0;
 
 
     public View() {
@@ -187,18 +189,26 @@ public class View {
     }
 
     private int displayHexagonal(Grid grid) {
+        if(MouseButtonsHandler.isKeyDown(GLFW_MOUSE_BUTTON_MIDDLE)) {
+            xoff+=MouseHandler.xRel();
+            yoff+=MouseHandler.yRel();
+        }
+
+
         int codedPosition = -1;
         glColor3f(0.8f, 0.8f, 0.8f);
         float a = 1 + grid.getZoom();
         float s = (float) Math.sqrt(3);
-        float x = gridX;
-        float y = gridY - a * s / 2;
+        float x = gridX + (float)(-xoff);
+        float y = gridY - a * s / 2 + (float)(-yoff);
 
+        int starti = (int)(xoff / a/1.6);
+        int startj = (int)(yoff / a/2);
 
         int columns = (int) (Game.GRIDSIZE / a / 1.6) + 1;
         int rows = (int) (Game.GRIDSIZE / a / 2) + 1;
-        for (int i = 0; i < columns; i++)
-            for (int j = 0; j < rows; j++)
+        for (int i = starti; i < columns+starti; i++)
+            for (int j = startj; j < rows+startj; j++)
                 Hexagon.display(x + 3 * i * a / 2, y + j * a * s + (i % 2) * a * s / 2, a, grid.isCellAlive(i, j));
         //i
         // M = x + 3 * i * a / 2

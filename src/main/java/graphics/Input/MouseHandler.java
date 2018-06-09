@@ -4,9 +4,14 @@ import org.lwjgl.glfw.GLFWCursorPosCallback;
 
 public class MouseHandler extends GLFWCursorPosCallback {
     public static double mousePos[] = new double[2];
+    public static double xrel=0;
+    public static double yrel=0;
+
 
     @Override
     public void invoke(long window, double xpos, double ypos) {
+        xrel = mousePos[0] - xpos;
+        yrel = mousePos[1] - ypos;
         mousePos[0] = xpos;
         mousePos[1] = ypos;
     }
@@ -21,5 +26,13 @@ public class MouseHandler extends GLFWCursorPosCallback {
 
     public static double yPos() {
         return mousePos[1];
+    }
+
+    public static double xRel() {
+        return xrel;
+    }
+
+    public static double yRel() {
+        return yrel;
     }
 }
