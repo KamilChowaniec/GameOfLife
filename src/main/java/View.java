@@ -236,6 +236,33 @@ public class View {
                 glColor3f(0, 1, 0);
                 Hexagon.display(x + 3 * i * a / 2, y + j * a * s + (i % 2) * a * s / 2, a, grid.isCellAlive(i, j));
                 codedPosition=Game.GRIDSIZE*i+j;
+
+
+                double xM = x + 3 * i * a / 2 + a/2;
+                double xxxL = xM - 3*a/2;
+                double xxxR = xM + 3*a/2;
+                double yyy = y + j * a * s + (i % 2) * a * s / 2 + a*Math.sqrt(3)/2;
+                double yUS = yyy - a*Math.sqrt(3)/2;
+                double yDS = yyy + a*Math.sqrt(3)/2;
+                double yU = yyy - a*Math.sqrt(3);
+                double yD = yyy + a*Math.sqrt(3);
+
+                glColor3f(1, 0, 0);
+                drawOneLine((float)mouseX,(float)mouseY,(float)xM,(float)yyy);
+                glColor3f(1, 1, 0);
+                drawOneLine((float)mouseX,(float)mouseY,(float)xM,(float)yU);
+                glColor3f(1, 1, 1);
+                drawOneLine((float)mouseX,(float)mouseY,(float)xM,(float)yD);
+                glColor3f(0, 1, 0);
+                drawOneLine((float)mouseX,(float)mouseY,(float)xxxL,(float)yDS);
+                glColor3f(0, 0, 1);
+                drawOneLine((float)mouseX,(float)mouseY,(float)xxxL,(float)yUS);
+                glColor3f(0, 1, 1);
+                drawOneLine((float)mouseX,(float)mouseY,(float)xxxR,(float)yDS);
+                glColor3f(1, 0, 1);
+                drawOneLine((float)mouseX,(float)mouseY,(float)xxxR,(float)yUS);
+
+
             }
         }
         return codedPosition;
@@ -288,14 +315,14 @@ public class View {
                 double rL=Math.sqrt((mouseX-xL)*(mouseX-xL)+ (mouseY-yyy2)*(mouseY-yyy2)); // odleglosc myszki od srodka lewego sasiada
                 double rR=Math.sqrt((mouseX-xR)*(mouseX-xR)+ (mouseY-yyy2)*(mouseY-yyy2));// odleglosc myszki od srodka prawego sasiada
 
-                System.out.println((int)rM+" "+(int)rL+" "+(int)rR);
-
-                glColor3f(1, 0, 0);
-                drawOneLine((float)mouseX,(float)mouseY,(float)xM,(float)yyy);
-                glColor3f(0, 1, 0);
-                drawOneLine((float)mouseX,(float)mouseY,(float)xL,(float)yyy2);
-                glColor3f(0, 0, 1);
-                drawOneLine((float)mouseX,(float)mouseY,(float)xR,(float)yyy2);
+//                System.out.println((int)rM+" "+(int)rL+" "+(int)rR);
+//
+//                glColor3f(1, 0, 0);
+//                drawOneLine((float)mouseX,(float)mouseY,(float)xM,(float)yyy);
+//                glColor3f(0, 1, 0);
+//                drawOneLine((float)mouseX,(float)mouseY,(float)xL,(float)yyy2);
+//                glColor3f(0, 0, 1);
+//                drawOneLine((float)mouseX,(float)mouseY,(float)xR,(float)yyy2);
 
                 if(rL<rR)
                 {
