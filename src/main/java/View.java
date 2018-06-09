@@ -20,6 +20,9 @@ public class View {
     private Slider zoomSlider;
     private double xoff = 0;
     private double yoff = 0;
+    private boolean moveHex=false;
+    double pMouseX=-1;
+    double pMouseY=-1;
 
 
     public View() {
@@ -189,11 +192,28 @@ public class View {
     }
 
     private int displayHexagonal(Grid grid) {
-        if (MouseButtonsHandler.isKeyDown(GLFW_MOUSE_BUTTON_MIDDLE)) {
-            xoff += MouseHandler.xRel();
-            if (xoff < 0) xoff = 0;
-            yoff += MouseHandler.yRel();
-            if (yoff < 0) yoff = 0;
+
+        double mouseX = MouseHandler.xPos();
+        double mouseY = MouseHandler.yPos();
+
+        if (MouseButtonsHandler.isKeyClicked(GLFW_MOUSE_BUTTON_MIDDLE)&&!moveHex)
+        {
+           // if (mouseX > gridX && mouseX < (gridX + gridWidth))
+           //     if (mouseY > gridY && mouseY < (gridY + gridHeight))
+             //   {
+                    moveHex = true;
+                    pMouseX=mouseX;
+                    pMouseY=mouseY;
+               // }
+        }
+
+        if(!MouseButtonsHandler.isKeyDown(GLFW_MOUSE_BUTTON_MIDDLE)&&moveHex)
+        {
+            moveHex=false;
+            xoff += pMouseX-mouseX;
+          //  if (xoff < 0) xoff = 0;
+            yoff += pMouseY-mouseY;
+          //  if (yoff < 0) yoff = 0;
         }
 
 
@@ -204,11 +224,11 @@ public class View {
         float x = gridX + (float) (-xoff);
         float y = gridY - a * s / 2 + (float) (-yoff);
 
-        int starti = (int) (xoff / a / 1.6);
-        int startj = (int) (yoff / a / 2);
+        int starti = (int) (xoff / a / 1.5);
+        int startj = (int) (yoff / a / 1.8);
 
-        int columns = (int) (Game.GRIDSIZE / a / 1.6) + 1;
-        int rows = (int) (Game.GRIDSIZE / a / 2) + 1;
+        int columns = (int) (Game.GRIDSIZE / a / 1.5) + 1;
+        int rows = (int) (Game.GRIDSIZE / a / 1.8) + 1;
         for (int i = starti; i < columns + starti; i++)
             for (int j = startj; j < rows + startj; j++)
                 Hexagon.display(x + 3 * i * a / 2, y + j * a * s + (i % 2) * a * s / 2, a, grid.isCellAlive(i, j));
@@ -221,8 +241,7 @@ public class View {
         // j = ( M - y - (i % 2) * a * s / 2 ) /a/s
 
 
-        double mouseX = MouseHandler.xPos();
-        double mouseY = MouseHandler.yPos();
+
         if (mouseX > gridX && mouseX < (gridX + gridWidth)) {
             if (mouseY > gridY && mouseY < (gridY + gridHeight)) {
                 int i = (int) ((mouseX - x) * 2 / 3 / a);
