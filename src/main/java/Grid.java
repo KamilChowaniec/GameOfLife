@@ -1,8 +1,10 @@
 import graphics.Color;
+
 public abstract class Grid {
     protected CellProperties[][] cellProperties;
     protected boolean[][] alive;
     protected boolean[][] buffer;
+    private int zoom;
 
     Grid() {
         cellProperties = new CellProperties[Game.GRIDSIZE][Game.GRIDSIZE];
@@ -17,7 +19,7 @@ public abstract class Grid {
 
     protected abstract int countNeighbors(int x, int y);
 
-    public void drawOnGrid(int x, int y){
+    public void drawOnGrid(int x, int y) {
         alive[x][y] = !alive[x][y];
     }
 
@@ -53,12 +55,18 @@ public abstract class Grid {
 
     public void randomize() {
         for (int i = 0; i < Game.GRIDSIZE; i++)
-            for (int j = 0; j < Game.GRIDSIZE; j++){
-                alive[i][j] = Math.random()>0.5?true:false;
+            for (int j = 0; j < Game.GRIDSIZE; j++) {
+                alive[i][j] = Math.random() > 0.5 ? true : false;
             }
-
-
-
     }
 
+    public void incZoom(int offset) {
+        this.zoom += offset;
+        if (zoom < 0) zoom = 0;
+        else if (zoom > 100) zoom = 100;
+    }
+
+    public int getZoom() {
+        return zoom;
+    }
 }

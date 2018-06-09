@@ -22,10 +22,6 @@ public class Window {
     private String title;
     private Vector<Displayable> toDispaly;
 
-    private GLFWKeyCallback keyCallback;
-    private GLFWCursorPosCallback mouseCallback;
-    private GLFWMouseButtonCallback mouseButtonCallback;
-
     public Window(int windowWidth, int windowHeight, String windowTitle, boolean fullScreen)
     {
         init1();
@@ -58,9 +54,10 @@ public class Window {
         });
         */
 
-        glfwSetKeyCallback(handle, keyCallback = new KeyboardHandler());
-        glfwSetCursorPosCallback(handle, mouseCallback = new MouseHandler());
-        glfwSetMouseButtonCallback(handle, mouseButtonCallback = new MouseButtonsHandler());
+        glfwSetKeyCallback(handle, new KeyboardHandler());
+        glfwSetCursorPosCallback(handle, new MouseHandler());
+        glfwSetMouseButtonCallback(handle, new MouseButtonsHandler());
+        glfwSetScrollCallback(handle,new ScrollHandler());
         // Get the thread stack and push a new frame
         try (MemoryStack stack = stackPush()) {
             IntBuffer pWidth = stack.mallocInt(1); // int*

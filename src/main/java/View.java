@@ -21,7 +21,7 @@ public class View {
 
 
     public View() {
-        window = new Window(1920, 1080, "GOL", true);
+        window = new Window(1920, 1080, "GOL", false);
         Text.load_font("sansation.ttf");
         //TODO implement me
         shapes = new Vector<Shape>();
@@ -154,7 +154,7 @@ public class View {
     private int displaySquared(Grid grid) {
         int codedPosition = -1;
         glColor3f(0.8f, 0.8f, 0.8f);
-        float size = 2 + gridZoom;
+        float size = 2 + grid.getZoom();
         float x = gridX;
         float y = gridY;
         int columns = (int) (Game.GRIDSIZE / size);
@@ -189,7 +189,7 @@ public class View {
     private int displayHexagonal(Grid grid) {
         int codedPosition = -1;
         glColor3f(0.8f, 0.8f, 0.8f);
-        float a = 1 + gridZoom;
+        float a = 1 + grid.getZoom();
         float s = (float) Math.sqrt(3);
         float x = gridX;
         float y = gridY - a * s / 2;
@@ -282,7 +282,7 @@ public class View {
     private int displayTriangular(Grid grid) {
         int codedPosition = -1;
         glColor3f(0.8f, 0.8f, 0.8f);
-        float a = 4 + gridZoom;
+        float a = 4 + grid.getZoom();
         float s = (float) Math.sqrt(3);
         float x = gridX;
         float y = gridY - a * s / 2;

@@ -58,4 +58,8 @@ public class Card {
     public void switchPause() {
         pause = !pause;
     }
+
+    public void incZoom(int offset){
+        grid.incZoom(offset);
+    }
 }

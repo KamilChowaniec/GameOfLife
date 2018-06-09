@@ -47,4 +47,9 @@ public class Model {
     public void pause(){
         cards.get(cardIndex).switchPause();
     }
+
+    public void incZoom(int offset){
+        cards.get(cardIndex).incZoom(offset);
+
+    }
 }
