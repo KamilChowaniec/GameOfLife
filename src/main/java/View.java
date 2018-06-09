@@ -21,7 +21,7 @@ public class View {
 
 
     public View() {
-        window = new Window(1920, 1080, "GOL", false);
+        window = new Window(1920, 1080, "GOL", true);
         Text.load_font("sansation.ttf");
         //TODO implement me
         shapes = new Vector<Shape>();
@@ -233,9 +233,7 @@ public class View {
             {
                 int i = (int) ((mouseX-x) *2/3/a);
                 int j = (int) ((mouseY - y - (i % 2) * a * s / 2 ) /a/s);
-                glColor3f(0, 1, 0);
-                Hexagon.display(x + 3 * i * a / 2, y + j * a * s + (i % 2) * a * s / 2, a, grid.isCellAlive(i, j));
-                codedPosition=Game.GRIDSIZE*i+j;
+
 
 
                 double xM = x + 3 * i * a / 2 + a/2;
@@ -248,20 +246,58 @@ public class View {
                 double yD = yyy + a*Math.sqrt(3);
 
                 glColor3f(1, 0, 0);
-                drawOneLine((float)mouseX,(float)mouseY,(float)xM,(float)yyy);
+                drawOneLine((float)mouseX,(float)mouseY,(float)xM,(float)yyy); //aktualny
                 glColor3f(1, 1, 0);
-                drawOneLine((float)mouseX,(float)mouseY,(float)xM,(float)yU);
+                drawOneLine((float)mouseX,(float)mouseY,(float)xM,(float)yU); // powyżej
                 glColor3f(1, 1, 1);
-                drawOneLine((float)mouseX,(float)mouseY,(float)xM,(float)yD);
+                drawOneLine((float)mouseX,(float)mouseY,(float)xM,(float)yD); // ponizej
                 glColor3f(0, 1, 0);
-                drawOneLine((float)mouseX,(float)mouseY,(float)xxxL,(float)yDS);
+                drawOneLine((float)mouseX,(float)mouseY,(float)xxxL,(float)yDS); // lewy dolny
                 glColor3f(0, 0, 1);
-                drawOneLine((float)mouseX,(float)mouseY,(float)xxxL,(float)yUS);
+                drawOneLine((float)mouseX,(float)mouseY,(float)xxxL,(float)yUS); // lewy gorny
                 glColor3f(0, 1, 1);
-                drawOneLine((float)mouseX,(float)mouseY,(float)xxxR,(float)yDS);
+                drawOneLine((float)mouseX,(float)mouseY,(float)xxxR,(float)yDS); // prawy dolny
                 glColor3f(1, 0, 1);
-                drawOneLine((float)mouseX,(float)mouseY,(float)xxxR,(float)yUS);
+                drawOneLine((float)mouseX,(float)mouseY,(float)xxxR,(float)yUS); // prawy gorny
 
+                double rM=radius(mouseX,mouseY,xM,yyy);
+                double rLDS=radius(mouseX,mouseY,xxxL,yDS);
+                double rLUS=radius(mouseX,mouseY,xxxL,yUS);
+                double rRDS=radius(mouseX,mouseY,xxxR,yDS);
+                double rRUS=radius(mouseX,mouseY,xxxR,yUS);
+                double min = Math.min(Math.min(Math.min(Math.min(rM, rLDS) ,rLUS), rRDS), rRUS);
+
+
+                System.out.print(i+"  "+j+"    ");
+                if(rM!=min)
+                {
+                    if(rLDS==min)
+                    {
+                        j-=(j+i)%2;
+                        i--;
+                    }
+                    else if(rLUS==min)
+                    {
+                        j+=(j+i)%2;
+                        i--;
+                    }
+                    else if(rRDS==min)
+                    {
+                        j+=(j+i)%2;
+                        i++;
+                    }
+                    else if(rRUS==min)
+                    {
+                        j-=(j+i)%2;
+                        i++;
+                    }
+                }
+                System.out.println(i+" "+j);
+
+
+                glColor3f(0, 1, 0);
+                Hexagon.display(x + 3 * i * a / 2, y + j * a * s + (i % 2) * a * s / 2, a, grid.isCellAlive(i, j));
+                codedPosition=Game.GRIDSIZE*i+j;
 
             }
         }
@@ -311,9 +347,9 @@ public class View {
                 // srodek prawego somsiada =  xR , yyy
                 double xR= xM+a/2;
 
-                double rM=Math.sqrt((mouseX-xM)*(mouseX-xM)+ (mouseY-yyy)*(mouseY-yyy));// odleglosc myszki od srodka wybranego
-                double rL=Math.sqrt((mouseX-xL)*(mouseX-xL)+ (mouseY-yyy2)*(mouseY-yyy2)); // odleglosc myszki od srodka lewego sasiada
-                double rR=Math.sqrt((mouseX-xR)*(mouseX-xR)+ (mouseY-yyy2)*(mouseY-yyy2));// odleglosc myszki od srodka prawego sasiada
+                double rM=radius(mouseX,mouseY,xM,yyy);;// odleglosc myszki od srodka wybranego
+                double rL=radius(mouseX,mouseY,xL,yyy2); // odleglosc myszki od srodka lewego sasiada
+                double rR=radius(mouseX,mouseY,xR,yyy2);// odleglosc myszki od srodka prawego sasiada
 
 //                System.out.println((int)rM+" "+(int)rL+" "+(int)rR);
 //
@@ -338,6 +374,11 @@ public class View {
             }
         }
         return codedPosition;
+    }
+
+    private double radius(double x1, double y1, double x2, double y2)
+    {
+        return Math.sqrt((x1-x2)*(x1-x2)+ (y1-y2)*(y1-y2));
     }
 
 //
