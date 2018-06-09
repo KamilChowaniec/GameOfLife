@@ -10,8 +10,8 @@ public class MouseHandler extends GLFWCursorPosCallback {
 
     @Override
     public void invoke(long window, double xpos, double ypos) {
-        xrel = mousePos[0] - xpos;
-        yrel = mousePos[1] - ypos;
+        xrel = xpos - mousePos[0];
+        yrel = ypos - mousePos[1];
         mousePos[0] = xpos;
         mousePos[1] = ypos;
     }

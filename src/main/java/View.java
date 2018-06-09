@@ -20,9 +20,9 @@ public class View {
     private Slider zoomSlider;
     private double xoff = 0;
     private double yoff = 0;
-    private boolean moveHex=false;
-    double pMouseX=-1;
-    double pMouseY=-1;
+    private boolean moveHex = false;
+    double pMouseX = -1;
+    double pMouseY = -1;
 
 
     public View() {
@@ -196,24 +196,22 @@ public class View {
         double mouseX = MouseHandler.xPos();
         double mouseY = MouseHandler.yPos();
 
-        if (MouseButtonsHandler.isKeyClicked(GLFW_MOUSE_BUTTON_MIDDLE)&&!moveHex)
-        {
-           // if (mouseX > gridX && mouseX < (gridX + gridWidth))
-           //     if (mouseY > gridY && mouseY < (gridY + gridHeight))
-             //   {
-                    moveHex = true;
-                    pMouseX=mouseX;
-                    pMouseY=mouseY;
-               // }
+        if (MouseButtonsHandler.isKeyDown(GLFW_MOUSE_BUTTON_MIDDLE) && !moveHex) {
+            // if (mouseX > gridX && mouseX < (gridX + gridWidth))
+            //     if (mouseY > gridY && mouseY < (gridY + gridHeight))
+            //   {
+            moveHex = true;
+            pMouseX = mouseX;
+            pMouseY = mouseY;
+            // }
         }
 
-        if(!MouseButtonsHandler.isKeyDown(GLFW_MOUSE_BUTTON_MIDDLE)&&moveHex)
-        {
-            moveHex=false;
-            xoff += pMouseX-mouseX;
-          //  if (xoff < 0) xoff = 0;
-            yoff += pMouseY-mouseY;
-          //  if (yoff < 0) yoff = 0;
+        else if (MouseButtonsHandler.isKeyDown(GLFW_MOUSE_BUTTON_MIDDLE) && moveHex) {
+            moveHex = false;
+            xoff += pMouseX - mouseX;
+            //  if (xoff < 0) xoff = 0;
+            yoff += pMouseY - mouseY;
+            //  if (yoff < 0) yoff = 0;
         }
 
 
@@ -239,7 +237,6 @@ public class View {
         //j
         // M = y + j * a * s + (i % 2) * a * s / 2
         // j = ( M - y - (i % 2) * a * s / 2 ) /a/s
-
 
 
         if (mouseX > gridX && mouseX < (gridX + gridWidth)) {
