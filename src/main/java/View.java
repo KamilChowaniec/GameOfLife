@@ -216,48 +216,34 @@ public class View {
                 int i = (int) ((mouseX - x) * 2 / 3 / a);
                 int j = (int) ((mouseY - y - (i % 2) * a * s / 2) / a / s);
 
-
                 double xM = x + 3 * i * a / 2 + a / 2;
-                double xxxL = xM - 3 * a / 2;
                 double xxxR = xM + 3 * a / 2;
                 double yyy = y + j * a * s + (i % 2) * a * s / 2 + a * Math.sqrt(3) / 2;
                 double yUS = yyy - a * Math.sqrt(3) / 2;
                 double yDS = yyy + a * Math.sqrt(3) / 2;
-                double yU = yyy - a * Math.sqrt(3);
-                double yD = yyy + a * Math.sqrt(3);
 
-                glColor3f(1, 0, 0);
-                drawOneLine((float) mouseX, (float) mouseY, (float) xM, (float) yyy); //aktualny
-                glColor3f(1, 1, 0);
-                drawOneLine((float) mouseX, (float) mouseY, (float) xM, (float) yU); // powyżej
-                glColor3f(1, 1, 1);
-                drawOneLine((float) mouseX, (float) mouseY, (float) xM, (float) yD); // ponizej
-                glColor3f(0, 1, 0);
-                drawOneLine((float) mouseX, (float) mouseY, (float) xxxL, (float) yDS); // lewy dolny
-                glColor3f(0, 0, 1);
-                drawOneLine((float) mouseX, (float) mouseY, (float) xxxL, (float) yUS); // lewy gorny
-                glColor3f(0, 1, 1);
-                drawOneLine((float) mouseX, (float) mouseY, (float) xxxR, (float) yDS); // prawy dolny
-                glColor3f(1, 0, 1);
-                drawOneLine((float) mouseX, (float) mouseY, (float) xxxR, (float) yUS); // prawy gorny
+//                glColor3f(1, 0, 0);
+//                drawOneLine((float) mouseX, (float) mouseY, (float) xM, (float) yyy); //aktualny
+//                glColor3f(1, 1, 0);
+//                drawOneLine((float) mouseX, (float) mouseY, (float) xM, (float) yU); // powyżej
+//                glColor3f(1, 1, 1);
+//                drawOneLine((float) mouseX, (float) mouseY, (float) xM, (float) yD); // ponizej
+//                glColor3f(0, 1, 0);
+//                drawOneLine((float) mouseX, (float) mouseY, (float) xxxL, (float) yDS); // lewy dolny
+//                glColor3f(0, 0, 1);
+//                drawOneLine((float) mouseX, (float) mouseY, (float) xxxL, (float) yUS); // lewy gorny
+//                glColor3f(0, 1, 1);
+//                drawOneLine((float) mouseX, (float) mouseY, (float) xxxR, (float) yDS); // prawy dolny
+//                glColor3f(1, 0, 1);
+//                drawOneLine((float) mouseX, (float) mouseY, (float) xxxR, (float) yUS); // prawy gorny
 
                 double rM = radius(mouseX, mouseY, xM, yyy);
-                double rLDS = radius(mouseX, mouseY, xxxL, yDS);
-                double rLUS = radius(mouseX, mouseY, xxxL, yUS);
                 double rRDS = radius(mouseX, mouseY, xxxR, yDS);
                 double rRUS = radius(mouseX, mouseY, xxxR, yUS);
-                double min = Math.min(Math.min(Math.min(Math.min(rM, rLDS), rLUS), rRDS), rRUS);
+                double min = Math.min(rRDS, rRUS);
 
-
-                System.out.print(i + "  " + j + "    ");
                 if (rM != min) {
-                    if (rLDS == min) {
-                        j -= (j + i) % 2;
-                        i--;
-                    } else if (rLUS == min) {
-                        j += (j + i) % 2;
-                        i--;
-                    } else if (rRDS == min) {
+                    if (rRDS == min) {
                         int t = i % 2;
                         int temp = (j + i) % 2;
                         j += (j + i) % 2;
@@ -282,7 +268,6 @@ public class View {
                         }
                     }
                 }
-                System.out.println(i + " " + j);
 
                 glColor3f(0, 1, 0);
                 Hexagon.display(x + 3 * i * a / 2, y + j * a * s + (i % 2) * a * s / 2, a, grid.isCellAlive(i, j));
