@@ -21,7 +21,7 @@ public class View {
 
 
     public View() {
-        window = new Window(1920, 1080, "GOL", true);
+        window = new Window(1920, 1080, "GOL", false);
         Text.load_font("sansation.ttf");
         //TODO implement me
         shapes = new Vector<Shape>();
@@ -273,18 +273,29 @@ public class View {
             {
                 int j = (int) ((mouseY - y) * 2. / a / s);
                 int i = (int) ((mouseX - x - (j % 2.) * a / 2.) * 2. / a);
-
                 // srodek wybranego trojkata = xM , yyy
                 double xM = x + i * a / 2. + (j % 2.) * a / 2.;
-                double yyy = y + j * a * s / 2. + a*Math.sqrt(3.)/4.;
-                // srodek lewego somsiada =  xL , yyy
-                double xL = xM-a;
+                double dh = (i%2) == 1? Math.sqrt(3.)*a/6. : Math.sqrt(3.)*a/3.;
+                double dh2 = (i%2) == 0? Math.sqrt(3.)*a/6. : Math.sqrt(3.)*a/3.;
+                double yyy = (y + j * a * s / 2) + dh;
+                double yyy2 = (y + j * a * s / 2) + dh2;
+                // srodek lewego somsiada =p  xL , yyy
+                double xL = xM-a/2;
                 // srodek prawego somsiada =  xR , yyy
-                double xR= xM+a;
+                double xR= xM+a/2;
 
                 double rM=Math.sqrt((mouseX-xM)*(mouseX-xM)+ (mouseY-yyy)*(mouseY-yyy));// odleglosc myszki od srodka wybranego
-                double rL=Math.sqrt((mouseX-xL)*(mouseX-xL)+ (mouseY-yyy)*(mouseY-yyy)); // odleglosc myszki od srodka lewego sasiada
-                double rR=Math.sqrt((mouseX-xR)*(mouseX-xR)+ (mouseY-yyy)*(mouseY-yyy));// odleglosc myszki od srodka prawego sasiada
+                double rL=Math.sqrt((mouseX-xL)*(mouseX-xL)+ (mouseY-yyy2)*(mouseY-yyy2)); // odleglosc myszki od srodka lewego sasiada
+                double rR=Math.sqrt((mouseX-xR)*(mouseX-xR)+ (mouseY-yyy2)*(mouseY-yyy2));// odleglosc myszki od srodka prawego sasiada
+
+                System.out.println((int)rM+" "+(int)rL+" "+(int)rR);
+
+                glColor3f(1, 0, 0);
+                drawOneLine((float)mouseX,(float)mouseY,(float)xM,(float)yyy);
+                glColor3f(0, 1, 0);
+                drawOneLine((float)mouseX,(float)mouseY,(float)xL,(float)yyy2);
+                glColor3f(0, 0, 1);
+                drawOneLine((float)mouseX,(float)mouseY,(float)xR,(float)yyy2);
 
                 if(rL<rR)
                 {
