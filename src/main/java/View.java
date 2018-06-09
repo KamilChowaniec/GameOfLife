@@ -23,7 +23,7 @@ public class View {
 
 
     public View() {
-        window = new Window(1920, 1080, "GOL", false);
+        window = new Window(1920, 1080, "GOL", true);
         Text.load_font("sansation.ttf");
         //TODO implement me
         shapes = new Vector<Shape>();
@@ -204,13 +204,14 @@ public class View {
         float x = gridX + (float) (xoff);
         float y = gridY - a * s / 2 + (float) (yoff);
 
-        int starti = (int) ((-xoff) / a / 1.6);
-        int startj = (int) ((-yoff) / a / 2);
-
-        int columns = (int) (Game.GRIDSIZE / a / 1.6) + 1;
-        int rows = (int) (Game.GRIDSIZE / a / 2) + 1;
-        for (int i = starti; i < columns + starti; i++)
-            for (int j = startj; j < rows + startj;j++)
+        double starti = 1.15*((-xoff) / a / s);
+        double startj =  1.15*((-yoff) / a / 2);
+        if(starti<0)starti=0;
+        if(startj<0)startj=0;
+        int columns = (int) (1.2*Game.GRIDSIZE / a / s);
+        int rows = (int) (1.2*Game.GRIDSIZE / a / 2);
+        for (int i = (int)starti; i < (columns + starti)%Game.GRIDSIZE; i++)
+            for (int j = (int)startj; j < (rows + startj)%Game.GRIDSIZE;j++)
                 Hexagon.display(x + 3 * i * a / 2, y + j * a * s + (i % 2) * a * s / 2, a, grid.isCellAlive(i, j));
         //i
         // M = x + 3 * i * a / 2
