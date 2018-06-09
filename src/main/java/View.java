@@ -201,17 +201,29 @@ public class View {
         glColor3f(0.8f, 0.8f, 0.8f);
         float a = 1 + grid.getZoom();
         float s = (float) Math.sqrt(3);
-        float x = gridX + (float) (xoff);
-        float y = gridY - a * s / 2 + (float) (yoff);
+
+        int columns = (int) (1.2*Game.GRIDSIZE / a / s);
+        int rows = (int) (1.2*Game.GRIDSIZE / a / 2);
 
         double starti = 1.15*((-xoff) / a / s);
         double startj =  1.15*((-yoff) / a / 2);
         if(starti<0)starti=0;
         if(startj<0)startj=0;
-        int columns = (int) (1.2*Game.GRIDSIZE / a / s);
-        int rows = (int) (1.2*Game.GRIDSIZE / a / 2);
-        for (int i = (int)starti; i < (columns + starti)%Game.GRIDSIZE; i++)
-            for (int j = (int)startj; j < (rows + startj)%Game.GRIDSIZE;j++)
+        if(starti + columns >= Game.GRIDSIZE) {
+            starti = Game.GRIDSIZE - columns;
+            xoff = -20/23.*starti*a*s;
+        }
+        if(startj + rows >= Game.GRIDSIZE) {
+            startj = Game.GRIDSIZE - rows;
+            yoff = -20/23.*startj*a*2;
+        }
+
+        float x = gridX + (float) (xoff);
+        float y = gridY - a * s / 2 + (float) (yoff);
+
+
+        for (int i = (int)starti; i < columns + starti; i++)
+            for (int j = (int)startj; j < rows + startj;j++)
                 Hexagon.display(x + 3 * i * a / 2, y + j * a * s + (i % 2) * a * s / 2, a, grid.isCellAlive(i, j));
         //i
         // M = x + 3 * i * a / 2
