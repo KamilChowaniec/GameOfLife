@@ -6,7 +6,7 @@ public class Model {
 
     public Model() {
         cards = new ArrayList<>();
-        cards.add(new Card(gridType.Hexagonal));
+        cards.add(new Card(gridType.Triangular));
         cardIndex = 0;
     }
 
@@ -50,6 +50,9 @@ public class Model {
 
     public void incZoom(int offset){
         cards.get(cardIndex).incZoom(offset);
-
+    }
+    public void moveGrid(double x, double y)
+    {
+        cards.get(cardIndex).moveGrid(x,y);
     }
 }

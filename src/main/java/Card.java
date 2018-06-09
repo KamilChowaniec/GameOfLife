@@ -61,4 +61,9 @@ public class Card {
     public void incZoom(int offset){
         grid.incZoom(offset);
     }
+
+    public void moveGrid(double x, double y)
+    {
+        grid.moveGrid(x,y);
+    }
 }

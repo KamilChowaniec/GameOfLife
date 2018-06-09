@@ -5,6 +5,7 @@ public abstract class Grid {
     protected boolean[][] alive;
     protected boolean[][] buffer;
     private int zoom;
+    private double xoff=0, yoff=0;
 
     Grid() {
         cellProperties = new CellProperties[Game.GRIDSIZE][Game.GRIDSIZE];
@@ -69,4 +70,15 @@ public abstract class Grid {
     public int getZoom() {
         return zoom;
     }
+
+    public void moveGrid(double x, double y)
+    {
+            this.xoff +=x;
+            if (this.xoff > 0) this.xoff = 0;
+            this.yoff += y;
+            if (this.yoff > 0) this.yoff = 0;
+    }
+
+    public double getXoff() {return xoff;}
+    public double getYoff() {return yoff;}
 }

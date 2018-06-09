@@ -62,6 +62,15 @@ public class Controller {
         }
         model.incZoom((int)ScrollHandler.wheelMovement());
 
+     //   model.
+        if (MouseButtonsHandler.isKeyDown(GLFW_MOUSE_BUTTON_MIDDLE))
+        {
+            model.moveGrid(MouseHandler.xRel(),MouseHandler.yRel());
+        }
+
+
+
+
 
         KeyboardHandler.clear();
         MouseButtonsHandler.clear();
