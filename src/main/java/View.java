@@ -1,12 +1,9 @@
 import graphics.*;
-import graphics.Input.KeyboardHandler;
 import graphics.Input.MouseButtonsHandler;
 import graphics.Input.MouseHandler;
 
 import java.util.Vector;
-import java.util.concurrent.TimeUnit;
 
-import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public class View {
@@ -18,6 +15,11 @@ public class View {
     private int gridX = 404, gridY = 34, gridWidth = 1114, gridHeight = 1044, delaySlider = 0;   //zoom w przedziale [0,100] -  ustawiany na sliderze
     private int rulesX = 1520, rulesY = 2, rulesWidth = 400, rulesHeight = 535;
     private Slider zoomSlider;
+    private float pZoom=1;
+    private double hexX=0;
+    private double hexY=0;
+    private int ii=0;
+    private int jj=0;
 //    private double xoff = 0;
 //    private double yoff = 0;
 
@@ -34,7 +36,7 @@ public class View {
         zoomSlider = new Slider(rulesX + 50, rulesY + 400, 300, 10);
 
 
-        t=new Text(600,300,"Lubie placki", 1.0f,0f,0f);
+        t=new Text(100,100,"Lubie placki", 1.0f,0f,0f);
     }
 
 
@@ -171,11 +173,11 @@ public class View {
         glColor3f(0.8f, 0.8f, 0.8f);
         float a = 1 + grid.getZoom();
         float s = (float) Math.sqrt(3);
-
         int columns = (int) (1.2*Game.GRIDSIZE / a / s);
         int rows = (int) (1.2*Game.GRIDSIZE / a / 2);
 
-        int am = grid.getZoomAmout();
+/*
+        int am = grid.getZoomAmount();
         if(am>0){
             xoff -= am*a*s*(mouseX - (gridX + gridWidth/2))/(gridWidth/2);
             yoff -= am*a*2*(mouseY - (gridY + gridHeight/2))/(gridHeight/2);
@@ -184,6 +186,14 @@ public class View {
         }
         else if(am<0){
         }
+*/
+
+
+
+
+
+
+
 
         double starti = 1.15*((-xoff) / a / s);
         double startj =  1.15*((-yoff) / a / 2);
@@ -200,6 +210,37 @@ public class View {
 
         float x = gridX + (float) (xoff);
         float y = gridY - a * s / 2 + (float) (yoff);
+
+
+        if(pZoom!=a)
+        {
+            double oldX=x + 3 * ii * pZoom / 2;
+            double oldY=y + jj * pZoom * s + (ii % 2) * pZoom * s / 2;
+            double newX=x + 3 * ii * a / 2;
+            double newY=y + jj * a * s + (ii % 2) * a * s / 2;
+
+
+            hexX=oldX-newX;
+            hexY=oldY-newY;
+            pZoom=a;
+        }
+
+        x+=hexX;
+        y+=hexY;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         for (int i = (int)starti; i < columns + starti; i++)
@@ -276,7 +317,9 @@ public class View {
                 glColor3f(0, 1, 0);
                 Hexagon.display(x + 3 * i * a / 2, y + j * a * s + (i % 2) * a * s / 2, a, false);
                 codedPosition = Game.GRIDSIZE * i + j;
-                t.setTxt(i+" "+j);
+                t.setTxt(i+" "+j+"  "+Double.toString(MouseHandler.xPos())+"  "+Double.toString(MouseHandler.yPos()));
+                ii=i;
+                jj=j;
             }
         }
         return codedPosition;

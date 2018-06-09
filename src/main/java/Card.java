@@ -58,8 +58,8 @@ public class Card {
         pause = !pause;
     }
 
-    public void incZoom(int offset){
-        grid.incZoom(offset);
+    public void incZoom(int offset, double[] mousePosition){
+        grid.incZoom(offset, mousePosition);
     }
 
     public void moveGrid(double x, double y)

@@ -60,7 +60,7 @@ public class Controller {
         if(MouseButtonsHandler.isKeyClicked(GLFW_MOUSE_BUTTON_LEFT)){
             if(codedPos!=-1)model.draw(codedPos);
         }
-        model.incZoom((int)ScrollHandler.wheelMovement());
+        model.incZoom((int)ScrollHandler.wheelMovement(),MouseHandler.getMousePosition());
 
      //   model.
         if (MouseButtonsHandler.isKeyDown(GLFW_MOUSE_BUTTON_MIDDLE))

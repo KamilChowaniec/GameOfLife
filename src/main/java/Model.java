@@ -48,8 +48,8 @@ public class Model {
         cards.get(cardIndex).switchPause();
     }
 
-    public void incZoom(int offset){
-        cards.get(cardIndex).incZoom(offset);
+    public void incZoom(int offset, double[] mousePosition){
+        cards.get(cardIndex).incZoom(offset, mousePosition);
     }
     public void moveGrid(double x, double y)
     {

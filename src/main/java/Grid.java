@@ -1,15 +1,11 @@
-import graphics.Color;
-
 public abstract class Grid {
     protected CellProperties[][] cellProperties;
     protected boolean[][] alive;
     protected boolean[][] buffer;
-    private int zoom;
+    private int zoom=0;
     private double xoff=0, yoff=0;
-    private int zoomAmout;
 
     Grid() {
-        zoomAmout=0;
         cellProperties = new CellProperties[Game.GRIDSIZE][Game.GRIDSIZE];
         for (int i = 0; i < Game.GRIDSIZE; i++) {
             for (int j = 0; j < Game.GRIDSIZE; j++) {
@@ -63,19 +59,16 @@ public abstract class Grid {
             }
     }
 
-    public void incZoom(int offset) {
-        zoomAmout = offset;
+    public void incZoom(int offset, double[] mousePosition) {
         this.zoom += offset;
         if (zoom < 0) zoom = 0;
         else if (zoom > 100) zoom = 100;
+
+
     }
 
     public int getZoom() {
         return zoom;
-    }
-
-    public int getZoomAmout(){
-        return zoomAmout;
     }
 
     public void moveGrid(double x, double y)
