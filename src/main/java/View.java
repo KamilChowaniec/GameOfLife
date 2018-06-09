@@ -163,6 +163,8 @@ public class View {
 
     private int displayHexagonal(Grid grid)
     {
+        double mouseX = MouseHandler.xPos();
+        double mouseY = MouseHandler.yPos();
         double xoff=grid.getXoff();
         double yoff=grid.getYoff();
         int codedPosition = -1;
@@ -172,6 +174,16 @@ public class View {
 
         int columns = (int) (1.2*Game.GRIDSIZE / a / s);
         int rows = (int) (1.2*Game.GRIDSIZE / a / 2);
+
+        int am = grid.getZoomAmout();
+        if(am>0){
+            xoff -= am*a*s*(mouseX - (gridX + gridWidth/2))/(gridWidth/2);
+            yoff -= am*a*2*(mouseY - (gridY + gridHeight/2))/(gridHeight/2);
+            xoff+=1000;
+            System.out.println("eloooo");
+        }
+        else if(am<0){
+        }
 
         double starti = 1.15*((-xoff) / a / s);
         double startj =  1.15*((-yoff) / a / 2);
@@ -202,8 +214,6 @@ public class View {
         // j = ( M - y - (i % 2) * a * s / 2 ) /a/s
 
 
-        double mouseX = MouseHandler.xPos();
-        double mouseY = MouseHandler.yPos();
         if (mouseX > gridX && mouseX < (gridX + gridWidth)) {
             if (mouseY > gridY && mouseY < (gridY + gridHeight)) {
                 int i = (int) ((mouseX - x) * 2 / 3 / a);
