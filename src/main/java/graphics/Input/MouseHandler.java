@@ -35,4 +35,9 @@ public class MouseHandler extends GLFWCursorPosCallback {
     public static double yRel() {
         return yrel;
     }
+
+    public static void clear(){
+        xrel=0;
+        yrel=0;
+    }
 }

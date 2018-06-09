@@ -66,5 +66,6 @@ public class Controller {
         KeyboardHandler.clear();
         MouseButtonsHandler.clear();
         ScrollHandler.clear();
+        //MouseHandler.clear();
     }
 }

@@ -34,7 +34,7 @@ public class View {
         zoomSlider = new Slider(rulesX + 50, rulesY + 400, 300, 10);
 
 
-        // t=new Text(600,300,"Lubie placki", 1.0f,0f,0f);
+        t=new Text(600,300,"Lubie placki", 1.0f,0f,0f);
     }
 
     private void createLayout() {
@@ -110,7 +110,7 @@ public class View {
 
         //glDisable(GL_LINE_STIPPLE);
         //glFlush();
-        //t.display();
+        t.display();
         window.update();
 
     }
@@ -189,41 +189,51 @@ public class View {
     }
 
     private int displayHexagonal(Grid grid) {
+        double mouseX = MouseHandler.xPos();
+        double mouseY = MouseHandler.yPos();
         if (MouseButtonsHandler.isKeyDown(GLFW_MOUSE_BUTTON_MIDDLE)) {
             xoff += MouseHandler.xRel();
-            if (xoff > 0) xoff = 0;
             yoff += MouseHandler.yRel();
-            if (yoff > 0) yoff = 0;
         }
-
-
-        int codedPosition = -1;
-        glColor3f(0.8f, 0.8f, 0.8f);
         float a = 1 + grid.getZoom();
         float s = (float) Math.sqrt(3);
 
-        int columns = (int) (1.2*Game.GRIDSIZE / a / s);
-        int rows = (int) (1.2*Game.GRIDSIZE / a / 2);
-
-        double starti = 1.15*((-xoff) / a / s);
-        double startj =  1.15*((-yoff) / a / 2);
-        if(starti<0)starti=0;
-        if(startj<0)startj=0;
-        if(starti + columns >= Game.GRIDSIZE) {
-            starti = Game.GRIDSIZE - columns;
-            xoff = -20/23.*starti*a*s;
+        int columns = (int) (1.2 * Game.GRIDSIZE / a / s);
+        int rows = (int) (1.2 * Game.GRIDSIZE / a / 2);
+        int am = grid.getZoomAmout();
+        if (am > 0) {
+           xoff -= am*s * (mouseX - gridX+gridWidth/2)/(gridWidth/2);
+           yoff -= am*2 * (mouseY - gridY+gridHeight/2)/(gridHeight/2);
+        } else if(am<0) {
+            //xoff += am*a*s*columns;
+            //yoff += am*a*2*rows;
         }
-        if(startj + rows >= Game.GRIDSIZE) {
+        if (xoff > 0) xoff = 0;
+        if (yoff > 0) yoff = 0;
+
+        int codedPosition = -1;
+        glColor3f(0.8f, 0.8f, 0.8f);
+
+
+        double starti = 1.15 * ((-xoff) / a / s);
+        double startj = 1.15 * ((-yoff) / a / 2);
+        if (starti < 0) starti = 0;
+        if (startj < 0) startj = 0;
+        if (starti + columns >= Game.GRIDSIZE) {
+            starti = Game.GRIDSIZE - columns;
+            xoff = -20 / 23. * starti * a * s;
+        }
+        if (startj + rows >= Game.GRIDSIZE) {
             startj = Game.GRIDSIZE - rows;
-            yoff = -20/23.*startj*a*2;
+            yoff = -20 / 23. * startj * a * 2;
         }
 
         float x = gridX + (float) (xoff);
         float y = gridY - a * s / 2 + (float) (yoff);
 
 
-        for (int i = (int)starti; i < columns + starti; i++)
-            for (int j = (int)startj; j < rows + startj;j++)
+        for (int i = (int) starti; i < columns + starti; i++)
+            for (int j = (int) startj; j < rows + startj; j++)
                 Hexagon.display(x + 3 * i * a / 2, y + j * a * s + (i % 2) * a * s / 2, a, grid.isCellAlive(i, j));
         //i
         // M = x + 3 * i * a / 2
@@ -234,8 +244,6 @@ public class View {
         // j = ( M - y - (i % 2) * a * s / 2 ) /a/s
 
 
-        double mouseX = MouseHandler.xPos();
-        double mouseY = MouseHandler.yPos();
         if (mouseX > gridX && mouseX < (gridX + gridWidth)) {
             if (mouseY > gridY && mouseY < (gridY + gridHeight)) {
                 int i = (int) ((mouseX - x) * 2 / 3 / a);
@@ -296,9 +304,9 @@ public class View {
                 }
 
                 glColor3f(0, 1, 0);
-                Hexagon.display(x + 3 * i * a / 2, y + j * a * s + (i % 2) * a * s / 2, a, grid.isCellAlive(i, j));
+                Hexagon.display(x + 3 * i * a / 2, y + j * a * s + (i % 2) * a * s / 2, a, false);
                 codedPosition = Game.GRIDSIZE * i + j;
-
+                t.setTxt(i+" "+j);
             }
         }
         return codedPosition;

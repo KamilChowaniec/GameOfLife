@@ -5,8 +5,10 @@ public abstract class Grid {
     protected boolean[][] alive;
     protected boolean[][] buffer;
     private int zoom;
+    private int zoomAmout;
 
     Grid() {
+        zoomAmout=0;
         cellProperties = new CellProperties[Game.GRIDSIZE][Game.GRIDSIZE];
         for (int i = 0; i < Game.GRIDSIZE; i++) {
             for (int j = 0; j < Game.GRIDSIZE; j++) {
@@ -61,6 +63,7 @@ public abstract class Grid {
     }
 
     public void incZoom(int offset) {
+        zoomAmout = offset;
         this.zoom += offset;
         if (zoom < 0) zoom = 0;
         else if (zoom > 100) zoom = 100;
@@ -68,5 +71,9 @@ public abstract class Grid {
 
     public int getZoom() {
         return zoom;
+    }
+
+    public int getZoomAmout(){
+        return zoomAmout;
     }
 }

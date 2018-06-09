@@ -51,6 +51,10 @@ public class Text implements Displayable {
         this.c = new Color(r, g, b, 1f);
     }
 
+    public void setTxt(String txt) {
+        this.txt = txt;
+    }
+
     @Override
     public void display() {
         int sfont = sf[font];
