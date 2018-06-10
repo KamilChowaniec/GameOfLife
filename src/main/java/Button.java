@@ -11,8 +11,10 @@ public class Button implements Positionable {
     private boolean focused;
     float r,g,b;
     private Text t;
+    private ButtonHandler handler;
 
-    public Button(int x, int y, int width, int height, String text,float r, float g, float b) {
+    public Button(int x, int y, int width, int height, String text,ButtonHandler handler,float r, float g, float b) {
+        this.handler=handler;
         focused = false;
         this.x = x;
         this.y = y;
@@ -22,7 +24,7 @@ public class Button implements Positionable {
         this.r=r;
         this.g=g;
         this.b=b;
-        t=new Text(x+60,y+33,text, 1.0f,1f,1);
+        t=new Text(x+width/2,y+height/2 + (int)Text.getFontHeight()/2,text, 1.0f,1f,1);
     }
 
     public boolean isFocused(int mx, int my) {
@@ -31,6 +33,10 @@ public class Button implements Positionable {
 
     public boolean isFocused() {
         return focused;
+    }
+
+    public void press(){
+        handler.invoke();
     }
 
     public void setColor(Color color) {
@@ -58,4 +64,19 @@ public class Button implements Positionable {
         t.display();
     }
 
+    public int getHeight() {
+        return height;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
 }

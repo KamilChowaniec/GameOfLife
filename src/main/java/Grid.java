@@ -81,6 +81,14 @@ public abstract class Grid {
 
     public double getXoff() {return xoff;}
     public double getYoff() {return yoff;}
+
+    public void setXoff(double xoff) {
+        this.xoff = xoff;
+    }
+
+    public void setYoff(double yoff) {
+        this.yoff = yoff;
+    }
 }
 
 

@@ -55,6 +55,10 @@ public class Text implements Displayable {
         this.txt = txt;
     }
 
+    public static float getFontHeight(){
+        return scale[0];
+    }
+
     @Override
     public void display() {
         int sfont = sf[font];

@@ -42,7 +42,7 @@ public class View {
 
 
     public View() {
-        window = new Window(1920, 1080, "GOL", true);
+        window = new Window(1920, 1080, "GOL", false);
         Text.load_font("sansation.ttf");
         //TODO implement me
         shapes = new Vector<Shape>();
@@ -66,11 +66,11 @@ public class View {
 
     private void createLayout() {
         shapes.add(new Rectangle(2, 2, 400, 1076));//tools
-        shapes.add(new Rectangle(404, 2, 150, 30));//card
-        shapes.add(new Rectangle(556, 2, 150, 30));//card
-        shapes.add(new Rectangle(708, 2, 150, 30));//card
-        shapes.add(new Rectangle(860, 2, 150, 30));//card
-        shapes.add(new Rectangle(1012, 2, 150, 30));//card
+//        shapes.add(new Rectangle(404, 2, 150, 30));//card
+//        shapes.add(new Rectangle(556, 2, 150, 30));//card
+//        shapes.add(new Rectangle(708, 2, 150, 30));//card
+//        shapes.add(new Rectangle(860, 2, 150, 30));//card
+//        shapes.add(new Rectangle(1012, 2, 150, 30));//card
         shapes.add(new Rectangle(gridX, gridY, gridWidth, gridHeight));//grid
         shapes.add(new Rectangle(rulesX, rulesY, rulesWidth, rulesHeight));//rules
         shapes.add(new Rectangle(1520, 540, 400, 537));//clipboard

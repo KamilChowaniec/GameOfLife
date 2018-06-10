@@ -55,4 +55,8 @@ public class Model {
     {
         cards.get(cardIndex).moveGrid(x,y);
     }
+
+    public int getCardsAmount(){
+        return cards.size();
+    }
 }
