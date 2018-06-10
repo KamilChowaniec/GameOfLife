@@ -7,9 +7,11 @@ public class Checkbox implements Positionable
     private boolean state;
     private int color;
     private boolean focused;
+    private CheckboxHandler handler;
 
-    public Checkbox(int x, int y, int size )
+    public Checkbox(int x, int y, int size, CheckboxHandler handler )
     {
+        this.handler = handler;
         this.x=x;
         this.y=y;
         this.size=size;
@@ -34,6 +36,15 @@ public class Checkbox implements Positionable
 
     public void changeState() {
         state=!state;
+    }
+
+    public void setState(boolean state){
+        this.state = state;
+    }
+
+    public void press(){
+        changeState();
+        handler.invoke(state);
     }
 
     @Override

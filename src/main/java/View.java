@@ -13,7 +13,7 @@ public class View
     private Vector<Shape> shapes;
     private Vector<Checkbox> checkboxesS;
     private Text t;
-    private int gridX = 404, gridY = 34, gridWidth = 1114, gridHeight = 1044, delaySlider = 0;   //zoom w przedziale [0,100] -  ustawiany na sliderze
+    public static int gridX = 404, gridY = 34, gridWidth = 1114, gridHeight = 1044, delaySlider = 0;   //zoom w przedziale [0,100] -  ustawiany na sliderze
     private int rulesX = 1520, rulesY = 2, rulesWidth = 400, rulesHeight = 535;
     private Slider zoomSlider;
 
@@ -61,7 +61,7 @@ public class View
         shapes = new Vector<Shape>();
         createLayout();
         checkboxesS = new Vector<Checkbox>();
-        createCheckboxes();
+        //createCheckboxes();
 
         zoomSlider = new Slider(rulesX + 50, rulesY + 400, 300, 10);
 
@@ -94,8 +94,9 @@ public class View
         int x = 35;
         int y = 100;
         for (int i = 1; i < 3; i++)
-            for (int j = 1; j < 9; j++)
-                checkboxesS.add(new Checkbox(rulesX + j * x, rulesY + i * y, 25));
+            for (int j = 1; j < 9; j++) {
+                //checkboxesS.add(new Checkbox(rulesX + j * x, rulesY + i * y, 25));
+            }
     }
 
     private void displayCheckboxes()
@@ -134,7 +135,7 @@ public class View
 
         displayLayout();
 
-        displayCheckboxes();
+        //displayCheckboxes();
 
         delaySlider = displaySlider();
 
@@ -363,7 +364,6 @@ public class View
             startj = Game.GRIDSIZE - rows;
             yoff = startj * a * 2;
         }
-
         float x = gridX + (float) (xoff);
         float y = gridY - a * s / 2 + (float) (yoff);
 
@@ -394,15 +394,18 @@ public class View
         columns=(int)(columns*1.2);
         rows=(int)(rows*1.2);
 
+
         if (starti < 0) starti = 0;
         if (startj < 0) startj = 0;
         if (starti + columns >= Game.GRIDSIZE)
         {
             starti = Game.GRIDSIZE - columns;
+            xoff =  starti * a * s;
         }
         if (startj + rows >= Game.GRIDSIZE)
         {
             startj = Game.GRIDSIZE - rows;
+            yoff = startj * a * 2;
         }
 
 
@@ -635,4 +638,5 @@ public class View
     public void clearScreen() {
         window.clear();
     }
+
 }

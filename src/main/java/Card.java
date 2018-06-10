@@ -66,4 +66,16 @@ public class Card {
     {
         grid.moveGrid(x,y);
     }
+
+    public void setRule(int alive, int number, boolean rule){
+        rules[alive][number] = rule;
+    }
+
+    public boolean getRule(int alive, int number){
+        return rules[alive][number];
+    }
+
+    public int getRulesSize(){
+        return rules[0].length;
+    }
 }

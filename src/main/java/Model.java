@@ -41,22 +41,36 @@ public class Model {
 
     public void draw(int codedPosition) {
         int y = codedPosition % Game.GRIDSIZE;
-        cards.get(cardIndex).draw((codedPosition - y)/Game.GRIDSIZE,y);
+        cards.get(cardIndex).draw((codedPosition - y) / Game.GRIDSIZE, y);
     }
 
-    public void pause(){
+    public void pause() {
         cards.get(cardIndex).switchPause();
     }
 
-    public void incZoom(int offset, double[] mousePosition){
+    public void incZoom(int offset, double[] mousePosition) {
         cards.get(cardIndex).incZoom(offset, mousePosition);
     }
-    public void moveGrid(double x, double y)
-    {
-        cards.get(cardIndex).moveGrid(x,y);
+
+    public void moveGrid(double x, double y) {
+        cards.get(cardIndex).moveGrid(x, y);
     }
 
-    public int getCardsAmount(){
+    public int getCardsAmount() {
         return cards.size();
     }
+
+    public void setRule(int alive, int number, boolean state) {
+        cards.get(cardIndex).setRule(alive, number, state);
+    }
+
+    public boolean getRule(int alive, int number) {
+        return cards.get(cardIndex).getRule(alive, number);
+    }
+
+    public int getRuleSize() {
+        return cards.get(cardIndex).getRulesSize();
+    }
+
+
 }

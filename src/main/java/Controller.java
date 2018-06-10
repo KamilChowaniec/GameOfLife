@@ -9,12 +9,15 @@ public class Controller {
     private Model model;
     private int codedPos = -1;
     private ArrayList<Button> cardButtons;
+    private Checkbox[][] rulesCheckboxes;
 
     public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
         cardButtons = new ArrayList<>();
+        rulesCheckboxes = new Checkbox[2][13];
         initButtons();
+        initCheckboxes();
     }
 
     public void run() {
@@ -27,22 +30,26 @@ public class Controller {
         }
     }
 
-    private void clearScreen(){
+    private void clearScreen() {
         view.clearScreen();
     }
 
-    private void update(){
+    private void update() {
         model.update();
     }
 
-    private void display(){
+    private void display() {
         codedPos = view.display(model.getGridValues());
-        for(Button button : cardButtons) button.display();
+        for (Button button : cardButtons) button.display();
+        for (Checkbox[] checkbox : rulesCheckboxes)
+            for (int i = 0; i < model.getRuleSize(); i++)
+                checkbox[i].draw();
         view.display();
     }
 
     private void handleEvents() {
         handleButtons();
+        handleCheckboxes();
         if (KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE))
             view.closeWindow();
         if (KeyboardHandler.isKeyClicked(GLFW_KEY_SPACE))
@@ -64,19 +71,15 @@ public class Controller {
                 addCard(gridType.Hexagonal);
 
         }
-        if(MouseButtonsHandler.isKeyClicked(GLFW_MOUSE_BUTTON_LEFT)){
-            if(codedPos!=-1)model.draw(codedPos);
+        if (MouseButtonsHandler.isKeyClicked(GLFW_MOUSE_BUTTON_LEFT)) {
+            if (codedPos != -1) model.draw(codedPos);
         }
-        model.incZoom((int)ScrollHandler.wheelMovement(),MouseHandler.getMousePosition());
+        model.incZoom((int) ScrollHandler.wheelMovement(), MouseHandler.getMousePosition());
 
-     //   model.
-        if (MouseButtonsHandler.isKeyDown(GLFW_MOUSE_BUTTON_MIDDLE))
-        {
-            model.moveGrid(MouseHandler.xRel(),MouseHandler.yRel());
+        //   model.
+        if (MouseButtonsHandler.isKeyDown(GLFW_MOUSE_BUTTON_MIDDLE)) {
+            model.moveGrid(MouseHandler.xRel(), MouseHandler.yRel());
         }
-
-
-
 
 
         KeyboardHandler.clear();
@@ -85,26 +88,71 @@ public class Controller {
         MouseHandler.clear();
     }
 
-    private void initButtons(){
-        addCardButton(404, 2, 150, 30,"" + model.getCardsAmount(),()->model.setCardIndex(0));
+    private void initButtons() {
+        addCardButton(404, 2, 150, 30, "Hexagonal", () -> model.setCardIndex(0));
     }
 
-    private void addCardButton(int x, int y, int width, int height, String text, ButtonHandler handler){
-        cardButtons.add(new Button(x,y,width,height,text,handler,0.5f,0.5f,0.5f));
+    private void initCheckboxes() {
+        for (int i = 0; i < 2; i++)
+            for (int j = 0; j < 13; j++) {
+                int x = i;
+                int y = j;
+                rulesCheckboxes[i][j] = new Checkbox(view.gridX + view.gridWidth + 20 + 40 * j, view.gridY + 50 + i * 40, 25, (state) -> model.setRule(x, y, state));
+            }
+        setRulesCheckboxes();
     }
-    private void handleButtons(){
-        if(MouseButtonsHandler.isKeyClicked(GLFW_MOUSE_BUTTON_LEFT)){
-            for(Button button : cardButtons){
-                if(button.isFocused((int)MouseHandler.xPos(),(int)MouseHandler.yPos())){
+
+    private void setRulesCheckboxes() {
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < model.getRuleSize(); j++) {
+                rulesCheckboxes[i][j].setState(model.getRule(i, j));
+            }
+        }
+    }
+
+    private void addCardButton(int x, int y, int width, int height, String text, ButtonHandler handler) {
+        cardButtons.add(new Button(x, y, width, height, text, handler, 0.5f, 0.5f, 0.5f));
+    }
+
+    private void handleButtons() {
+        if (MouseButtonsHandler.isKeyClicked(GLFW_MOUSE_BUTTON_LEFT)) {
+            for (Button button : cardButtons) {
+                if (button.isFocused((int) MouseHandler.xPos(), (int) MouseHandler.yPos())) {
                     button.press();
+                    setRulesCheckboxes();
                 }
             }
         }
     }
 
-    private void addCard(gridType type){
+    private void handleCheckboxes() {
+        if (MouseButtonsHandler.isKeyClicked(GLFW_MOUSE_BUTTON_LEFT)) {
+            for (Checkbox[] checkbox : rulesCheckboxes)
+                for (int i = 0; i < model.getRuleSize(); i++) {
+                    if (checkbox[i].isFocused((int) MouseHandler.xPos(), (int) MouseHandler.yPos())) {
+                        checkbox[i].press();
+                    }
+                }
+        }
+    }
+
+    private void addCard(gridType type) {
+
         model.addCard(type);
-        int n = model.getCardsAmount()-1;
-        addCardButton(cardButtons.get(cardButtons.size()-1).getX()+cardButtons.get(cardButtons.size()-1).getWidth()+2,cardButtons.get(cardButtons.size()-1).getY(),cardButtons.get(cardButtons.size()-1).getWidth(),cardButtons.get(cardButtons.size()-1).getHeight(),"" + cardButtons.size()+1,()->model.setCardIndex(n));
+        String name = "";
+        int n = model.getCardsAmount() - 1;
+        switch (type) {
+            case Squared:
+                name = "Squared";
+                break;
+            case Triangular:
+                name = "Triangular";
+                break;
+            case Hexagonal:
+                name = "Hexagonal";
+                break;
+        }
+        addCardButton(cardButtons.get(cardButtons.size() - 1).getX() + cardButtons.get(cardButtons.size() - 1).getWidth() + 2, cardButtons.get(cardButtons.size() - 1).getY(), cardButtons.get(cardButtons.size() - 1).getWidth(), cardButtons.get(cardButtons.size() - 1).getHeight(), name, () -> model.setCardIndex(n));
+        setRulesCheckboxes();
     }
 }

@@ -24,7 +24,7 @@ public class Button implements Positionable {
         this.r=r;
         this.g=g;
         this.b=b;
-        t=new Text(x+width/2,y+height/2 + (int)Text.getFontHeight()/2,text, 1.0f,1f,1);
+        t=new Text(x,y+height/2 + (int)Text.getFontHeight()/2,text, 1.0f,1f,1);
     }
 
     public boolean isFocused(int mx, int my) {

@@ -2,7 +2,7 @@ public abstract class Grid {
     protected CellProperties[][] cellProperties;
     protected boolean[][] alive;
     protected boolean[][] buffer;
-    private int zoom=0;
+    private int zoom=10;
     private double xoff=0, yoff=0;
 
     Grid() {
