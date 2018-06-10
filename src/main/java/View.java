@@ -27,15 +27,7 @@ public class View
     private int hi = 0;
     private int hj = 0;
 
-    private float squaredPrevZoom = 2;
-    private double sqX = 0;
-    private double sqY = 0;
-    private int isq = 0;
-    private int jsq = 0;
-    private float oldX = 0;
-    private float oldY = 0;
-    private int si = 0;
-    private int sj = 0;
+
 
 
     private float triangularPrevZoom = 4;
@@ -131,7 +123,7 @@ public class View
         //shapes.elementAt(1).setColor(0, 0, 0, 1);
         //shapes.elementAt(2).setColor(0.5f, 0.5f, 0.5f, 0.5f);
 
-        // displayMask();
+
 
         displayLayout();
 
@@ -195,9 +187,10 @@ public class View
     public int display(Grid grid)
     {
         int codedPosition = -1;
-        if (grid instanceof Squared) codedPosition = displaySquared(grid);
+        if (grid instanceof Squared) codedPosition = grid.display(gridX,gridY,gridWidth,gridHeight);
         else if (grid instanceof Triangular) codedPosition = displayTriangular(grid);
         else if (grid instanceof Hexagonal) codedPosition = displayHexagonal(grid);
+        displayMask();
         return codedPosition;
     }
 
@@ -513,110 +506,7 @@ public class View
     }
 
 
-    private int displaySquared(Grid grid) {
-        double mouseX = MouseHandler.xPos();
-        double mouseY = MouseHandler.yPos();
-        double xoff=grid.getXoff();
-        double yoff=grid.getYoff();
 
-        int codedPosition = -1;
-        glColor3f(0.8f, 0.8f, 0.8f);
-        float size = 2 + grid.getZoom();
-
-
-        int columns = (int) (1*Game.GRIDSIZE / size)+2;
-        int rows = (int) (1*Game.GRIDSIZE / size)+2;
-
-        double starti = 1*((-xoff) / size);
-        double startj =  1*((-yoff) / size);
-        if(starti<0)starti=0;
-        if(startj<0)startj=0;
-        if(starti + columns >= Game.GRIDSIZE) {
-            starti = Game.GRIDSIZE - columns;
-            xoff = -1*starti*size;
-        }
-        if(startj + rows >= Game.GRIDSIZE) {
-            startj = Game.GRIDSIZE - rows;
-            yoff = -1*startj*size;
-        }
-
-        float x = gridX + (float) (xoff);
-        float y = gridY - size + (float) (yoff);
-
-
-
-        if(squaredPrevZoom!=size)
-        {
-            double newX= x + isq * size;
-            double newY= y + jsq * size;
-            sqX=oldX-newX;
-            sqY=oldY-newY;
-
-            si=(int)(sqX/size);
-            sj=(int)(sqY/size);
-
-            //   sqX=(isq-starti)*(squaredPrevZoom-size);
-            //   sqY=(jsq-startj)*(squaredPrevZoom-size);
-
-            squaredPrevZoom=size;
-
-        }
-        x+=sqX;
-        y+=sqY;
-
-        starti-=si;
-        startj-=sj;
-
-
-        if(starti<0)starti=0;
-        if(startj<0)startj=0;
-        if(starti + columns >= Game.GRIDSIZE) {
-            starti = Game.GRIDSIZE - columns;
-        }
-        if(startj + rows >= Game.GRIDSIZE) {
-            startj = Game.GRIDSIZE - rows;
-        }
-
-
-
-        if((x + starti * size)>gridX) // jesli pierwszy wyswietlany cell ma wyswietlic sie za bardzo na prawo to
-            x+=(gridX-x + starti * size); // przesun wszystkie na poczatek
-
-        if((y + startj * size)>gridY)
-            y+=(gridY-y + startj * size);
-
-
-
-        for (int i = (int)starti; i < columns + starti; i++)
-            for (int j = (int)startj; j < rows + startj;j++)
-                Rectangle.display(x + i * size, y + j * size, size, size, grid.isCellAlive(i, j));
-
-        //i
-        // M = x + i * size
-        // i = (M-x)/size
-
-        //j
-        // M = y + j * size
-        // j = (M-x)/size
-
-
-
-        if (mouseX > gridX && mouseX < (gridX + gridWidth)) {
-            if (mouseY > gridY && mouseY < (gridY + gridHeight)) {
-                int i = (int) ((mouseX - x) / size);
-                int j = (int) ((mouseY - y) / size);
-                glColor3f(0, 1, 0);
-                Rectangle.display(x + i * size, y + j * size, size, size, grid.isCellAlive(i, j));
-                codedPosition = Game.GRIDSIZE * i + j;
-
-                isq=i;
-                jsq=j;
-                oldX=x + i * size;
-                oldY=y + j * size;
-            }
-        }
-        return codedPosition;
-    }
     private double radius(double x1, double y1, double x2, double y2)
     {
         return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));

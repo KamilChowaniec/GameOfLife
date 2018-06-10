@@ -40,11 +40,12 @@ public class Controller {
 
     private void display() {
         codedPos = view.display(model.getGridValues());
-        for (Button button : cardButtons) button.display();
+
         for (Checkbox[] checkbox : rulesCheckboxes)
             for (int i = 0; i < model.getRuleSize(); i++)
                 checkbox[i].draw();
         view.display();
+        for (Button button : cardButtons) button.display();
     }
 
     private void handleEvents() {

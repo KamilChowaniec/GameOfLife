@@ -48,4 +48,10 @@ public class Triangular extends Grid {
         }
         return neighbors - (alive[x][y] ? 1 : 0);
     }
+
+    @Override
+    public int display(int gridX, int gridY, int gridWidth, int gridHeight)
+    {
+        return 0;
+    }
 }
