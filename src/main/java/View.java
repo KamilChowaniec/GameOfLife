@@ -15,11 +15,28 @@ public class View {
     private int gridX = 404, gridY = 34, gridWidth = 1114, gridHeight = 1044, delaySlider = 0;   //zoom w przedziale [0,100] -  ustawiany na sliderze
     private int rulesX = 1520, rulesY = 2, rulesWidth = 400, rulesHeight = 535;
     private Slider zoomSlider;
+
+
     private float pZoom=1;
     private double hexX=0;
     private double hexY=0;
     private int ii=0;
     private int jj=0;
+    private int hi=0;
+    private int hj=0;
+    private float oldhX=0;
+    private float oldhY=0;
+
+    private float squaredPrevZoom=2;
+    private double sqX=0;
+    private double sqY=0;
+    private int isq=0;
+    private int jsq=0;
+    private float oldX=0;
+    private float oldY=0;
+    private int si=0;
+    private int sj=0;
+
 //    private double xoff = 0;
 //    private double yoff = 0;
 
@@ -176,23 +193,6 @@ public class View {
         int columns = (int) (1.2*Game.GRIDSIZE / a / s);
         int rows = (int) (1.2*Game.GRIDSIZE / a / 2);
 
-/*
-        int am = grid.getZoomAmount();
-        if(am>0){
-            xoff -= am*a*s*(mouseX - (gridX + gridWidth/2))/(gridWidth/2);
-            yoff -= am*a*2*(mouseY - (gridY + gridHeight/2))/(gridHeight/2);
-            xoff+=1000;
-            System.out.println("eloooo");
-        }
-        else if(am<0){
-        }
-*/
-
-
-
-
-
-
 
 
         double starti = 1.15*((-xoff) / a / s);
@@ -214,31 +214,34 @@ public class View {
 
         if(pZoom!=a)
         {
-            double oldX=x + 3 * ii * pZoom / 2;
-            double oldY=y + jj * pZoom * s + (ii % 2) * pZoom * s / 2;
-            double newX=x + 3 * ii * a / 2;
-            double newY=y + jj * a * s + (ii % 2) * a * s / 2;
+            double oldX= 3 * ii * pZoom / 2;
+            double oldY= jj * pZoom * s + (ii % 2) * pZoom * s / 2;
+            double newX= 3 * ii * a / 2;
+            double newY=jj * a * s + (ii % 2) * a * s / 2;
 
 
-            hexX=oldX-newX;
-            hexY=oldY-newY;
+            hexX=(oldhX-newX);
+            hexY=(oldhY-newY);
+
+            hi=(int)(hexX/a);
+            hj=(int)(hexY/a);
             pZoom=a;
         }
-
         x+=hexX;
         y+=hexY;
 
 
+        starti-=hi;
+        startj-=hj;
 
-
-
-
-
-
-
-
-
-
+        if(starti<0)starti=0;
+        if(startj<0)startj=0;
+        if(starti + columns >= Game.GRIDSIZE) {
+            starti = Game.GRIDSIZE - columns;
+        }
+        if(startj + rows >= Game.GRIDSIZE) {
+            startj = Game.GRIDSIZE - rows;
+        }
 
 
 
@@ -320,12 +323,16 @@ public class View {
                 t.setTxt(i+" "+j+"  "+Double.toString(MouseHandler.xPos())+"  "+Double.toString(MouseHandler.yPos()));
                 ii=i;
                 jj=j;
+                oldhX=x + 3 * i * a / 2;
+                oldhY=y + j * a * s + (i % 2) * a * s / 2;
             }
         }
         return codedPosition;
     }
 
     private int displaySquared(Grid grid) {
+        double mouseX = MouseHandler.xPos();
+        double mouseY = MouseHandler.yPos();
         double xoff=grid.getXoff();
         double yoff=grid.getYoff();
 
@@ -354,6 +361,44 @@ public class View {
         float y = gridY - size + (float) (yoff);
 
 
+
+
+
+
+
+        if(squaredPrevZoom!=size)
+        {
+            double newX= x + isq * size;
+            double newY= y + jsq * size;
+            sqX=oldX-newX;
+            sqY=oldY-newY;
+
+            si=(int)(sqX/size);
+            sj=(int)(sqY/size);
+
+         //   sqX=(isq-starti)*(squaredPrevZoom-size);
+         //   sqY=(jsq-startj)*(squaredPrevZoom-size);
+
+            squaredPrevZoom=size;
+
+        }
+        x+=sqX;
+        y+=sqY;
+
+        starti-=si;
+        startj-=sj;
+
+
+        if(starti<0)starti=0;
+        if(startj<0)startj=0;
+        if(starti + columns >= Game.GRIDSIZE) {
+            starti = Game.GRIDSIZE - columns;
+        }
+        if(startj + rows >= Game.GRIDSIZE) {
+            startj = Game.GRIDSIZE - rows;
+        }
+
+
         for (int i = (int)starti; i < columns + starti; i++)
             for (int j = (int)startj; j < rows + startj;j++)
                 Rectangle.display(x + i * size, y + j * size, size, size, grid.isCellAlive(i, j));
@@ -367,8 +412,7 @@ public class View {
         // j = (M-x)/size
 
 
-        double mouseX = MouseHandler.xPos();
-        double mouseY = MouseHandler.yPos();
+
         if (mouseX > gridX && mouseX < (gridX + gridWidth)) {
             if (mouseY > gridY && mouseY < (gridY + gridHeight)) {
                 int i = (int) ((mouseX - x) / size);
@@ -376,6 +420,11 @@ public class View {
                 glColor3f(0, 1, 0);
                 Rectangle.display(x + i * size, y + j * size, size, size, grid.isCellAlive(i, j));
                 codedPosition = Game.GRIDSIZE * i + j;
+
+                isq=i;
+                jsq=j;
+                oldX=x + i * size;
+                oldY=y + j * size;
             }
         }
         return codedPosition;
