@@ -73,10 +73,10 @@ public abstract class Grid {
 
     public void moveGrid(double x, double y)
     {
-            this.xoff +=x;
-            if (this.xoff > 0) this.xoff = 0;
-            this.yoff += y;
-            if (this.yoff > 0) this.yoff = 0;
+        this.xoff +=x;
+        if (this.xoff > 0) this.xoff = 0;
+        this.yoff += y;
+        if (this.yoff > 0) this.yoff = 0;
     }
 
     public double getXoff() {return xoff;}
@@ -90,8 +90,4 @@ public abstract class Grid {
         this.yoff = yoff;
     }
 }
-
-
-
-
 

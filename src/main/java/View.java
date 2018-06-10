@@ -213,26 +213,28 @@ public class View
         float s = (float) Math.sqrt(3);
 
 
-        int columns = (int) (Game.GRIDSIZE * 2 / a) + 1;
+        int columns = (int) (Game.GRIDSIZE * 2 / a) + 5;
         int rows = (int) (Game.GRIDSIZE / a * s) + 5;
 
         double starti = ((-xoff) * 2 / a);
-        double startj = ((-yoff) / a);
+        double startj = ((-yoff) / a*s); //*s?
         if (starti < 0) starti = 0;
         if (startj < 0) startj = 0;
         if (starti + columns >= Game.GRIDSIZE)
         {
             starti = Game.GRIDSIZE - columns;
-            xoff = -1 * starti * a / 2;
+            xoff =  starti * a / 2; //*-1?
         }
         if (startj + rows >= Game.GRIDSIZE)
         {
             startj = Game.GRIDSIZE - rows;
-            yoff = -1 * startj * a;
+            yoff =  startj * a/s; //*-1?
         }
 
         float x = gridX + (float) (xoff);
-        float y = gridY - a * s / 2 + (float) (yoff);
+        float y = gridY - a * s / 2 + (float) (yoff); // -a*s/2 ?
+
+
 
 
         if (triangularPrevZoom != a)
@@ -241,12 +243,12 @@ public class View
             double newX = x + it * a / 2 + (jt % 2) * a / 2;
             double newY = y + jt * a * s / 2;
 
+
             tX = (oldtX - newX);
             tY = (oldtY - newY);
 
-            ti = (int) (tX / a*2);
-            tj = (int) (tY / a);
-
+            ti = (int) (tX * 2 / a);
+            tj = (int) (tY * s / a);
             triangularPrevZoom = a;
 
         }
@@ -256,7 +258,6 @@ public class View
         starti -= ti;
         startj -= tj;
 
-
         if (starti < 0) starti = 0;
         if (startj < 0) startj = 0;
         if (starti + columns >= Game.GRIDSIZE)
@@ -268,6 +269,12 @@ public class View
             startj = Game.GRIDSIZE - rows;
         }
 
+
+        if((x + starti * a / 2 +  a)>gridX) // jesli pierwszy wyswietlany cell ma wyswietlic sie za bardzo na prawo to
+            x+=(gridX-x + starti * a / 2 + a); // przesun wszystkie na poczatek
+
+        if((y + startj * a * s / 2)>gridY)
+            y+=(gridY-y + startj * a * s / 2);
 
         for (int i = (int) starti; i < columns + starti; i++)
             for (int j = (int) startj; j < rows + startj; j++)
@@ -296,13 +303,13 @@ public class View
                 double dh2 = (i % 2) == 0 ? Math.sqrt(3.) * a / 6. : Math.sqrt(3.) * a / 3.;
                 double yyy = (y + j * a * s / 2) + dh;
                 double yyy2 = (y + j * a * s / 2) + dh2;
-                // srodek lewego somsiada =p  xL , yyy
+                // srodek lewego sasiada =p  xL , yyy
                 double xL = xM - a / 2;
-                // srodek prawego somsiada =  xR , yyy
+                // srodek prawego sasiada =  xR , yyy
                 double xR = xM + a / 2;
 
                 double rM = radius(mouseX, mouseY, xM, yyy);
-                ;// odleglosc myszki od srodka wybranego
+                // odleglosc myszki od srodka wybranego
                 double rL = radius(mouseX, mouseY, xL, yyy2); // odleglosc myszki od srodka lewego sasiada
                 double rR = radius(mouseX, mouseY, xR, yyy2);// odleglosc myszki od srodka prawego sasiada
 
@@ -323,9 +330,9 @@ public class View
 
 
                 glColor3f(0, 1, 0);
-                Triangle.display(x + i * a / 2 + (j % 2) * a / 2, y + j * a * s / 2, a, (i % 2) > 0, grid.isCellAlive((i + (j % 2)) % Game.GRIDSIZE, j));
+                Triangle.display(x + i * a / 2 + (j % 2) * a / 2, y + j * a * s / 2, a, (i % 2) > 0, false/*grid.isCellAlive((i + (j % 2)) % Game.GRIDSIZE, j)*/);
                 codedPosition = Game.GRIDSIZE * (i + j % 2) + j;
-
+                t.setTxt(i + " " + j + "  " + Double.toString(MouseHandler.xPos()) + "  " + Double.toString(MouseHandler.yPos()));
                 it = i;
                 jt = j;
                 oldtX = x + i * a / 2 + (j % 2) * a / 2;
@@ -347,8 +354,8 @@ public class View
         float a = 1 + grid.getZoom();
         float s = (float) Math.sqrt(3);
 
-        int columns = (int) ( Game.GRIDSIZE / a / s);
-        int rows = (int) (Game.GRIDSIZE / a / 2);
+        int columns = (int) ( Game.GRIDSIZE / a / s)+10;
+        int rows = (int) (Game.GRIDSIZE / a / 2)+10;
 
         double starti =  ((-xoff) / a / s);
         double startj =  ((-yoff) / a / 2);
@@ -364,6 +371,7 @@ public class View
             startj = Game.GRIDSIZE - rows;
             yoff = startj * a * 2;
         }
+
         float x = gridX + (float) (xoff);
         float y = gridY - a * s / 2 + (float) (yoff);
 
@@ -389,25 +397,27 @@ public class View
         startj -= hj;
 
         starti=(int)starti*1.15;
-        startj=(int)startj*1.15;
+        startj=(int)startj*1.15-3;
 
         columns=(int)(columns*1.2);
         rows=(int)(rows*1.2);
-
 
         if (starti < 0) starti = 0;
         if (startj < 0) startj = 0;
         if (starti + columns >= Game.GRIDSIZE)
         {
             starti = Game.GRIDSIZE - columns;
-            xoff =  starti * a * s;
         }
         if (startj + rows >= Game.GRIDSIZE)
         {
             startj = Game.GRIDSIZE - rows;
-            yoff = startj * a * 2;
         }
 
+        if((x + 3 * starti * a / 2)>gridX) // jesli pierwszy wyswietlany cell ma wyswietlic sie za bardzo na prawo to
+            x+=(gridX-x + 3 * starti * a / 2); // przesun wszystkie na poczatek
+
+        if((y + startj * a * s + (starti % 2) * a * s / 2)>gridY)
+            y+=(gridY-y + startj * a * s + (starti % 2) * a * s / 2);
 
         for (int i = (int) starti; i < columns + starti; i++)
             for (int j = (int) startj; j < rows + startj; j++)
@@ -503,8 +513,6 @@ public class View
     }
 
 
-
-
     private int displaySquared(Grid grid) {
         double mouseX = MouseHandler.xPos();
         double mouseY = MouseHandler.yPos();
@@ -516,8 +524,8 @@ public class View
         float size = 2 + grid.getZoom();
 
 
-        int columns = (int) (1*Game.GRIDSIZE / size);
-        int rows = (int) (1*Game.GRIDSIZE / size);
+        int columns = (int) (1*Game.GRIDSIZE / size)+2;
+        int rows = (int) (1*Game.GRIDSIZE / size)+2;
 
         double starti = 1*((-xoff) / size);
         double startj =  1*((-yoff) / size);
@@ -570,6 +578,15 @@ public class View
         }
 
 
+
+        if((x + starti * size)>gridX) // jesli pierwszy wyswietlany cell ma wyswietlic sie za bardzo na prawo to
+            x+=(gridX-x + starti * size); // przesun wszystkie na poczatek
+
+        if((y + startj * size)>gridY)
+            y+=(gridY-y + startj * size);
+
+
+
         for (int i = (int)starti; i < columns + starti; i++)
             for (int j = (int)startj; j < rows + startj;j++)
                 Rectangle.display(x + i * size, y + j * size, size, size, grid.isCellAlive(i, j));
@@ -600,7 +617,6 @@ public class View
         }
         return codedPosition;
     }
-
     private double radius(double x1, double y1, double x2, double y2)
     {
         return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
