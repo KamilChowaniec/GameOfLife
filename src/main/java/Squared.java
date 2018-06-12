@@ -1,5 +1,6 @@
 import graphics.Input.MouseHandler;
 import graphics.Rectangle;
+import graphics.Text;
 
 import static org.lwjgl.opengl.GL11.glColor3f;
 
@@ -41,79 +42,39 @@ public class Squared extends Grid {
     public int display(int gridX, int gridY, int gridWidth, int gridHeight) {
         double mouseX = MouseHandler.xPos();
         double mouseY = MouseHandler.yPos();
-        double xoff=this.getXoff();
-        double yoff=this.getYoff();
+        double xoff = this.getXoff();
+        double yoff = this.getYoff();
 
         int codedPosition = -1;
         glColor3f(0.8f, 0.8f, 0.8f);
-        float size = 2 + this.getZoom();
+        float size = 10;
 
 
-        int columns = (int) (1*Game.GRIDSIZE / size)+2;
-        int rows = (int) (1*Game.GRIDSIZE / size)+2;
+        int columns = (int) (gridWidth / size)+1;
+        int rows = (int) (gridHeight / size)+1 ;
 
-        double starti = 1*((-xoff) / size);
-        double startj =  1*((-yoff) / size);
-        if(starti<0)starti=0;
-        if(startj<0)startj=0;
-        if(starti + columns >= Game.GRIDSIZE) {
+
+        if(xoff>0) xoff=0;
+        if(yoff>0) yoff=0;
+        double starti = ((-xoff) / size);
+        double startj = ((-yoff) / size);
+        if (starti < 0) starti = 0;
+        if (startj < 0) startj = 0;
+        if (starti + columns >= Game.GRIDSIZE) {
             starti = Game.GRIDSIZE - columns;
-            xoff = -1*starti*size;
+            xoff = -starti * size;
         }
-        if(startj + rows >= Game.GRIDSIZE) {
+        if (startj + rows >= Game.GRIDSIZE) {
             startj = Game.GRIDSIZE - rows;
-            yoff = -1*startj*size;
+            yoff = -startj * size;
         }
 
         float x = gridX + (float) (xoff);
-        float y = gridY - size + (float) (yoff);
+        float y = gridY + (float) (yoff);
 
 
-
-        if(squaredPrevZoom!=size)
-        {
-            double newX= x + isq * size;
-            double newY= y + jsq * size;
-            sqX=oldX-newX;
-            sqY=oldY-newY;
-
-            si=(int)(sqX/size);
-            sj=(int)(sqY/size);
-
-            //   sqX=(isq-starti)*(squaredPrevZoom-size);
-            //   sqY=(jsq-startj)*(squaredPrevZoom-size);
-
-            squaredPrevZoom=size;
-
-        }
-        x+=sqX;
-        y+=sqY;
-
-        starti-=si;
-        startj-=sj;
-
-
-        if(starti<0)starti=0;
-        if(startj<0)startj=0;
-        if(starti + columns >= Game.GRIDSIZE) {
-            starti = Game.GRIDSIZE - columns;
-        }
-        if(startj + rows >= Game.GRIDSIZE) {
-            startj = Game.GRIDSIZE - rows;
-        }
-
-
-
-        if((x + starti * size)>gridX) // jesli pierwszy wyswietlany cell ma wyswietlic sie za bardzo na prawo to
-            x+=(gridX-x + starti * size); // przesun wszystkie na poczatek
-
-        if((y + startj * size)>gridY)
-            y+=(gridY-y + startj * size);
-
-
-
-        for (int i = (int)starti; i < columns + starti; i++)
-            for (int j = (int)startj; j < rows + startj;j++)
+        for (int i = (int) starti; i < columns + starti; i++)
+            for (int j = (int) startj; j < rows + startj; j++)
                 Rectangle.display(x + i * size, y + j * size, size, size, this.isCellAlive(i, j));
 
         //i
@@ -125,7 +86,6 @@ public class Squared extends Grid {
         // j = (M-x)/size
 
 
-
         if (mouseX > gridX && mouseX < (gridX + gridWidth)) {
             if (mouseY > gridY && mouseY < (gridY + gridHeight)) {
                 int i = (int) ((mouseX - x) / size);
@@ -134,12 +94,18 @@ public class Squared extends Grid {
                 Rectangle.display(x + i * size, y + j * size, size, size, false);
                 codedPosition = Game.GRIDSIZE * i + j;
 
-                isq=i;
-                jsq=j;
-                oldX=x + i * size;
-                oldY=y + j * size;
+                isq = i;
+                jsq = j;
+                oldX = x + i * size;
+                oldY = y + j * size;
+                Text t=new Text(100,100,"adsafds",1,1,1);
+                t.setTxt(i + " " + j);
+                t.display();
             }
         }
+
+
+
         return codedPosition;
     }
 }
