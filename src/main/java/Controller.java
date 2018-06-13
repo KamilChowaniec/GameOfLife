@@ -153,7 +153,14 @@ public class Controller {
                 name = "Hexagonal";
                 break;
         }
-        addCardButton(cardButtons.get(cardButtons.size() - 1).getX() + cardButtons.get(cardButtons.size() - 1).getWidth() + 2, cardButtons.get(cardButtons.size() - 1).getY(), cardButtons.get(cardButtons.size() - 1).getWidth(), cardButtons.get(cardButtons.size() - 1).getHeight(), name, () -> model.setCardIndex(n));
+        addCardButton(
+                cardButtons.get(cardButtons.size() - 1).getX() + cardButtons.get(cardButtons.size() - 1).getWidth() + 2,
+                cardButtons.get(cardButtons.size() - 1).getY(),
+                cardButtons.get(cardButtons.size() - 1).getWidth(),
+                cardButtons.get(cardButtons.size() - 1).getHeight(),
+                name,
+                () -> model.setCardIndex(n)
+        );
         setRulesCheckboxes();
     }
 }
