@@ -12,3 +12,4 @@ public abstract class Shape implements Displayable
         c.setA(a);
     }
 }
+

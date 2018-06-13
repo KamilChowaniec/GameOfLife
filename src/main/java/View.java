@@ -1,4 +1,5 @@
 import graphics.*;
+import graphics.Color;
 import graphics.Input.MouseButtonsHandler;
 import graphics.Input.MouseHandler;
 
@@ -170,6 +171,9 @@ public class View
         double newX = 0, newY = 0;
         float cellWidth = 0, cellHeight = 0;
 
+        Color lineColor=new Color(0.2f,0.2f,0.2f,1);
+        Color fillColor=new Color(0.8f,0.8f,0.8f,1);
+
         if (grid instanceof Squared)
         {
             gridType = 0;
@@ -263,12 +267,18 @@ public class View
             startj = 0;
             grid.setYoff(-grid.getDiffY());
         }
-
+        glColor3f(fillColor.getR(), fillColor.getG(), fillColor.getB());
         if (gridType == 0)
         {
             for (int i = (int) starti; i < columns + starti; i++)
                 for (int j = (int) startj; j < rows + startj; j++)
-                    Rectangle.display(x + i * a, y + j * a, a, a, grid.isCellAlive(i, j));
+                    if(grid.isCellAlive(i, j)) Rectangle.display(x + i * a, y + j * a, a, a, true);
+
+            glColor3f(lineColor.getR(), lineColor.getG(), lineColor.getB());
+
+            for (int i = (int) starti; i < columns + starti; i++)
+                for (int j = (int) startj; j < rows + startj; j++)
+                    Rectangle.display(x + i * a, y + j * a, a, a, false);
 
             if (mouseX > gridX && mouseX < (gridX + gridWidth))
             {
@@ -291,8 +301,12 @@ public class View
         {
             for (int i = (int) starti; i < columns + starti; i++)
                 for (int j = (int) startj; j < rows + startj; j++)
-                    Triangle.display(x + i * cellWidth + (j % 2) * cellWidth, y + j * cellHeight, a, (i % 2) > 0, grid.isCellAlive((i + (j % 2)) % Game.GRIDSIZE, j));
+                    if(grid.isCellAlive((i + (j % 2)) % Game.GRIDSIZE, j)) Triangle.display(x + i * cellWidth + (j % 2) * cellWidth, y + j * cellHeight, a, (i % 2) > 0, true);
 
+            glColor3f(lineColor.getR(), lineColor.getG(), lineColor.getB());
+            for (int i = (int) starti; i < columns + starti; i++)
+                for (int j = (int) startj; j < rows + startj; j++)
+                    Triangle.display(x + i * cellWidth + (j % 2) * cellWidth, y + j * cellHeight, a, (i % 2) > 0, false);
 
             if (mouseX > gridX && mouseX < (gridX + gridWidth))
             {
@@ -340,7 +354,12 @@ public class View
         {
             for (int i = (int) starti; i < columns + starti; i++)
                 for (int j = (int) startj; j < rows + startj; j++)
-                    Hexagon.display(x + i * cellWidth, y + j * cellHeight + (i % 2) * cellHeight / 2, a, grid.isCellAlive(i, j));
+                    if(grid.isCellAlive(i, j)) Hexagon.display(x + i * cellWidth, y + j * cellHeight + (i % 2) * cellHeight / 2, a, true);
+
+            glColor3f(lineColor.getR(), lineColor.getG(), lineColor.getB());
+            for (int i = (int) starti; i < columns + starti; i++)
+                for (int j = (int) startj; j < rows + startj; j++)
+                    Hexagon.display(x + i * cellWidth, y + j * cellHeight + (i % 2) * cellHeight / 2, a, false);
 
             if (mouseX > gridX && mouseX < (gridX + gridWidth))
             {
@@ -402,11 +421,11 @@ public class View
                     grid.setOldX(x + i * cellWidth);
                     grid.setOldY(y + j * cellHeight + (i % 2) * cellHeight / 2);
                     t.setTxt(i + " " + j);
-
                 }
             }
 
         }
+        glColor3f(1,1,1);
         return codedPosition;
     }
 
