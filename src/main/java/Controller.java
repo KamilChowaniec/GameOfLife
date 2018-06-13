@@ -10,19 +10,21 @@ public class Controller {
     private int codedPos = -1;
     private ArrayList<Button> cardButtons;
     private Checkbox[][] rulesCheckboxes;
+    private Slider delaySlider;
 
     public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
         cardButtons = new ArrayList<>();
         rulesCheckboxes = new Checkbox[2][13];
+        delaySlider = new Slider(view.rulesX + 50, view.rulesY + 400, 300, 10);
         initButtons();
         initCheckboxes();
     }
 
     public void run() {
 
-        while (view.shouldRun()){
+        while (view.shouldRun()) {
             handleEvents();
             update();
             display();
@@ -40,10 +42,12 @@ public class Controller {
             for (int i = 0; i < model.getRuleSize(); i++)
                 checkbox[i].draw();
         for (Button button : cardButtons) button.display();
+        delaySlider.draw();
         view.display();
     }
 
     private void handleEvents() {
+        handleSliders();
         handleButtons();
         handleCheckboxes();
         if (KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE))
@@ -68,9 +72,9 @@ public class Controller {
 
         }
         if (MouseButtonsHandler.isKeyDown(GLFW_MOUSE_BUTTON_LEFT))
-            if (codedPos != -1) model.draw(codedPos,true);
+            if (codedPos != -1) model.draw(codedPos, true);
         if (MouseButtonsHandler.isKeyDown(GLFW_MOUSE_BUTTON_RIGHT))
-            if (codedPos != -1) model.draw(codedPos,false);
+            if (codedPos != -1) model.draw(codedPos, false);
 
         model.incZoom((int) ScrollHandler.wheelMovement(), MouseHandler.getMousePosition());
 
@@ -84,6 +88,18 @@ public class Controller {
         MouseButtonsHandler.clear();
         ScrollHandler.clear();
         MouseHandler.clear();
+    }
+
+    private void handleSliders() {
+        if (delaySlider.isFocused((int) MouseHandler.xPos(), (int) MouseHandler.yPos()) && MouseButtonsHandler.isKeyDown(0) && !delaySlider.state()) {
+            delaySlider.changeState();
+        }
+        if (delaySlider.state()) {
+            if (!MouseButtonsHandler.isKeyDown(0)) delaySlider.changeState();
+            delaySlider.slide((int) MouseHandler.xPos());
+            model.setDelay(delaySlider.getPercent()*0.005);
+        }
+
     }
 
     private void initButtons() {
@@ -108,6 +124,10 @@ public class Controller {
         }
     }
 
+    private void setDelaySlider(){
+        delaySlider.setPercent((int)(model.getDelay()/0.005));
+    }
+
     private void addCardButton(int x, int y, int width, int height, String text, ButtonHandler handler) {
         cardButtons.add(new Button(x, y, width, height, text, handler, 0.5f, 0.5f, 0.5f));
     }
@@ -118,6 +138,7 @@ public class Controller {
                 if (button.isFocused((int) MouseHandler.xPos(), (int) MouseHandler.yPos())) {
                     button.press();
                     setRulesCheckboxes();
+                    setDelaySlider();
                 }
             }
         }
@@ -159,5 +180,6 @@ public class Controller {
                 () -> model.setCardIndex(n)
         );
         setRulesCheckboxes();
+        setDelaySlider();
     }
 }

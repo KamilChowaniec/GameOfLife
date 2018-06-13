@@ -44,6 +44,14 @@ public class Model {
         cards.get(cardIndex).draw((codedPosition - y) / Game.GRIDSIZE, y, state);
     }
 
+    public void setDelay(double delay){
+        cards.get(cardIndex).setDelay(delay);
+    }
+
+    public double getDelay() {
+        return cards.get(cardIndex).getDelay();
+    }
+
     public void pause() {
         cards.get(cardIndex).switchPause();
     }
