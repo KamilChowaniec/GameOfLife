@@ -17,16 +17,6 @@ public class View
     private int rulesX = 1520, rulesY = 2, rulesWidth = 400, rulesHeight = 535;
     private Slider zoomSlider;
 
-    private float hexagonalPrevZoom = 1;
-    private double hX = 0;
-    private double hY = 0;
-    private int ih = 0;
-    private int jh = 0;
-    private float oldhX = 0;
-    private float oldhY = 0;
-    private int hi = 0;
-    private int hj = 0;
-
     private float triangularPrevZoom = 4;
     private double tX = 0;
     private double tY = 0;
@@ -192,88 +182,7 @@ public class View
     }
 
 
-    private int displaySquared(Grid grid)
-    {
-        double mouseX = MouseHandler.xPos();
-        double mouseY = MouseHandler.yPos();
-        int codedPosition = -1;
-        float a = 2 + grid.getZoom();
-        float prevA = 2 + grid.getPrevZoom();
 
-        int columns = (int) (gridWidth / a)+1; // liczba kolumn = szerokosc pola/dlugosc boku
-        int rows = (int) (gridHeight / a)+1 ;
-
-        double xoff=grid.getXoff();
-        double yoff=grid.getYoff();
-
-        double starti = -xoff / a; // poczatkowy indeks komorki = przesuniecie/dlugosc boku
-        double startj = -yoff / a;
-
-        float x = gridX + (float) (xoff); // punkt startowy drukowania grida
-        float y = gridY + (float) (yoff);
-
-        if(prevA != a) // jesli zoom zostal zmieniony
-        {
-            double oldX = grid.getOldX(); // pozycja podswietlonego ze starym zoomem
-            double oldY = grid.getOldY();
-
-            double newX = x + grid.getHighlightedI() * a; // pozycja podswietlonego z nowym zoomem
-            double newY = y + grid.getHighlightedJ() * a;
-
-            grid.setDiffX(oldX - newX); // roznica miedzy starą a nową pozycją podswietlonego
-            grid.setDiffY(oldY - newY);
-
-            grid.setPrevZoom(a-2);
-        }
-
-        x+=grid.getDiffX();
-        y+=grid.getDiffY();
-
-        starti-=grid.getDiffX()/a;
-        startj-=grid.getDiffY()/a;
-
-        if(starti<0)
-        {
-            x+=starti*a;
-            starti=0;
-            //+ wyzerowac jeszcze offset scrolla
-        }
-        else if (starti + columns >= Game.GRIDSIZE)
-        { // jesli ostatni index komorki przekracza ilosc komorek
-            starti = Game.GRIDSIZE - columns;
-            x = gridX + (float)-starti * a; //- tutaj jednak x
-        }
-
-        if (startj + rows >= Game.GRIDSIZE)
-        {
-            startj = Game.GRIDSIZE - rows;
-            y = gridY + (float)-startj * a;// - tutaj jednak y
-        } else if(startj<0)
-        {
-            y += startj * a;
-            startj = 0;
-        }
-
-        for (int i = (int) starti; i < columns + starti; i++)
-            for (int j = (int) startj; j < rows + startj; j++)
-                Rectangle.display(x + i * a, y + j * a, a, a, grid.isCellAlive(i, j));
-        if (mouseX > gridX && mouseX < (gridX + gridWidth)) {
-            if (mouseY > gridY && mouseY < (gridY + gridHeight)) {
-                int i = (int) ((mouseX - x) / a);
-                int j = (int) ((mouseY - y) / a);
-                glColor3f(0, 1, 0);
-                Rectangle.display(x + i * a, y + j * a, a, a, false);
-                codedPosition = Game.GRIDSIZE * i + j;
-
-                grid.setHighlightedI(i);
-                grid.setHighlightedJ(j);
-                grid.setOldX(x + i * a);
-                grid.setOldY(y + j * a);
-                t.setTxt(i + " " + j);
-            }
-        }
-        return codedPosition;
-    }
 
 
     private int displayTriangular(Grid grid)
@@ -422,83 +331,93 @@ public class View
     {
         double mouseX = MouseHandler.xPos();
         double mouseY = MouseHandler.yPos();
+        int codedPosition = -1;
         double xoff = grid.getXoff();
         double yoff = grid.getYoff();
-        int codedPosition = -1;
         float a = 1 + grid.getZoom();
+        float prevA = 1 + grid.getPrevZoom();
         float s = (float) Math.sqrt(3);
 
-        int columns = (int) (gridWidth / a / 1.5) + 1;
-        int rows = (int) (gridHeight / a / s) + 1;
+        float cellWidth=a*1.5f;
+        float cellHeight=a*s;
 
-        double starti = ((-xoff) / a / 1.5);
-        double startj = ((-yoff) / a / s);
+        int columns = (int) (gridWidth / cellWidth) + 1;
+        int rows = (int) (gridHeight / cellHeight) + 1;
 
-        if (starti + columns >= Game.GRIDSIZE) {
+        double starti = ((-xoff) /cellWidth);
+        double startj = ((-yoff) / cellHeight);
+
+        if (starti + columns >= Game.GRIDSIZE -1) {
             starti = Game.GRIDSIZE - columns;
-            xoff = starti * a * 1.5;
+            xoff = -starti * cellWidth;
         }
-        if (startj + rows >= Game.GRIDSIZE) {
+        if (startj + rows >= Game.GRIDSIZE-1) {
             startj = Game.GRIDSIZE - rows;
-            yoff = startj * a * s;
+            yoff = -startj * cellHeight;
         }
 
         float x = gridX + (float) (xoff);
-        float y = gridY + (float) (yoff - a * s / 2);
+        float y = gridY + (float) (yoff - cellHeight / 2);
 
-        if (hexagonalPrevZoom != a) {
-            double newX = x + 3 * ih * a / 2;
-            double newY = y + jh * a * s + (ih % 2) * a * s / 2;
+        if (prevA != a)
+        {
+            double oldX=grid.getOldX();
+            double oldY=grid.getOldY();
 
 
-            hX = (oldhX - newX);
-            hY = (oldhY - newY);
+            double newX = x + grid.getHighlightedI() * cellWidth;
+            double newY = y + grid.getHighlightedJ() * cellHeight + (grid.getHighlightedI() % 2) * cellHeight / 2;
 
-            hi = (int) (hX / a / 1.5);
-            hj = (int) (hY / a / s);
+            grid.setDiffX(oldX - newX); // roznica miedzy starą a nową pozycją podswietlonego
+            grid.setDiffY(oldY - newY);
 
-            hexagonalPrevZoom = a;
+            grid.setPrevZoom(a-1);
 
         }
 
-        x += hX;
-        y += hY;
+        x+=grid.getDiffX();
+        y+=grid.getDiffY();
 
-        starti -= hi;
-        startj -= hj;
+        starti-=grid.getDiffX()/cellWidth;
+        startj-=grid.getDiffY()/cellHeight;
 
-        //if (xoff > 0) xoff = 0;
-        //if (yoff > 0) yoff = 0;
-        //x = gridX + (float) (xoff);
-        //y = gridY + (float) (yoff - a * s / 2);
-        //starti = ((-xoff) / a / 1.5);
-        //startj = ((-yoff) / a / s);
-
-        if (starti + columns >= Game.GRIDSIZE) {
+        if(starti<0)
+        {
+            x+=starti*cellWidth;
+            starti=0;
+            //+ wyzerowac jeszcze offset scrolla
+        }
+        else if (starti + columns >= Game.GRIDSIZE)
+        { // jesli ostatni index komorki przekracza ilosc komorek
             starti = Game.GRIDSIZE - columns;
-            xoff = starti * a * 1.5;
+            x = gridX + (float)-starti * cellWidth;
         }
-        if (startj + rows >= Game.GRIDSIZE) {
+
+        if (startj + rows >= Game.GRIDSIZE)
+        {
             startj = Game.GRIDSIZE - rows;
-            yoff = startj * a * s;
+            y = gridY + (float)-startj * cellHeight;
+        } else if(startj<0)
+        {
+            y += startj * cellHeight;
+            startj = 0;
         }
 
 
         for (int i = (int) starti; i < columns + starti; i++)
             for (int j = (int) startj; j < rows + startj; j++)
-                Hexagon.display(x + 3 * i * a / 2, y + j * a * s + (i % 2) * a * s / 2, a, grid.isCellAlive(i, j));
+                Hexagon.display(x +  i * cellWidth, y + j * cellHeight + (i % 2) * cellHeight / 2, a,  grid.isCellAlive(i, j));
 
         if (mouseX > gridX && mouseX < (gridX + gridWidth)) {
             if (mouseY > gridY && mouseY < (gridY + gridHeight)) {
-                int i = (int) ((mouseX - x) * 2 / 3 / a);
-                int j = (int) ((mouseY - y - (i % 2) * a * s / 2) / a / s);
+                int i = (int) ((mouseX - x) / cellWidth);
+                int j = (int) ((mouseY - y - (i % 2) * cellHeight / 2) /cellHeight);
 
-
-                double xM = x + 3 * i * a / 2 + a / 2;
-                double xxxR = xM + 3 * a / 2;
-                double yyy = y + j * a * s + (i % 2) * a * s / 2 + a * Math.sqrt(3) / 2;
-                double yUS = yyy - a * Math.sqrt(3) / 2;
-                double yDS = yyy + a * Math.sqrt(3) / 2;
+                double xM = x +  i *cellWidth + a / 2;
+                double xxxR = xM + cellWidth;
+                double yyy = y + j * cellHeight + (i % 2) *cellHeight / 2 + a * Math.sqrt(3) / 2;
+                double yUS = yyy - cellHeight / 2;
+                double yDS = yyy + cellHeight / 2;
                 double rM = radius(mouseX, mouseY, xM, yyy);
                 double rRDS = radius(mouseX, mouseY, xxxR, yDS);
                 double rRUS = radius(mouseX, mouseY, xxxR, yUS);
@@ -532,15 +451,99 @@ public class View
                 }
 
                 glColor3f(0, 1, 0);
-                Hexagon.display(x + 3 * i * a / 2, y + j * a * s + (i % 2) * a * s / 2, a, false);
+                Hexagon.display(x +  i * cellWidth, y + j * cellHeight + (i % 2) * cellHeight / 2, a, false);
                 codedPosition = Game.GRIDSIZE * i + j;
-                t.setTxt(i + " " + j + "  " + Double.toString(MouseHandler.xPos()) + "  " + Double.toString(MouseHandler.yPos()));
-                ih = i;
-                jh = j;
 
-                oldhX = x + 3 * ih * a / 2;
-                oldhY = y + jh * a * s + (ih % 2) * a * s / 2;
+                grid.setHighlightedI(i);
+                grid.setHighlightedJ(j);
+                grid.setOldX(x + i * cellWidth);
+                grid.setOldY(y + j * cellHeight + (i % 2) * cellHeight / 2);
+                t.setTxt(i + " " + j);
 
+            }
+        }
+        return codedPosition;
+    }
+
+
+    private int displaySquared(Grid grid)
+    {
+        double mouseX = MouseHandler.xPos();
+        double mouseY = MouseHandler.yPos();
+        int codedPosition = -1;
+        float a = 2 + grid.getZoom();
+        float prevA = 2 + grid.getPrevZoom();
+
+        int columns = (int) (gridWidth / a)+1; // liczba kolumn = szerokosc pola/dlugosc boku
+        int rows = (int) (gridHeight / a)+1 ;
+
+        double xoff=grid.getXoff();
+        double yoff=grid.getYoff();
+
+        double starti = -xoff / a; // poczatkowy indeks komorki = przesuniecie/dlugosc boku
+        double startj = -yoff / a;
+
+        float x = gridX + (float) (xoff); // punkt startowy drukowania grida
+        float y = gridY + (float) (yoff);
+
+        if(prevA != a) // jesli zoom zostal zmieniony
+        {
+            double oldX = grid.getOldX(); // pozycja podswietlonego ze starym zoomem
+            double oldY = grid.getOldY();
+
+            double newX = x + grid.getHighlightedI() * a; // pozycja podswietlonego z nowym zoomem
+            double newY = y + grid.getHighlightedJ() * a;
+
+            grid.setDiffX(oldX - newX); // roznica miedzy starą a nową pozycją podswietlonego
+            grid.setDiffY(oldY - newY);
+
+            grid.setPrevZoom(a-2);
+        }
+
+        x+=grid.getDiffX();
+        y+=grid.getDiffY();
+
+        starti-=grid.getDiffX()/a;
+        startj-=grid.getDiffY()/a;
+
+        if(starti<0)
+        {
+            x+=starti*a;
+            starti=0;
+            //+ wyzerowac jeszcze offset scrolla
+        }
+        else if (starti + columns >= Game.GRIDSIZE)
+        { // jesli ostatni index komorki przekracza ilosc komorek
+            starti = Game.GRIDSIZE - columns;
+            x = gridX + (float)-starti * a;
+        }
+
+        if (startj + rows >= Game.GRIDSIZE)
+        {
+            startj = Game.GRIDSIZE - rows;
+            y = gridY + (float)-startj * a;
+        } else if(startj<0)
+        {
+            y += startj * a;
+            startj = 0;
+        }
+
+        for (int i = (int) starti; i < columns + starti; i++)
+            for (int j = (int) startj; j < rows + startj; j++)
+                Rectangle.display(x + i * a, y + j * a, a, a, grid.isCellAlive(i, j));
+        if (mouseX > gridX && mouseX < (gridX + gridWidth)) {
+            if (mouseY > gridY && mouseY < (gridY + gridHeight)) {
+                int i = (int) ((mouseX - x) / a);
+                int j = (int) ((mouseY - y) / a);
+                glColor3f(0, 1, 0);
+                Rectangle.display(x + i * a, y + j * a, a, a, false);
+                codedPosition = Game.GRIDSIZE * i + j;
+
+                grid.setHighlightedI(i);
+                grid.setHighlightedJ(j);
+                grid.setOldX(x + i * a);
+                grid.setOldY(y + j * a);
+                t.setTxt(i + " " + j);
             }
         }
         return codedPosition;
