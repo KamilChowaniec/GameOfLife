@@ -2,9 +2,8 @@ public abstract class Grid {
     protected CellProperties[][] cellProperties;
     protected boolean[][] alive;
     protected boolean[][] buffer;
-    private int zoom=0;
-    private double xoff=0, yoff=0;
-
+    private int zoom = 0;
+    private double xoff = 0, yoff = 0;
     private float prevZoom = 0;
     private double diffX = 0;
     private double diffY = 0;
@@ -12,6 +11,7 @@ public abstract class Grid {
     private int highlightedJ = 0;
     private float oldX = 0;
     private float oldY = 0;
+
 
     Grid() {
         cellProperties = new CellProperties[Game.GRIDSIZE][Game.GRIDSIZE];
@@ -77,14 +77,18 @@ public abstract class Grid {
         return zoom;
     }
 
-    public void moveGrid(double x, double y)
-    {
-        this.xoff += x;
-        this.yoff += y;
+    public void moveGrid(double x, double y) {
+        xoff += x;
+        yoff += y;
     }
 
-    public double getXoff() {return xoff;}
-    public double getYoff() {return yoff;}
+    public double getXoff() {
+        return xoff;
+    }
+
+    public double getYoff() {
+        return yoff;
+    }
 
     public void setXoff(double xoff) {
         this.xoff = xoff;
@@ -94,74 +98,60 @@ public abstract class Grid {
         this.yoff = yoff;
     }
 
-    public float getPrevZoom()
-    {
+    public float getPrevZoom() {
         return prevZoom;
     }
 
-    public float getHighlightedI()
-    {
+    public float getHighlightedI() {
         return highlightedI;
     }
-    public float getHighlightedJ()
-    {
+
+    public float getHighlightedJ() {
         return highlightedJ;
     }
 
-    public float getOldX()
-    {
+    public float getOldX() {
         return oldX;
     }
 
-    public float getOldY()
-    {
+    public float getOldY() {
         return oldY;
     }
 
-    public double getDiffX()
-    {
+    public double getDiffX() {
         return diffX;
     }
 
-    public double getDiffY()
-    {
+    public double getDiffY() {
         return diffY;
     }
 
-    public void setOldX(float oldX)
-    {
+    public void setOldX(float oldX) {
         this.oldX = oldX;
     }
 
-    public void setOldY(float oldY)
-    {
+    public void setOldY(float oldY) {
         this.oldY = oldY;
     }
 
-    public void setHighlightedJ(int highlightedJ)
-    {
+    public void setHighlightedJ(int highlightedJ) {
         this.highlightedJ = highlightedJ;
     }
 
-    public void setHighlightedI(int highlightedI)
-    {
+    public void setHighlightedI(int highlightedI) {
         this.highlightedI = highlightedI;
     }
 
-    public void setPrevZoom(float prevZoom)
-    {
+    public void setPrevZoom(float prevZoom) {
         this.prevZoom = prevZoom;
     }
 
-    public void setDiffX(double diffX)
-    {
+    public void setDiffX(double diffX) {
         this.diffX = diffX;
     }
 
-    public void setDiffY(double diffY)
-    {
+    public void setDiffY(double diffY) {
         this.diffY = diffY;
     }
-
 }
 

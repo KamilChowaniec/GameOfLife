@@ -500,37 +500,49 @@ public class View
             grid.setPrevZoom(a-2);
         }
 
-        x+=grid.getDiffX();
-        y+=grid.getDiffY();
+        xoff+=grid.getDiffX();
+        yoff+=grid.getDiffY();
 
         starti-=grid.getDiffX()/a;
         startj-=grid.getDiffY()/a;
 
         if(starti<0)
         {
-            x+=starti*a;
+
+            xoff+=starti*a;
             starti=0;
+            grid.setXoff(-grid.getDiffX());
             //+ wyzerowac jeszcze offset scrolla
         }
         else if (starti + columns >= Game.GRIDSIZE)
         { // jesli ostatni index komorki przekracza ilosc komorek
             starti = Game.GRIDSIZE - columns;
-            x = gridX + (float)-starti * a;
+            xoff = (float)-starti * a;
+            grid.setXoff(-(Game.GRIDSIZE-columns)*a-grid.getDiffX());
+
         }
 
         if (startj + rows >= Game.GRIDSIZE)
         {
             startj = Game.GRIDSIZE - rows;
-            y = gridY + (float)-startj * a;
+            yoff = (float)-startj * a;
+            grid.setYoff(-(Game.GRIDSIZE-rows)*a-grid.getDiffY());
         } else if(startj<0)
         {
-            y += startj * a;
+            yoff += startj * a;
             startj = 0;
+            grid.setYoff(-grid.getDiffY());
+
         }
+
+
+        x = gridX + (float) (xoff); // punkt startowy drukowania grida
+        y = gridY + (float) (yoff);
 
         for (int i = (int) starti; i < columns + starti; i++)
             for (int j = (int) startj; j < rows + startj; j++)
                 Rectangle.display(x + i * a, y + j * a, a, a, grid.isCellAlive(i, j));
+
         if (mouseX > gridX && mouseX < (gridX + gridWidth)) {
             if (mouseY > gridY && mouseY < (gridY + gridHeight)) {
                 int i = (int) ((mouseX - x) / a);
