@@ -70,7 +70,6 @@ public class Controller {
                 addCard(gridType.Triangular);
             if (KeyboardHandler.isKeyClicked(GLFW_KEY_3))
                 addCard(gridType.Hexagonal);
-
         }
         if (MouseButtonsHandler.isKeyClicked(GLFW_MOUSE_BUTTON_LEFT)) {
             if (codedPos != -1) model.draw(codedPos);

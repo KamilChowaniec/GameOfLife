@@ -43,7 +43,7 @@ public class View {
 
 
     public View() {
-        window = new Window(1920, 1080, "GOL", false);
+        window = new Window(1920, 1080, "GOL", true);
         Text.load_font("sansation.ttf");
         //TODO implement me
         shapes = new Vector<Shape>();
@@ -277,13 +277,13 @@ public class View {
         double starti = ((-xoff) / a / 1.5);
         double startj = ((-yoff) / a / s);
 
-        if (starti + columns >= Game.GRIDSIZE) {
+        if (starti + columns >= Game.GRIDSIZE-1) {
             starti = Game.GRIDSIZE - columns;
-            xoff = starti * a * 1.5;
+            xoff = -starti * a * 1.5;
         }
-        if (startj + rows >= Game.GRIDSIZE) {
+        if (startj + rows >= Game.GRIDSIZE-1) {
             startj = Game.GRIDSIZE - rows;
-            yoff = startj * a * s;
+            yoff = -startj * a * s;
         }
 
         float x = gridX + (float) (xoff);
@@ -316,6 +316,16 @@ public class View {
         //y = gridY + (float) (yoff - a * s / 2);
         //starti = ((-xoff) / a / 1.5);
         //startj = ((-yoff) / a / s);
+        if(starti<0){
+            x+=starti*a*1.5;
+            starti=0;
+        }
+        if(startj<0){
+            y+=startj*a*s;
+
+
+            startj=0;
+        }
 
         if (starti + columns >= Game.GRIDSIZE) {
             starti = Game.GRIDSIZE - columns;

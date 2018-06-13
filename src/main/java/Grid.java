@@ -61,7 +61,7 @@ public abstract class Grid {
 
     public void incZoom(int offset, double[] mousePosition) {
         this.zoom += offset;
-        if (zoom < 10) zoom = 10;
+        if (zoom < 0) zoom = 0;
         else if (zoom > 90) zoom = 90;
 
 
@@ -74,9 +74,9 @@ public abstract class Grid {
     public void moveGrid(double x, double y)
     {
         this.xoff +=x;
-        if (this.xoff > 0) this.xoff = 0;
+        //if (this.xoff > 0) this.xoff = 0;
         this.yoff += y;
-        if (this.yoff > 0) this.yoff = 0;
+        //if (this.yoff > 0) this.yoff = 0;
     }
 
     public double getXoff() {return xoff;}
