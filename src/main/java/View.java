@@ -241,13 +241,13 @@ public class View
         else if (starti + columns >= Game.GRIDSIZE)
         { // jesli ostatni index komorki przekracza ilosc komorek
             starti = Game.GRIDSIZE - columns;
-            x -= starti * a; //- tutaj jednak x
+            x = gridX + (float)-starti * a; //- tutaj jednak x
         }
 
         if (startj + rows >= Game.GRIDSIZE)
         {
             startj = Game.GRIDSIZE - rows;
-            y -= startj * a;// - tutaj jednak y
+            y = gridY + (float)-startj * a;// - tutaj jednak y
         } else if(startj<0)
         {
             y += startj * a;
