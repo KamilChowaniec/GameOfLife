@@ -15,7 +15,7 @@ public class View
     private Vector<Checkbox> checkboxesS;
     private Text t;
     public static int gridX = 404, gridY = 34, gridWidth = 1114, gridHeight = 1044, delaySlider = 0;   //zoom w przedziale [0,100] -  ustawiany na sliderze
-    private int rulesX = 1520, rulesY = 2, rulesWidth = 400, rulesHeight = 535;
+    public static int rulesX = 1520, rulesY = 2, rulesWidth = 400, rulesHeight = 535;
     private Slider zoomSlider;
 
 
@@ -29,7 +29,7 @@ public class View
         checkboxesS = new Vector<Checkbox>();
         //createCheckboxes();
 
-        zoomSlider = new Slider(rulesX + 50, rulesY + 400, 300, 10);
+
 
 
         t = new Text(100, 100, "Lubie placki", 1.0f, 0f, 0f);
@@ -103,7 +103,7 @@ public class View
 
         //displayCheckboxes();
 
-        delaySlider = displaySlider();
+        //delaySlider = displaySlider();
 
         //glClear(GL_COLOR_BUFFER_BIT);
         /* select white for all lines  */

@@ -1,3 +1,5 @@
+import static org.lwjgl.glfw.GLFW.glfwGetTime;
+
 public class Card {
 
     private Grid grid;
@@ -6,9 +8,15 @@ public class Card {
 
     private boolean pause;
 
+    private double timer;
+
+    private double delay;
+
     // gridType: 0-Squared, 1-Triangular, 2-Hexagonal
     public Card(gridType type) {
         pause = false;
+        delay = 0;
+        timer = glfwGetTime() + delay;
         switch (type) {
             case Squared:
                 grid = new Squared();
@@ -39,7 +47,19 @@ public class Card {
     }
 
     public void mechanic() {
-        if (!pause) grid.mechanic(rules);
+
+        if (!pause && timer <= glfwGetTime()) {
+            grid.mechanic(rules);
+            timer = glfwGetTime() + delay;
+        }
+    }
+
+    public void setDelay(double delay) {
+        this.delay = delay;
+    }
+
+    public double getDelay() {
+        return delay;
     }
 
     public Grid getGrid() {

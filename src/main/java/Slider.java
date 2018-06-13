@@ -43,6 +43,10 @@ public class Slider
         return 100*(xR-x)/(width-widthR);
     }
 
+    public void setPercent(int percent){
+        xR = percent*(width - widthR)/100 + x;
+    }
+
     public void changeState()
     {
         state=!state;
