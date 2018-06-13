@@ -228,21 +228,25 @@ public class View
         {
             x += starti * cellWidth;
             starti = 0;
+            grid.setXoff(-grid.getDiffX());
             //+ wyzerowac jeszcze offset scrolla
         } else if (starti + columns >= Game.GRIDSIZE)
         { // jesli ostatni index komorki przekracza ilosc komorek
             starti = Game.GRIDSIZE - columns;
             x = gridX + (float) -starti * cellWidth;
+            grid.setXoff(-(Game.GRIDSIZE - columns)*cellWidth-grid.getDiffX());
         }
 
         if (startj + rows >= Game.GRIDSIZE)
         {
             startj = Game.GRIDSIZE - rows;
             y = gridY + (float) -startj * cellHeight;
+            grid.setYoff(-(Game.GRIDSIZE - rows)*cellHeight-grid.getDiffY());
         } else if (startj < 0)
         {
             y += startj * cellHeight;
             startj = 0;
+            grid.setYoff(-grid.getDiffY());
         }
 
         for (int i = (int) starti; i < columns + starti; i++)
@@ -356,21 +360,27 @@ public class View
         {
             x += starti * cellWidth;
             starti = 0;
+            grid.setXoff(-grid.getDiffX());
             //+ wyzerowac jeszcze offset scrolla
         } else if (starti + columns >= Game.GRIDSIZE)
         { // jesli ostatni index komorki przekracza ilosc komorek
             starti = Game.GRIDSIZE - columns;
             x = gridX + (float) -starti * cellWidth;
+            grid.setXoff(-(Game.GRIDSIZE - columns)*cellWidth-grid.getDiffX());
+
         }
 
         if (startj + rows >= Game.GRIDSIZE)
         {
             startj = Game.GRIDSIZE - rows;
             y = gridY + (float) -startj * cellHeight;
+            grid.setYoff(-(Game.GRIDSIZE - rows)*cellHeight-grid.getDiffY());
+
         } else if (startj < 0)
         {
             y += startj * cellHeight;
             startj = 0;
+            grid.setYoff(-grid.getDiffY());
         }
 
 
