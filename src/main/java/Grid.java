@@ -2,8 +2,16 @@ public abstract class Grid {
     protected CellProperties[][] cellProperties;
     protected boolean[][] alive;
     protected boolean[][] buffer;
-    private int zoom=10;
-    private double xoff=0, yoff=0;
+    private int zoom = 0;
+    private double xoff = 0, yoff = 0;
+    private float prevZoom = 0;
+    private double diffX = 0;
+    private double diffY = 0;
+    private int highlightedI = 0;
+    private int highlightedJ = 0;
+    private float oldX = 0;
+    private float oldY = 0;
+
 
     Grid() {
         cellProperties = new CellProperties[Game.GRIDSIZE][Game.GRIDSIZE];
@@ -18,8 +26,8 @@ public abstract class Grid {
 
     protected abstract int countNeighbors(int x, int y);
 
-    public void drawOnGrid(int x, int y) {
-        alive[x][y] = !alive[x][y];
+    public void drawOnGrid(int x, int y, boolean state) {
+        alive[x][y] = state;
     }
 
     public void mechanic(boolean[][] rules) {
@@ -62,25 +70,25 @@ public abstract class Grid {
     public void incZoom(int offset, double[] mousePosition) {
         this.zoom += offset;
         if (zoom < 0) zoom = 0;
-        else if (zoom > 90) zoom = 90;
-
-
+        else if (zoom > 100) zoom = 100;
     }
 
     public int getZoom() {
         return zoom;
     }
 
-    public void moveGrid(double x, double y)
-    {
-        this.xoff +=x;
-        //if (this.xoff > 0) this.xoff = 0;
-        this.yoff += y;
-        //if (this.yoff > 0) this.yoff = 0;
+    public void moveGrid(double x, double y) {
+        xoff += x;
+        yoff += y;
     }
 
-    public double getXoff() {return xoff;}
-    public double getYoff() {return yoff;}
+    public double getXoff() {
+        return xoff;
+    }
+
+    public double getYoff() {
+        return yoff;
+    }
 
     public void setXoff(double xoff) {
         this.xoff = xoff;
@@ -90,6 +98,60 @@ public abstract class Grid {
         this.yoff = yoff;
     }
 
-    public abstract int display(int gridX, int gridY, int gridWidth, int gridHeight);
+    public float getPrevZoom() {
+        return prevZoom;
+    }
+
+    public float getHighlightedI() {
+        return highlightedI;
+    }
+
+    public float getHighlightedJ() {
+        return highlightedJ;
+    }
+
+    public float getOldX() {
+        return oldX;
+    }
+
+    public float getOldY() {
+        return oldY;
+    }
+
+    public double getDiffX() {
+        return diffX;
+    }
+
+    public double getDiffY() {
+        return diffY;
+    }
+
+    public void setOldX(float oldX) {
+        this.oldX = oldX;
+    }
+
+    public void setOldY(float oldY) {
+        this.oldY = oldY;
+    }
+
+    public void setHighlightedJ(int highlightedJ) {
+        this.highlightedJ = highlightedJ;
+    }
+
+    public void setHighlightedI(int highlightedI) {
+        this.highlightedI = highlightedI;
+    }
+
+    public void setPrevZoom(float prevZoom) {
+        this.prevZoom = prevZoom;
+    }
+
+    public void setDiffX(double diffX) {
+        this.diffX = diffX;
+    }
+
+    public void setDiffY(double diffY) {
+        this.diffY = diffY;
+    }
 }
 
