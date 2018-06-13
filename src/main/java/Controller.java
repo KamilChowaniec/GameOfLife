@@ -22,16 +22,11 @@ public class Controller {
 
     public void run() {
 
-        while (view.shouldRun()) {
-            clearScreen();
+        while (view.shouldRun()){
             handleEvents();
             update();
             display();
         }
-    }
-
-    private void clearScreen() {
-        view.clearScreen();
     }
 
     private void update() {
@@ -44,8 +39,8 @@ public class Controller {
         for (Checkbox[] checkbox : rulesCheckboxes)
             for (int i = 0; i < model.getRuleSize(); i++)
                 checkbox[i].draw();
-        view.display();
         for (Button button : cardButtons) button.display();
+        view.display();
     }
 
     private void handleEvents() {
@@ -72,9 +67,11 @@ public class Controller {
                 addCard(gridType.Hexagonal);
 
         }
-        if (MouseButtonsHandler.isKeyClicked(GLFW_MOUSE_BUTTON_LEFT)) {
-            if (codedPos != -1) model.draw(codedPos);
-        }
+        if (MouseButtonsHandler.isKeyDown(GLFW_MOUSE_BUTTON_LEFT))
+            if (codedPos != -1) model.draw(codedPos,true);
+        if (MouseButtonsHandler.isKeyDown(GLFW_MOUSE_BUTTON_RIGHT))
+            if (codedPos != -1) model.draw(codedPos,false);
+
         model.incZoom((int) ScrollHandler.wheelMovement(), MouseHandler.getMousePosition());
 
         //   model.

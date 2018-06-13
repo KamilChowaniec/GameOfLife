@@ -39,9 +39,9 @@ public class Model {
         if (cardIndex > 0) cardIndex--;
     }
 
-    public void draw(int codedPosition) {
+    public void draw(int codedPosition, boolean state) {
         int y = codedPosition % Game.GRIDSIZE;
-        cards.get(cardIndex).draw((codedPosition - y) / Game.GRIDSIZE, y);
+        cards.get(cardIndex).draw((codedPosition - y) / Game.GRIDSIZE, y, state);
     }
 
     public void pause() {
