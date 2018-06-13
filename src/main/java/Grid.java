@@ -18,8 +18,8 @@ public abstract class Grid {
 
     protected abstract int countNeighbors(int x, int y);
 
-    public void drawOnGrid(int x, int y) {
-        alive[x][y] = !alive[x][y];
+    public void drawOnGrid(int x, int y, boolean state) {
+        alive[x][y] = state;
     }
 
     public void mechanic(boolean[][] rules) {

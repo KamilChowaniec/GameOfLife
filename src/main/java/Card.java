@@ -50,8 +50,8 @@ public class Card {
         grid.randomize();
     }
 
-    public void draw(int x, int y) {
-        grid.drawOnGrid(x, y);
+    public void draw(int x, int y, boolean state) {
+        grid.drawOnGrid(x, y,state);
     }
 
     public void switchPause() {

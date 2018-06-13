@@ -146,6 +146,7 @@ public class View
         //glFlush();
         t.display();
         window.update();
+        clearScreen();
 
     }
 
