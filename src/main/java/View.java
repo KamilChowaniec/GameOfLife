@@ -431,157 +431,77 @@ public class View
                     t.setTxt(i + " " + j);
 
 
-                    glColor3f(1,1,0);
+                    glColor3f(1, 1, 0);
 
 
-                    glColor3f(1,1,0);
+                    glColor3f(1, 1, 0);
 
-                    for(int it=0;it<4;it++)
+
+                    if (selection)
                     {
-                        if (it == 0)
+                        // L U
+                        Hexagon.display(x + iSelection * cellWidth, y + (jSelection) * cellHeight + (iSelection % 2) * cellHeight / 2, a, '5');
+                        Hexagon.display(x + iSelection * cellWidth, y + (jSelection) * cellHeight + (iSelection % 2) * cellHeight / 2, a, '6');
+                        Hexagon.display(x + iSelection * cellWidth, y + (jSelection) * cellHeight + (iSelection % 2) * cellHeight / 2, a, '1');
+                        if (iSelection % 2 == 0)
+                            Hexagon.display(x + iSelection * cellWidth, y + (jSelection) * cellHeight + (iSelection % 2) * cellHeight / 2, a, '2');
+
+                        // R U
+                        Hexagon.display(x + (iSelection + widthSelection - 1) * cellWidth, y + jSelection * cellHeight + ((iSelection + widthSelection - 1) % 2) * cellHeight / 2, a, '1');
+                        Hexagon.display(x + (iSelection + widthSelection - 1) * cellWidth, y + jSelection * cellHeight + ((iSelection + widthSelection - 1) % 2) * cellHeight / 2, a, '2');
+                        Hexagon.display(x + (iSelection + widthSelection - 1) * cellWidth, y + jSelection * cellHeight + ((iSelection + widthSelection - 1) % 2) * cellHeight / 2, a, '3');
+                        if ((iSelection + widthSelection - 1) % 2 == 0)
+                            Hexagon.display(x + (iSelection + widthSelection - 1) * cellWidth, y + jSelection * cellHeight + ((iSelection + widthSelection - 1) % 2) * cellHeight / 2, a, '6');
+
+                        // L D
+                        Hexagon.display(x + iSelection * cellWidth, y + (jSelection + heightSelection - 1) * cellHeight + (iSelection % 2) * cellHeight / 2, a, '4');
+                        Hexagon.display(x + iSelection * cellWidth, y + (jSelection + heightSelection - 1) * cellHeight + (iSelection % 2) * cellHeight / 2, a, '5');
+                        Hexagon.display(x + iSelection * cellWidth, y + (jSelection + heightSelection - 1) * cellHeight + (iSelection % 2) * cellHeight / 2, a, '6');
+                        if (iSelection % 2 == 1)
+                            Hexagon.display(x + iSelection * cellWidth, y + (jSelection + heightSelection - 1) * cellHeight + (iSelection % 2) * cellHeight / 2, a, '3');
+
+                        // R D
+                        Hexagon.display(x + (iSelection + widthSelection - 1) * cellWidth, y + (jSelection + heightSelection - 1) * cellHeight + ((iSelection + widthSelection - 1) % 2) * cellHeight / 2, a, '2');
+                        Hexagon.display(x + (iSelection + widthSelection - 1) * cellWidth, y + (jSelection + heightSelection - 1) * cellHeight + ((iSelection + widthSelection - 1) % 2) * cellHeight / 2, a, '3');
+                        Hexagon.display(x + (iSelection + widthSelection - 1) * cellWidth, y + (jSelection + heightSelection - 1) * cellHeight + ((iSelection + widthSelection - 1) % 2) * cellHeight / 2, a, '4');
+                        if ((iSelection + widthSelection - 1) % 2 == 1)
+                            Hexagon.display(x + (iSelection + widthSelection - 1) * cellWidth, y + (jSelection + heightSelection - 1) * cellHeight + ((iSelection + widthSelection - 1) % 2) * cellHeight / 2, a, '5');
+
+
+                        for (int is = iSelection + (iSelection % 2); is < iSelection + widthSelection + (iSelection % 2) - 1; is += 2) // U
                         {
-                            iSelection = 21;
-                            jSelection = 21;
-                            widthSelection = 6;
-                            heightSelection = 6;
-                        } else if (it == 1)
-                        {
-                            iSelection = 10;
-                            jSelection = 20;
-                            widthSelection = 6;
-                            heightSelection = 6;
-                        } else if (it == 2)
-                        {
-                            iSelection = 20;
-                            jSelection = 10;
-                            widthSelection = 5;
-                            heightSelection = 5;
-                        } else if (it == 3)
-                        {
-                            iSelection = 11;
-                            jSelection = 11;
-                            widthSelection = 5;
-                            heightSelection = 5;
-                        }
-
-
-                        if (selection)
-                        {
-                            // L U
-                            Hexagon.display(x + iSelection * cellWidth, y + (jSelection) * cellHeight + (iSelection % 2) * cellHeight / 2, a, '5');
-                            Hexagon.display(x + iSelection * cellWidth, y + (jSelection) * cellHeight + (iSelection % 2) * cellHeight / 2, a, '6');
-                            Hexagon.display(x + iSelection * cellWidth, y + (jSelection) * cellHeight + (iSelection % 2) * cellHeight / 2, a, '1');
-                            if (iSelection % 2 == 0)
-                                Hexagon.display(x + iSelection * cellWidth, y + (jSelection) * cellHeight + (iSelection % 2) * cellHeight / 2, a, '2');
-
-                            // R U
-                            Hexagon.display(x + (iSelection + widthSelection - 1) * cellWidth, y + jSelection * cellHeight + ((iSelection + widthSelection - 1) % 2) * cellHeight / 2, a, '1');
-                            Hexagon.display(x + (iSelection + widthSelection - 1) * cellWidth, y + jSelection * cellHeight + ((iSelection + widthSelection - 1) % 2) * cellHeight / 2, a, '2');
-                            Hexagon.display(x + (iSelection + widthSelection - 1) * cellWidth, y + jSelection * cellHeight + ((iSelection + widthSelection - 1) % 2) * cellHeight / 2, a, '3');
-                            if ((iSelection + widthSelection - 1) % 2 == 0)
-                                Hexagon.display(x + (iSelection + widthSelection - 1) * cellWidth, y + jSelection * cellHeight + ((iSelection + widthSelection - 1) % 2) * cellHeight / 2, a, '6');
-
-                            // L D
-                            Hexagon.display(x + iSelection * cellWidth, y + (jSelection + heightSelection - 1) * cellHeight + (iSelection % 2) * cellHeight / 2, a, '4');
-                            Hexagon.display(x + iSelection * cellWidth, y + (jSelection + heightSelection - 1) * cellHeight + (iSelection % 2) * cellHeight / 2, a, '5');
-                            Hexagon.display(x + iSelection * cellWidth, y + (jSelection + heightSelection - 1) * cellHeight + (iSelection % 2) * cellHeight / 2, a, '6');
-                            if (iSelection % 2 == 1)
-                                Hexagon.display(x + iSelection * cellWidth, y + (jSelection + heightSelection - 1) * cellHeight + (iSelection % 2) * cellHeight / 2, a, '3');
-
-                            // R D
-                            Hexagon.display(x + (iSelection + widthSelection - 1) * cellWidth, y + (jSelection + heightSelection - 1) * cellHeight + ((iSelection + widthSelection - 1) % 2) * cellHeight / 2, a, '2');
-                            Hexagon.display(x + (iSelection + widthSelection - 1) * cellWidth, y + (jSelection + heightSelection - 1) * cellHeight + ((iSelection + widthSelection - 1) % 2) * cellHeight / 2, a, '3');
-                            Hexagon.display(x + (iSelection + widthSelection - 1) * cellWidth, y + (jSelection + heightSelection - 1) * cellHeight + ((iSelection + widthSelection - 1) % 2) * cellHeight / 2, a, '4');
-                            if ((iSelection + widthSelection - 1) % 2 == 1)
-                                Hexagon.display(x + (iSelection + widthSelection - 1) * cellWidth, y + (jSelection + heightSelection - 1) * cellHeight + ((iSelection + widthSelection - 1) % 2) * cellHeight / 2, a, '5');
-
-                            for (int is = iSelection + (iSelection % 2); is < iSelection + widthSelection + (iSelection % 2) - 1; is += 2) // U
-                            {
-                                // U
-                                Hexagon.display(x + is * cellWidth, y + (jSelection - (is % 2)) * cellHeight + (is % 2) * cellHeight / 2, a, '6');
-                                Hexagon.display(x + is * cellWidth, y + (jSelection - (is % 2)) * cellHeight + (is % 2) * cellHeight / 2, a, '1');
-                                Hexagon.display(x + is * cellWidth, y + (jSelection - (is % 2)) * cellHeight + (is % 2) * cellHeight / 2, a, '2');
+                            // U
+                            Hexagon.display(x + is * cellWidth, y + (jSelection - (is % 2)) * cellHeight + (is % 2) * cellHeight / 2, a, '6');
+                            Hexagon.display(x + is * cellWidth, y + (jSelection - (is % 2)) * cellHeight + (is % 2) * cellHeight / 2, a, '1');
+                            Hexagon.display(x + is * cellWidth, y + (jSelection - (is % 2)) * cellHeight + (is % 2) * cellHeight / 2, a, '2');
+                            if (is != (iSelection + widthSelection + (iSelection % 2) - 2))
                                 Hexagon.display(x + (is + 1) * cellWidth, y + (jSelection - ((is + 1) % 2)) * cellHeight + ((is + 1) % 2) * cellHeight / 2, a, '4');
-                            }
+                        }
 
-                            for (int is = iSelection + (iSelection % 2); is < iSelection + widthSelection + (iSelection % 2) - 1; is += 2) // D
-                            {
-                                // D
+                        for (int is = iSelection + (iSelection % 2); is < iSelection + widthSelection; is += 2) // D
+                        {
+                            // D
+                            if (is > iSelection + (iSelection % 2))
                                 Hexagon.display(x + is * cellWidth, y + ((jSelection + heightSelection) - (is % 2)) * cellHeight + (is % 2) * cellHeight / 2, a, '6');
-                                Hexagon.display(x + is * cellWidth, y + ((jSelection + heightSelection) - (is % 2)) * cellHeight + (is % 2) * cellHeight / 2, a, '1');
+                            Hexagon.display(x + is * cellWidth, y + ((jSelection + heightSelection) - (is % 2)) * cellHeight + (is % 2) * cellHeight / 2, a, '1');
+                            if (is != (iSelection + widthSelection - 1))
                                 Hexagon.display(x + is * cellWidth, y + ((jSelection + heightSelection) - (is % 2)) * cellHeight + (is % 2) * cellHeight / 2, a, '2');
+                            if (is != (iSelection + widthSelection - 1))
                                 Hexagon.display(x + (is + 1) * cellWidth, y + ((jSelection + heightSelection) - ((is + 1) % 2)) * cellHeight + ((is + 1) % 2) * cellHeight / 2, a, '4');
-                            }
-
-                            for (int js = jSelection; js < jSelection + heightSelection; js++)
-                            {
-                                Hexagon.display(x + iSelection * cellWidth, y + js * cellHeight + (iSelection % 2) * cellHeight / 2, a, '5');
-                                Hexagon.display(x + iSelection * cellWidth, y + js * cellHeight + (iSelection % 2) * cellHeight / 2, a, '6');
-                                Hexagon.display(x + (iSelection + widthSelection - 1) * cellWidth, y + js * cellHeight + ((iSelection + widthSelection - 1) % 2) * cellHeight / 2, a, '2');
-                                Hexagon.display(x + (iSelection + widthSelection - 1) * cellWidth, y + js * cellHeight + ((iSelection + widthSelection - 1) % 2) * cellHeight / 2, a, '3');
-                            }
                         }
-                    }
 
-
-                    /*
-                    iSelection=20;
-                    jSelection=10;
-                    widthSelection=5;
-                    heightSelection=5;
-                    if (selection)
-                    {
-                        for (int is = iSelection; is < iSelection + widthSelection; is++) //  U
-                            Hexagon.display(x + is * cellWidth, y + (jSelection -(is%2)) * cellHeight + (is % 2) * cellHeight / 2, a, (is % 2) == 0 ? 'U' : 'D');
 
                         for (int js = jSelection; js < jSelection + heightSelection; js++)
                         {
-                            Hexagon.display(x + iSelection * cellWidth, y + js * cellHeight + (iSelection % 2) * cellHeight / 2, a,'L');
-                            Hexagon.display(x + (iSelection+widthSelection) * cellWidth, y + js * cellHeight + ((iSelection+widthSelection) % 2) * cellHeight / 2, a, 'L');
+                            // L
+                            Hexagon.display(x + iSelection * cellWidth, y + js * cellHeight + (iSelection % 2) * cellHeight / 2, a, '5');
+                            Hexagon.display(x + iSelection * cellWidth, y + js * cellHeight + (iSelection % 2) * cellHeight / 2, a, '6');
+                            // R
+                            Hexagon.display(x + (iSelection + widthSelection - 1) * cellWidth, y + js * cellHeight + ((iSelection + widthSelection - 1) % 2) * cellHeight / 2, a, '2');
+                            Hexagon.display(x + (iSelection + widthSelection - 1) * cellWidth, y + js * cellHeight + ((iSelection + widthSelection - 1) % 2) * cellHeight / 2, a, '3');
                         }
 
-                        for (int is = iSelection; is < iSelection + widthSelection; is++) //  U
-                            Hexagon.display(x + is * cellWidth, y + (jSelection + heightSelection - (is%2)) * cellHeight + (is % 2) * cellHeight / 2, a, (is % 2) == 0 ? 'U' : 'D');
                     }
-                    iSelection=11;
-                    jSelection=21;
-                    widthSelection=6;
-                    heightSelection=6;
-
-                    if (selection)
-                    {
-                        for (int is = iSelection; is < iSelection + widthSelection; is++) //  U
-                            Hexagon.display(x + is * cellWidth, y + (jSelection -(is%2)) * cellHeight + (is % 2) * cellHeight / 2, a, (is % 2) == 0 ? 'U' : 'D');
-
-                        for (int js = jSelection; js < jSelection + heightSelection; js++)
-                        {
-                            Hexagon.display(x + iSelection * cellWidth, y + js * cellHeight + (iSelection % 2) * cellHeight / 2, a,'L');
-                            Hexagon.display(x + (iSelection+widthSelection) * cellWidth, y + js * cellHeight + ((iSelection+widthSelection) % 2) * cellHeight / 2, a, 'L');
-                        }
-
-                        for (int is = iSelection; is < iSelection + widthSelection; is++) //  U
-                            Hexagon.display(x + is * cellWidth, y + (jSelection + heightSelection - (is%2)) * cellHeight + (is % 2) * cellHeight / 2, a, (is % 2) == 0 ? 'U' : 'D');
-                    }
-                    iSelection=21;
-                    jSelection=21;
-                    widthSelection=5;
-                    heightSelection=5;
-
-                    if (selection)
-                    {
-                        for (int is = iSelection; is < iSelection + widthSelection; is++) //  U
-                            Hexagon.display(x + is * cellWidth, y + (jSelection -(is%2)) * cellHeight + (is % 2) * cellHeight / 2, a, (is % 2) == 0 ? 'U' : 'D');
-
-                        for (int js = jSelection; js < jSelection + heightSelection; js++)
-                        {
-                            Hexagon.display(x + iSelection * cellWidth, y + js * cellHeight + (iSelection % 2) * cellHeight / 2, a,'L');
-                            Hexagon.display(x + (iSelection+widthSelection) * cellWidth, y + js * cellHeight + ((iSelection+widthSelection) % 2) * cellHeight / 2, a, 'L');
-                        }
-
-                        for (int is = iSelection; is < iSelection + widthSelection; is++) //  U
-                            Hexagon.display(x + is * cellWidth, y + (jSelection + heightSelection - (is%2)) * cellHeight + (is % 2) * cellHeight / 2, a, (is % 2) == 0 ? 'U' : 'D');
-                    }
-                    */
                 }
             }
 
