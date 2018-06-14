@@ -31,13 +31,68 @@ public class Hexagon extends Shape
 
         if (filled) glBegin(GL_POLYGON);
         else glBegin(GL_LINE_LOOP);
-        glVertex2f(x, y);
-        glVertex2f(x + a, y);
-        glVertex2f(x + 3.0f / 2 * a, y + (float) Math.sqrt(3) * a / 2.0f);
-        glVertex2f(x + a, y + (float) Math.sqrt(3) * a);
-        glVertex2f(x, y + (float) Math.sqrt(3) * a);
-        glVertex2f(x - 0.5f * a, y + (float) Math.sqrt(3) * a / 2.0f);
+        /*1*/  glVertex2f(x, y);
+        /*2*/  glVertex2f(x + a, y);
+        /*3*/  glVertex2f(x + 3.0f / 2 * a, y + (float) Math.sqrt(3) * a / 2.0f);
+        /*4*/  glVertex2f(x + a, y + (float) Math.sqrt(3) * a);
+        /*5*/  glVertex2f(x, y + (float) Math.sqrt(3) * a);
+        /*6*/  glVertex2f(x - 0.5f * a, y + (float) Math.sqrt(3) * a / 2.0f);
         glEnd();
+    }
+
+    public static void display(float x, float y, float a, char side)
+    {
+        switch (side)
+        {
+            case 'L':
+                glBegin(GL_LINES); // 5 6
+                /*5*/  glVertex2f(x, y + (float) Math.sqrt(3) * a);
+                /*6*/  glVertex2f(x - 0.5f * a, y + (float) Math.sqrt(3) * a / 2.0f);
+                glEnd();
+                glBegin(GL_LINES); // 6 1
+                /*6*/  glVertex2f(x - 0.5f * a, y + (float) Math.sqrt(3) * a / 2.0f);
+                /*1*/  glVertex2f(x, y);
+                glEnd();
+                break;
+            case 'U':
+                glBegin(GL_LINES); // 6 1
+                /*6*/  glVertex2f(x - 0.5f * a, y + (float) Math.sqrt(3) * a / 2.0f);
+                /*1*/  glVertex2f(x, y);
+                glEnd();
+                glBegin(GL_LINES); // 1 2
+                /*1*/  glVertex2f(x, y);
+                /*2*/  glVertex2f(x + a, y);
+                glEnd();
+                glBegin(GL_LINES); // 2 3
+                /*2*/  glVertex2f(x + a, y);
+                /*3*/  glVertex2f(x + 3.0f / 2 * a, y + (float) Math.sqrt(3) * a / 2.0f);
+                glEnd();
+                break;
+            case 'R':
+                glBegin(GL_LINES); // 2 3
+                /*2*/  glVertex2f(x + a, y);
+                /*3*/  glVertex2f(x + 3.0f / 2 * a, y + (float) Math.sqrt(3) * a / 2.0f);
+                glEnd();
+                glBegin(GL_LINES); // 3 4
+                /*3*/  glVertex2f(x + 3.0f / 2 * a, y + (float) Math.sqrt(3) * a / 2.0f);
+                /*4*/  glVertex2f(x + a, y + (float) Math.sqrt(3) * a);
+                glEnd();
+                break;
+            case 'D':
+                glBegin(GL_LINES); // 3 4
+                /*3*/  glVertex2f(x + 3.0f / 2 * a, y + (float) Math.sqrt(3) * a / 2.0f);
+                /*4*/  glVertex2f(x + a, y + (float) Math.sqrt(3) * a);
+                glEnd();
+                glBegin(GL_LINES); // 4 5
+                /*4*/  glVertex2f(x + a, y + (float) Math.sqrt(3) * a);
+                /*5*/  glVertex2f(x, y + (float) Math.sqrt(3) * a);
+                glEnd();
+                glBegin(GL_LINES); // 5 6
+                /*5*/  glVertex2f(x, y + (float) Math.sqrt(3) * a);
+                /*6*/  glVertex2f(x - 0.5f * a, y + (float) Math.sqrt(3) * a / 2.0f);
+                glEnd();
+                break;
+        }
     }
 
 }

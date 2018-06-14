@@ -1,5 +1,4 @@
-public class Tool {
-    public Tool() {
-        super();
-    }
+public class Tool
+{
+
 }

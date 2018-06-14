@@ -18,10 +18,16 @@ public class View
     public static int rulesX = 1520, rulesY = 2, rulesWidth = 400, rulesHeight = 535;
     private Slider zoomSlider;
 
+    private boolean selection=true;
+    private int iSelection=10;
+    private int jSelection=10;
+    private int widthSelection=10;
+    private int heightSelection=10;
+
 
     public View()
     {
-        window = new Window(1920, 1080, "GOL", true);
+        window = new Window(1920, 1080, "GOL", false);
         Text.load_font("sansation.ttf");
         //TODO implement me
         shapes = new Vector<Shape>();
@@ -298,7 +304,7 @@ public class View
                     t.setTxt(i + " " + j);
                 }
             }
-        } else if (gridType == 1)
+        } else if (gridType == 1) //triangular
         {
             for (int i = (int) starti; i < columns + starti; i++)
                 for (int j = (int) startj; j < rows + startj; j++)
@@ -351,11 +357,12 @@ public class View
                 }
             }
 
-        } else if (gridType == 2)
+        } else if (gridType == 2) //hex
         {
             for (int i = (int) starti; i < columns + starti; i++)
                 for (int j = (int) startj; j < rows + startj; j++)
-                    if(grid.isCellAlive(i, j)) Hexagon.display(x + i * cellWidth, y + j * cellHeight + (i % 2) * cellHeight / 2, a, true);
+                    if (grid.isCellAlive(i, j))
+                        Hexagon.display(x + i * cellWidth, y + j * cellHeight + (i % 2) * cellHeight / 2, a, true);
 
             glColor3f(lineColor.getR(), lineColor.getG(), lineColor.getB());
             for (int i = (int) starti; i < columns + starti; i++)
@@ -422,6 +429,22 @@ public class View
                     grid.setOldX(x + i * cellWidth);
                     grid.setOldY(y + j * cellHeight + (i % 2) * cellHeight / 2);
                     t.setTxt(i + " " + j);
+
+
+                    glColor3f(1,1,0);
+
+                    if (selection)
+                    {
+                        for (int is = iSelection; is <= iSelection + widthSelection; is++) //  U
+                            Hexagon.display(x + is * cellWidth, y + (jSelection -(is%2)) * cellHeight + (is % 2) * cellHeight / 2, a, (is % 2) == 0 ? 'U' : 'D');
+                        for (int js = jSelection; js <= jSelection + heightSelection; js++)
+                        {
+                            Hexagon.display(x + iSelection * cellWidth, y + js * cellHeight + (iSelection % 2) * cellHeight / 2, a,'L');
+                            Hexagon.display(x + (iSelection+widthSelection) * cellWidth, y + js * cellHeight + ((iSelection+widthSelection) % 2) * cellHeight / 2, a, 'R');
+                        }
+                        for (int is = iSelection; is <= iSelection + widthSelection; is++) //  U
+                            Hexagon.display(x + is * cellWidth, y + (jSelection+heightSelection ) * cellHeight + (is % 2) * cellHeight / 2, a, ((is+1) % 2) == 0 ? 'U' : 'D');
+                    }
                 }
             }
 

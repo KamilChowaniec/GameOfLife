@@ -4,7 +4,8 @@ import graphics.Text;
 
 import static org.lwjgl.opengl.GL11.glColor3f;
 
-public class Button implements Positionable {
+public class Button implements Positionable
+{
     private int x, y, width, height;
     private String text;
     private Color color;

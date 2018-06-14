@@ -67,10 +67,16 @@ public abstract class Grid {
             }
     }
 
-    public void incZoom(int offset, double[] mousePosition) {
-        this.zoom += offset;
-        if (zoom < 0) zoom = 0;
-        else if (zoom > 100) zoom = 100;
+    public void incZoom(int offset)
+    {
+        zoom += offset;
+        if(zoom>150) zoom+=10*offset;
+        else if(zoom>125) zoom+=7*offset;
+        else if (zoom > 100) zoom+=5*offset;
+        else if(zoom>75) zoom+=2*offset;
+        else if(zoom>50) zoom+=offset;
+        if (zoom > 200) zoom = 200;
+        else if (zoom < 0) zoom = 0;
     }
 
     public int getZoom() {
