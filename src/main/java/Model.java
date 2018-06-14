@@ -6,7 +6,7 @@ public class Model {
 
     public Model() {
         cards = new ArrayList<>();
-        cards.add(new Card(gridType.Hexagonal));
+        cards.add(new Card(gridType.Squared));
         cardIndex = 0;
     }
 
