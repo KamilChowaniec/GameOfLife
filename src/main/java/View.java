@@ -19,8 +19,8 @@ public class View
     private Slider zoomSlider;
 
     private boolean selection=true;
-    private int iSelection=11;
-    private int jSelection=11;
+    private int iSelection=10;
+    private int jSelection=10;
     private int widthSelection=11;
     private int heightSelection=11;
 
@@ -302,6 +302,11 @@ public class View
                     grid.setOldX(x + i * a);
                     grid.setOldY(y + j * a);
                     t.setTxt(i + " " + j);
+                    glColor3f(1, 1, 0);
+
+                    if (selection)
+                        Rectangle.displaySelected(x, y, a, cellWidth, cellHeight, iSelection,  jSelection, widthSelection, heightSelection);
+
                 }
             }
         } else if (gridType == 1) //triangular
@@ -354,6 +359,10 @@ public class View
                     grid.setOldX(x + i * cellWidth + (j % 2) * cellWidth);
                     grid.setOldY(y + j * cellHeight);
                     t.setTxt(i + " " + j);
+                    glColor3f(1, 1, 0);
+                    if (selection)
+                        Triangle.displaySelected(x, y, a, cellWidth, cellHeight, iSelection,  jSelection, widthSelection, heightSelection);
+
                 }
             }
 
@@ -429,9 +438,6 @@ public class View
                     grid.setOldX(x + i * cellWidth);
                     grid.setOldY(y + j * cellHeight + (i % 2) * cellHeight / 2);
                     t.setTxt(i + " " + j);
-
-
-                    glColor3f(1, 1, 0);
 
 
                     glColor3f(1, 1, 0);

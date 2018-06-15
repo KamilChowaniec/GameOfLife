@@ -32,4 +32,10 @@ public class Rectangle extends Shape
         glVertex2f(x, y + height);
         glEnd();
     }
+
+
+    public static void displaySelected(float x, float y, float a, float cellWidth, float cellHeight, int iSelection, int jSelection, int widthSelection, int heightSelection)
+    {
+        display(x + iSelection * cellWidth, y + jSelection * cellHeight,  a*widthSelection, a*heightSelection, false);
+    }
 }
