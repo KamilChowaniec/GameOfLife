@@ -43,8 +43,12 @@ public class Selection {
         boolean[][] clip = new boolean[width][height];
         for (int i = 0; i < width; i++)
             for (int j = 0; j < height; j++)
-                clip[i][j] = grid.isCellAlive(i, j);
+                clip[i][j] = grid.isCellAlive(i+x, j+y);
         return clip;
+    }
+
+    public boolean isSelected(){
+        return width>0 && height>0;
     }
 
     private void trimExcess(Grid grid) {
@@ -95,8 +99,8 @@ public class Selection {
             if (!present) x2 -= 1;
             else break;
         }
-        width = x2 - x;
-        height = y2 - y;
+        width = x2 - x + 1;
+        height = y2 - y + 1;
     }
 
 

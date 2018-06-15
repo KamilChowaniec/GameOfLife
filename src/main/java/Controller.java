@@ -2,6 +2,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 import graphics.Input.*;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class Controller {
@@ -99,6 +100,14 @@ public class Controller {
             if (KeyboardHandler.isKeyDown(GLFW_KEY_LEFT_SHIFT))
                 selection.setWH(codedPos);
         }
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_LEFT_CONTROL)) {
+            if (KeyboardHandler.isKeyClicked(GLFW_KEY_C))
+                if (selection.isSelected()) model.setClipboard(selection.getClipboard(model.getGridValues()));
+            if (KeyboardHandler.isKeyClicked(GLFW_KEY_V))
+                model.pasteClipboard((codedPos - (codedPos%Game.GRIDSIZE)) / Game.GRIDSIZE,codedPos%Game.GRIDSIZE);
+        }
+
+
     }
 
 

@@ -50,13 +50,20 @@ public class Model {
     }
 
     public void pasteClipboard(int x, int y) {
-        if (x + clipboard.length > Game.GRIDSIZE)
-            x = Game.GRIDSIZE - clipboard.length;
-        if (y + clipboard[0].length > Game.GRIDSIZE)
-            y = Game.GRIDSIZE - clipboard.length;
+        if (x + clipboard.length / 2 >= Game.GRIDSIZE)
+            x = Game.GRIDSIZE - clipboard.length / 2 - 1;
+        else if (x - clipboard.length / 2 < 0)
+            x = clipboard.length / 2;
+
+        if (y + clipboard[0].length / 2 >= Game.GRIDSIZE)
+            y = Game.GRIDSIZE - clipboard[0].length / 2 - 1;
+        else if (y - clipboard[0].length / 2 < 0)
+            y = clipboard[0].length / 2;
+
         for (int i = 0; i < clipboard.length; i++)
-            for (int j = 0; j < clipboard[0].length; i++)
-                if (clipboard[i][j]) cards.get(cardIndex).draw(i, j, true);
+            for (int j = 0; j < clipboard[0].length; j++)
+                if (clipboard[i][j])
+                    cards.get(cardIndex).draw(x + i - clipboard.length / 2, y + j - clipboard[0].length / 2, true);
     }
 
     public void draw(int codedPosition, boolean state) {
