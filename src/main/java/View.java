@@ -130,6 +130,12 @@ public class View
 
     }
 
+    public Area getArea(){
+        for(Area a : Area.values())
+            if(a.isFocused((int)MouseHandler.xPos(),(int)MouseHandler.yPos())) return a;
+        return Area.grid;
+    }
+
     private int displaySlider()
     {
         double mouseX = MouseHandler.xPos();

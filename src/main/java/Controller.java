@@ -13,10 +13,13 @@ public class Controller {
     private Checkbox[][] rulesCheckboxes;
     private Slider delaySlider;
     private Selection selection;
+    private Toolset toolset;
+    private Area area;
 
     public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
+        toolset = new Toolset();
         selection = new Selection(0,0,1,1);
         cardButtons = new ArrayList<>();
         rulesCheckboxes = new Checkbox[2][13];
@@ -45,13 +48,16 @@ public class Controller {
             for (int i = 0; i < model.getRuleSize(); i++)
                 checkbox[i].draw();
         for (Button button : cardButtons) button.display();
+        toolset.display();
         delaySlider.draw();
         view.display();
     }
 
     private void handleEvents() {
+        area = view.getArea();
         handleSliders();
         handleButtons();
+        toolset.handleTools();
         handleCheckboxes();
         handleSelection();
         if (KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE))
@@ -85,6 +91,23 @@ public class Controller {
         if (MouseButtonsHandler.isKeyDown(GLFW_MOUSE_BUTTON_MIDDLE)) {
             model.moveGrid(MouseHandler.xRel(), MouseHandler.yRel());
         }
+
+        switch(toolset.getTool()){
+            case Draw:
+
+                break;
+
+            case Eraser:
+
+                break;
+
+            case Selection:
+
+                break;
+        }
+
+
+
 
 
         KeyboardHandler.clear();

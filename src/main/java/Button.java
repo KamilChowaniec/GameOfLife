@@ -10,11 +10,11 @@ public class Button implements Positionable
     private String text;
     private Color color;
     private boolean focused;
-    float r,g,b;
     private Text t;
     private ButtonHandler handler;
 
     public Button(int x, int y, int width, int height, String text,ButtonHandler handler,float r, float g, float b) {
+        color = new Color(r,g,b,1);
         this.handler=handler;
         focused = false;
         this.x = x;
@@ -22,9 +22,6 @@ public class Button implements Positionable
         this.width = width;
         this.height = height;
         this.text = text;
-        this.r=r;
-        this.g=g;
-        this.b=b;
         t=new Text(x,y+height/2 + (int)Text.getFontHeight()/2,text, 1.0f,1f,1);
     }
 
@@ -44,6 +41,12 @@ public class Button implements Positionable
         this.color = color;
     }
 
+    public void setColor(float r, float g, float b) {
+        this.color.setR(r);
+        this.color.setG(g);
+        this.color.setB(b);
+    }
+
     public String getText() {
         return text;
     }
@@ -60,7 +63,7 @@ public class Button implements Positionable
 
     public void display()
     {
-        glColor3f(r, g, b);
+        glColor3f(color.getR(), color.getG(), color.getB());
         Rectangle.display(x,y,width,height,true);
         t.display();
     }
