@@ -1,8 +1,13 @@
 public class Toolset {
-    private Tool tools;
-    private int state;
+    private Tool state;
+    private Button[] tools;
 
-    public Toolset() {
-        super();
+    public Toolset(){
+        state = Tool.Draw;
+        tools = new Button[Tool.values().length];
+    }
+
+    public Tool getTool() {
+        return state;
     }
 }

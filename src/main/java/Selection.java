@@ -1,43 +1,41 @@
 
 public class Selection {
-    private int x, y;
+    private int x, y, setx, sety;
     private int width, height;
 
     public Selection(int codedPos) {
-        y = codedPos % Game.GRIDSIZE;
-        x = (codedPos - y) / Game.GRIDSIZE;
+        y = sety = codedPos % Game.GRIDSIZE;
+        x = setx = (codedPos - y) / Game.GRIDSIZE;
         width = 1;
         height = 1;
     }
 
     public Selection(int x, int y, int width, int height) {
-        this.x = x;
-        this.y = y;
+        this.x = setx = x;
+        this.y = sety = y;
         this.width = width;
         this.height = height;
     }
 
     public void setWH(int codedPos2) {
         int endY = codedPos2 % Game.GRIDSIZE;
-        int endX = (codedPos2 - endY) % Game.GRIDSIZE;
-        int tmp;
-        if (endX < x) {
-            tmp = x;
-            x = endX;
-            endX = tmp;
+        int endX = (codedPos2 - endY) / Game.GRIDSIZE;
+        //int tmp;
+        width = Math.abs(endX - setx);
+        height = Math.abs(endY - sety);
+        if (endX < setx) {
+            this.x = endX;
         }
-        if (endY < y) {
-            tmp = y;
-            y = endY;
-            endY = y;
-        }
-        width = endY - y;
-        height = endX - x;
+        else this.x = setx;
+        if (endY < sety) {
+            this.y = endY;
+        }else this.y = sety;
+
     }
 
     public void setXY(int codedPos) {
-        y = codedPos % Game.GRIDSIZE;
-        x = (codedPos - y) / Game.GRIDSIZE;
+        y = sety = codedPos % Game.GRIDSIZE;
+        x = setx = (codedPos - y) / Game.GRIDSIZE;
     }
 
     public boolean[][] getClipboard(Grid grid) {
@@ -100,7 +98,6 @@ public class Selection {
         width = x2 - x;
         height = y2 - y;
     }
-
 
 
     public int getX() {

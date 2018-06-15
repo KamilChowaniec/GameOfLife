@@ -11,10 +11,12 @@ public class Controller {
     private ArrayList<Button> cardButtons;
     private Checkbox[][] rulesCheckboxes;
     private Slider delaySlider;
+    private Selection selection;
 
     public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
+        selection = new Selection(0,0,1,1);
         cardButtons = new ArrayList<>();
         rulesCheckboxes = new Checkbox[2][13];
         delaySlider = new Slider(view.rulesX + 50, view.rulesY + 400, 300, 10);
@@ -36,7 +38,7 @@ public class Controller {
     }
 
     private void display() {
-        codedPos = view.display(model.getGridValues());
+        codedPos = view.display(model.getGridValues(),selection);
 
         for (Checkbox[] checkbox : rulesCheckboxes)
             for (int i = 0; i < model.getRuleSize(); i++)
@@ -50,6 +52,7 @@ public class Controller {
         handleSliders();
         handleButtons();
         handleCheckboxes();
+        handleSelection();
         if (KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE))
             view.closeWindow();
         if (KeyboardHandler.isKeyClicked(GLFW_KEY_SPACE))
@@ -88,6 +91,18 @@ public class Controller {
         ScrollHandler.clear();
         MouseHandler.clear();
     }
+
+    private void handleSelection(){
+        if(codedPos!=-1) {
+            if (KeyboardHandler.isKeyClicked(GLFW_KEY_LEFT_SHIFT))
+                selection.setXY(codedPos);
+            if (KeyboardHandler.isKeyDown(GLFW_KEY_LEFT_SHIFT))
+                selection.setWH(codedPos);
+        }
+    }
+
+
+
 
     private void handleSliders() {
         if (delaySlider.isFocused((int) MouseHandler.xPos(), (int) MouseHandler.yPos()) && MouseButtonsHandler.isKeyDown(0) && !delaySlider.state()) {

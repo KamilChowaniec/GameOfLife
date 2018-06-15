@@ -1,4 +1,6 @@
-public class Tool
+public enum Tool
 {
-
+    Selection,
+    Draw,
+    Eraser;
 }

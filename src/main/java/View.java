@@ -158,15 +158,15 @@ public class View
     }
 
 
-    public int display(Grid grid)
+    public int display(Grid grid, Selection s)
     {
-        int codedPosition = displayGrid((grid));
+        int codedPosition = displayGrid((grid), s);
         displayMask();
         return codedPosition;
     }
 
 
-    private int displayGrid(Grid grid)
+    private int displayGrid(Grid grid, Selection sel)
     {
         int codedPosition = -1;
         int gridType;
@@ -305,7 +305,7 @@ public class View
                     glColor3f(1, 1, 0);
 
                     if (selection)
-                        Rectangle.displaySelected(x, y, a, cellWidth, cellHeight, iSelection,  jSelection, widthSelection, heightSelection);
+                        Rectangle.displaySelected(x, y, a, cellWidth, cellHeight, sel.getX(), sel.getY(), sel.getWidth(), sel.getHeight());
 
                 }
             }
@@ -361,7 +361,7 @@ public class View
                     t.setTxt(i + " " + j);
                     glColor3f(1, 1, 0);
                     if (selection)
-                        Triangle.displaySelected(x, y, a, cellWidth, cellHeight, iSelection,  jSelection, widthSelection, heightSelection);
+                        Triangle.displaySelected(x, y, a, cellWidth, cellHeight, sel.getX(), sel.getY(), sel.getWidth(), sel.getHeight());
 
                 }
             }
@@ -442,8 +442,10 @@ public class View
 
                     glColor3f(1, 1, 0);
 
-                    if (selection)
-                        Hexagon.displaySelected(x, y, a, cellWidth, cellHeight, iSelection,  jSelection, widthSelection, heightSelection);
+                    if (selection) {
+                        //t.setTxt("" + sel.getX() + " " + sel.getY() + " " + sel.getWidth() + " " + sel.getHeight());
+                        Hexagon.displaySelected(x, y, a, cellWidth, cellHeight, sel.getX(), sel.getY(), sel.getWidth(), sel.getHeight());
+                    }
                 }
             }
 

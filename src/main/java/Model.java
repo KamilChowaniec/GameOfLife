@@ -3,8 +3,10 @@ import java.util.ArrayList;
 public class Model {
     private ArrayList<Card> cards;
     private int cardIndex;
+    private boolean[][] clipboard;
 
     public Model() {
+        clipboard = new boolean[1][1];
         cards = new ArrayList<>();
         cards.add(new Card(gridType.Hexagonal));
         cardIndex = 0;
@@ -39,12 +41,30 @@ public class Model {
         if (cardIndex > 0) cardIndex--;
     }
 
+    public void setClipboard(boolean[][] clipboard) {
+        this.clipboard = clipboard;
+    }
+
+    public boolean[][] getClipboard() {
+        return clipboard;
+    }
+
+    public void pasteClipboard(int x, int y) {
+        if (x + clipboard.length > Game.GRIDSIZE)
+            x = Game.GRIDSIZE - clipboard.length;
+        if (y + clipboard[0].length > Game.GRIDSIZE)
+            y = Game.GRIDSIZE - clipboard.length;
+        for (int i = 0; i < clipboard.length; i++)
+            for (int j = 0; j < clipboard[0].length; i++)
+                if (clipboard[i][j]) cards.get(cardIndex).draw(i, j, true);
+    }
+
     public void draw(int codedPosition, boolean state) {
         int y = codedPosition % Game.GRIDSIZE;
         cards.get(cardIndex).draw((codedPosition - y) / Game.GRIDSIZE, y, state);
     }
 
-    public void setDelay(double delay){
+    public void setDelay(double delay) {
         cards.get(cardIndex).setDelay(delay);
     }
 

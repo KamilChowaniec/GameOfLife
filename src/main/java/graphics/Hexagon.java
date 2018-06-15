@@ -24,10 +24,10 @@ public class Hexagon extends Shape
 
     public static void display(float x, float y, float a, boolean filled)
     {
-//        glEnable( GL_LINE_SMOOTH );
-//        glEnable( GL_POLYGON_SMOOTH );
-//        glHint( GL_LINE_SMOOTH_HINT, GL_NICEST );
-//        glHint( GL_POLYGON_SMOOTH_HINT, GL_NICEST );
+        //glEnable( GL_LINE_SMOOTH );
+        //glEnable( GL_POLYGON_SMOOTH );
+        //glHint( GL_LINE_SMOOTH_HINT, GL_NICEST );
+        //glHint( GL_POLYGON_SMOOTH_HINT, GL_NICEST );
 
         if (filled) glBegin(GL_POLYGON);
         else glBegin(GL_LINE_LOOP);
@@ -48,6 +48,10 @@ public class Hexagon extends Shape
 
     private static void display(float x, float y, float a, char side)
     {
+        //glEnable( GL_LINE_SMOOTH );
+        //glEnable( GL_POLYGON_SMOOTH );
+        //glHint( GL_LINE_SMOOTH_HINT, GL_NICEST );
+       // glHint( GL_POLYGON_SMOOTH_HINT, GL_NICEST );
         switch (side)
         {
             case '1':
