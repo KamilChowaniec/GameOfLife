@@ -20,7 +20,7 @@ public class Controller {
         selection = new Selection(0,0,1,1);
         cardButtons = new ArrayList<>();
         rulesCheckboxes = new Checkbox[2][13];
-        delaySlider = new Slider(view.rulesX + 50, view.rulesY + 400, 300, 10);
+        delaySlider = new Slider(view.previewX + 50, view.previewY + 400, 300, 10);
         initButtons();
         initCheckboxes();
     }
@@ -39,7 +39,7 @@ public class Controller {
     }
 
     private void display() {
-        codedPos = view.display(model.getGridValues(),selection);
+        codedPos = view.display(model.getGridValues(),selection, model.getClipboard());
 
         for (Checkbox[] checkbox : rulesCheckboxes)
             for (int i = 0; i < model.getRuleSize(); i++)

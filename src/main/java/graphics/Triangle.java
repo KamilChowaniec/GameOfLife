@@ -125,8 +125,6 @@ public class Triangle extends Shape
             glEnd();
         }
 
-
-
         if(((iSelection+(jSelection+heightSelection)) % 2) == 0 && iSelection%2==1) {
             //if((((iSelection+widthSelection+jSelection+heightSelection) % 2) == 1)) {
             glBegin(GL_LINES);
