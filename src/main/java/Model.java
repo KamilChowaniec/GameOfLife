@@ -8,7 +8,7 @@ public class Model {
     public Model() {
         clipboard = new boolean[1][1];
         cards = new ArrayList<>();
-        cards.add(new Card(gridType.Hexagonal));
+        cards.add(new Card(gridType.Triangular));
         cardIndex = 0;
     }
 

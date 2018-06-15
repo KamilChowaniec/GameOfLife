@@ -95,22 +95,45 @@ public class Triangle extends Shape
 
     public static void displaySelected(float x, float y, float a, float cellWidth, float cellHeight, int iSelection, int jSelection, int widthSelection, int heightSelection)
     {
+
         // U
-        for (int is = iSelection ; is < iSelection + widthSelection ; is+=2) // U
-                Triangle.display(x + is * cellWidth + (jSelection % 2) * cellWidth, y + jSelection * cellHeight, a, (is % 2) > 0, 'B');
+        for (int is = iSelection+1  ; is < iSelection + widthSelection-1 ; is++) // U
+            if ((is % 2) > 0) Triangle.display(x + is * cellWidth + (jSelection % 2) * cellWidth, y + jSelection * cellHeight, a, (is % 2) > 0, 'B');
+        // D
+        for (int is = iSelection +1 ; is < iSelection + widthSelection -1; is++) // U
+            if ((is % 2) > 0) Triangle.display(x + is * cellWidth + ((jSelection+heightSelection) % 2) * cellWidth, y + (jSelection+heightSelection) * cellHeight, a, (is % 2) > 0, 'B');
+
 
         // D
-        for (int is = iSelection+1 ; is < iSelection + widthSelection ; is+=2) // U
-            if (!((is % 2) > 0))
-                Triangle.display(x + is * cellWidth + (jSelection % 2) * cellWidth, y + (jSelection+heightSelection-1) * cellHeight, a, (is % 2) > 0, 'B');
+   //     for (int is = iSelection+1 ; is < iSelection + widthSelection ; is+=2) // U
+     //       if (!((is % 2) > 0))
+          //      Triangle.display(x + is * cellWidth + (jSelection % 2) * cellWidth, y + (jSelection+heightSelection-1) * cellHeight, a, (is % 2) > 0, 'B');
+
+/*
+
+        Triangle.display(x + iSelection * cellWidth - (js % 2) * cellWidth, y + js * cellHeight, a, (iSelection % 2) > 0, (js % 2) > 0 ? 'R' : 'L');
+        // R
+        Triangle.display(x + (iSelection+widthSelection) * cellWidth - (js % 2) * cellWidth, y + js * cellHeight, a, ((iSelection+widthSelection) % 2) > 0, (js % 2) > 0 ? 'R' : 'L');
+
+*/
+        // L U
+      //  if (((iSelection%2==0)&&(jSelection%2==1)) || ((iSelection%2==1)&&(jSelection%2==0)))
+      //      Triangle.display(x + iSelection * cellWidth + (jSelection % 2) * cellWidth, y + jSelection * cellHeight, a, (iSelection % 2) > 0, 'B');
+        if((iSelection%2==1)&&(jSelection%2==1))
+            Triangle.display(x + (iSelection-1) * cellWidth + (jSelection % 2) * cellWidth, y + jSelection * cellHeight, a, ((iSelection-1) % 2) > 0, 'B');
+
+        if(iSelection%2==1)
+            Triangle.display(x + (iSelection) * cellWidth + (jSelection % 2) * cellWidth, y + jSelection * cellHeight, a, (iSelection % 2) > 0, 'B');
+
 
 
         for (int js = jSelection; js < jSelection + heightSelection; js++)
         {
             // L
-            Triangle.display(x + iSelection * cellWidth + (jSelection % 2) * cellWidth, y + js*cellHeight , a, (js % 2) > 0, 'L');
+            Triangle.display(x + iSelection * cellWidth - (js % 2) * cellWidth, y + js * cellHeight, a, (iSelection % 2) > 0, (js % 2) > 0 ? 'R' : 'L');
             // R
-            Triangle.display(x + (iSelection + widthSelection - 1) * cellWidth + (jSelection % 2) * cellWidth, y + js*cellHeight, a, (js % 2) > 0, 'R');
+            Triangle.display(x + (iSelection+widthSelection) * cellWidth - (js % 2) * cellWidth, y + js * cellHeight, a, ((iSelection+widthSelection) % 2) > 0, (js % 2) > 0 ? 'R' : 'L');
+
         }
 
     }
