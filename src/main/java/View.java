@@ -172,15 +172,20 @@ public class View
         return codedPosition;
     }
 
-    private void displayPreview(Grid grid, boolean[][] clipboard)
+    private void displayPreview(Grid grid, boolean[][] clipboard) // squared working, TODO: fix triangular and hexagonal
     {
         glColor3f(0.8f, 0.8f, 0.8f);
-        int length = Math.min(clipboard.length, clipboard[0].length);
-        float a = previewWidth / length;
+
         float s = (float) Math.sqrt(3);
+
+
+
+
 
         if (grid instanceof Squared)
         {
+            int length = Math.max(clipboard.length, clipboard[0].length);
+            float a = (float)previewWidth / length;
             float cellWidth = a;
             float cellHeight = a;
             for (int i = 0; i < clipboard.length; i++)
@@ -194,37 +199,51 @@ public class View
                 for (int j = 0; j < length; j++)
                     Rectangle.display(previewX + i * cellWidth, previewY + j * cellHeight, cellWidth, cellHeight, false);
 
-        } else if (grid instanceof Triangular)
+        }
+
+
+
+
+
+        else if (grid instanceof Triangular)
         {
+            int length = Math.max(clipboard.length, (int)(clipboard[0].length*s));
+            float a=(float)2*previewWidth / length;
             float cellWidth = a / 2;
             float cellHeight = a * s / 2;
             for (int i = 0; i < clipboard.length; i++)
                 for (int j = 0; j < clipboard[i].length; j++)
                     if (clipboard[i][j])
-                        Triangle.display(previewX + i * cellWidth + (j % 2) * cellWidth, previewY + j * cellHeight, a, (i % 2) > 0, true);
+                        Triangle.display(previewX + i * cellWidth + (j % 2) * cellWidth+cellWidth+cellWidth/4, previewY + j * cellHeight, a, (i % 2) > 0, true);
             //                    if(grid.isCellAlive((i + (j % 2)) % Game.GRIDSIZE, j))
 
             glColor3f(0.2f, 0.2f, 0.2f);
-            for (int i = 0; i < clipboard.length; i++)
-                for (int j = 0; j < clipboard[i].length; j++)
-                    Triangle.display(previewX + i * cellWidth + (j % 2) * cellWidth, previewY + j * cellHeight, a, (i % 2) > 0, false);
+            for (int i = 0; i < length; i++)
+                for (int j = 0; j < length; j++)
+                    Triangle.display(previewX + i * cellWidth + (j % 2) * cellWidth+cellWidth + cellWidth/4, previewY + j * cellHeight, a, (i % 2) > 0, false);
 
-        } else if (grid instanceof Hexagonal)
+        }
+
+        else if (grid instanceof Hexagonal)
         {
+            int length = (int)Math.max(clipboard.length*1.5f, clipboard[0].length*s);
+            //int length = (clipboard.length*1.5f > clipboard[0].length*s ? clipboard.length : clipboard[0].length);
+            float a = (float)previewWidth / length;
             float cellWidth = a * 1.5f;
             float cellHeight = a * s;
 
             for (int i = 0; i < clipboard.length; i++)
                 for (int j = 0; j < clipboard[i].length; j++)
                     if (clipboard[i][j])
-                        Hexagon.display(previewX + i * cellWidth, previewY + j * cellHeight + (i % 2) * cellHeight / 2, a, true);
+                        Hexagon.display(previewX + i * cellWidth + a/2, previewY + j * cellHeight + (i % 2) * cellHeight / 2, a, true);
 
             glColor3f(0.2f, 0.2f, 0.2f);
-            for (int i = 0; i < clipboard.length; i++)
-                for (int j = 0; j < clipboard[i].length; j++)
-                    Hexagon.display(previewX + i * cellWidth, previewY + j * cellHeight + (i % 2) * cellHeight / 2, a, false);
+            for (int i = 0; i < length; i++)
+                for (int j = 0; j < length; j++)
+                    Hexagon.display(previewX + i * cellWidth+a/2, previewY + j * cellHeight + (i % 2) * cellHeight / 2, a, false);
 
         }
+
 
         glColor3f(0, 0, 0);
         Rectangle.display(clipboardX, clipboardY, clipboardWidth, clipboardHeight, true);
@@ -484,11 +503,7 @@ public class View
 
                     for(int ii=0;ii<clipboard.length;ii++)
                         for(int jj=0;jj<clipboard[ii].length;jj++)
-                            if(clipboard[ii][jj]) Triangle.display(x + (i+ii-clipboard.length/2 + clipXoff) * cellWidth + ((j+jj-clipboard[ii].length/2+ clipYoff) % 2) * cellWidth, y + (j+jj-clipboard[ii].length/2+ clipYoff) * cellHeight, a, ((i+ii-clipboard.length/2 + clipXoff) % 2) > 0, true);
-
-
-
-
+                            if(clipboard[ii][jj]) Triangle.display(x + (i+ii-clipboard.length/2 + clipXoff) * cellWidth + ((j+jj-clipboard[ii].length/2+ clipYoff) % 2) * cellWidth, y + (j+jj-clipboard[ii].length/2+ clipYoff) * cellHeight, a-2, ((i+ii-clipboard.length/2 + clipXoff) % 2) > 0, true);
                 }
             }
 
@@ -564,7 +579,6 @@ public class View
                     grid.setOldX(x + i * cellWidth);
                     grid.setOldY(y + j * cellHeight + (i % 2) * cellHeight / 2);
                     t.setTxt(i + " " + j);
-
 
                     glColor3f(1, 1, 0);
 
