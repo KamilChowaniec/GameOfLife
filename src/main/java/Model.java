@@ -3,10 +3,10 @@ import java.util.ArrayList;
 public class Model {
     private ArrayList<Card> cards;
     private int cardIndex;
-    private boolean[][] clipboard;
+    private Clipboard clipboard;
 
     public Model() {
-        clipboard = new boolean[1][1];
+        clipboard = new Clipboard();
         cards = new ArrayList<>();
         cards.add(new Card(gridType.Triangular));
         cardIndex = 0;
@@ -42,28 +42,32 @@ public class Model {
     }
 
     public void setClipboard(boolean[][] clipboard) {
-        this.clipboard = clipboard;
+        this.clipboard.setClipboard(clipboard);
     }
 
-    public boolean[][] getClipboard() {
+    public void setClipboard(Clipboard clipboard) {
+        this.clipboard.setClipboard(clipboard);
+    }
+
+    public Clipboard getClipboard() {
         return clipboard;
     }
 
     public void pasteClipboard(int x, int y) {
-        if (x + clipboard.length / 2 >= Game.GRIDSIZE)
-            x = Game.GRIDSIZE - clipboard.length / 2 - 1;
-        else if (x - clipboard.length / 2 < 0)
-            x = clipboard.length / 2;
+        if (x + clipboard.getWidth() / 2 >= Game.GRIDSIZE)
+            x = Game.GRIDSIZE - clipboard.getWidth() / 2 - 1;
+        else if (x - clipboard.getWidth() / 2 < 0)
+            x = clipboard.getWidth() / 2;
 
-        if (y + clipboard[0].length / 2 >= Game.GRIDSIZE)
-            y = Game.GRIDSIZE - clipboard[0].length / 2 - 1;
-        else if (y - clipboard[0].length / 2 < 0)
-            y = clipboard[0].length / 2;
+        if (y + clipboard.getHeight() / 2 >= Game.GRIDSIZE)
+            y = Game.GRIDSIZE - clipboard.getHeight() / 2 - 1;
+        else if (y - clipboard.getHeight() / 2 < 0)
+            y = clipboard.getHeight() / 2;
 
-        for (int i = 0; i < clipboard.length; i++)
-            for (int j = 0; j < clipboard[0].length; j++)
-                if (clipboard[i][j])
-                    cards.get(cardIndex).draw(x + i - clipboard.length / 2, y + j - clipboard[0].length / 2, true);
+        for (int i = 0; i < clipboard.getWidth(); i++)
+            for (int j = 0; j < clipboard.getHeight(); j++)
+                if (clipboard.isCellAlive(i,j))
+                    cards.get(cardIndex).draw(x + i - clipboard.getWidth() / 2, y + j - clipboard.getHeight() / 2, true);
     }
 
     public void draw(int codedPosition, boolean state) {

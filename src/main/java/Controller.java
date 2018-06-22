@@ -2,7 +2,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 import graphics.Input.*;
 
-import java.awt.event.KeyEvent;
+import java.security.Key;
 import java.util.ArrayList;
 
 public class Controller {
@@ -15,10 +15,12 @@ public class Controller {
     private Selection selection;
     private Toolset toolset;
     private Area area;
+    private ClipLib clips;
 
     public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
+        clips = new ClipLib();
         toolset = new Toolset();
         selection = new Selection(0,0,1,1);
         cardButtons = new ArrayList<>();
@@ -50,6 +52,7 @@ public class Controller {
         for (Button button : cardButtons) button.display();
         toolset.display();
         delaySlider.draw();
+        clips.displayButtons();
         view.display();
     }
 
@@ -60,6 +63,7 @@ public class Controller {
         toolset.handleTools();
         handleCheckboxes();
         handleSelection();
+        clips.handleButtons();
         if (KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE))
             view.closeWindow();
         if (KeyboardHandler.isKeyClicked(GLFW_KEY_SPACE))
@@ -106,7 +110,21 @@ public class Controller {
                 break;
         }
 
-
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_LEFT_CONTROL)){
+            if(KeyboardHandler.isKeyClicked(GLFW_KEY_L)){
+                clips.loadFromFile("clips.txt");
+            }
+            if(KeyboardHandler.isKeyClicked(GLFW_KEY_S)){
+                clips.saveToFile("clips.txt");
+            }
+            if(KeyboardHandler.isKeyClicked(GLFW_KEY_A)){
+                int i = clips.size();
+                clips.addClip(model.getClipboard(),()->model.setClipboard(clips.getClipboard(i)),()-> System.out.println("delete"));
+            }
+            if(KeyboardHandler.isKeyClicked(GLFW_KEY_G)){
+                model.setClipboard(clips.getClipboard(0));
+            }
+        }
 
 
 

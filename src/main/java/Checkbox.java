@@ -1,5 +1,7 @@
 import graphics.Rectangle;
 
+import static org.lwjgl.opengl.GL11.glColor3f;
+
 public class Checkbox implements Positionable
 {
     private int x,y;
@@ -22,7 +24,11 @@ public class Checkbox implements Positionable
     public void draw()
     {
         Rectangle.display(x,y,size,size,false);
-        if(state) Rectangle.display(x+3,y+3,size-7,size-7,true);
+        glColor3f(0,0,0);
+        Rectangle.display(x-1,y-1,size+2,size+2,false);
+        glColor3f(1,1,1);
+        Rectangle.display(x-2,y-2,size+4,size+4,false);
+        if(state) Rectangle.display(x+1,y+1,size-3,size-2,true);
     }
 
     public boolean isFocused(int mouseX, int mouseY)
