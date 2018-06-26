@@ -46,7 +46,6 @@ public class Slider
         private int widthThumb;
         private int heightThumb;
 
-
         public Builder xTrack(int xTrack)
         {
             this.xTrack=xTrack;
