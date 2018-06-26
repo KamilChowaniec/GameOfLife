@@ -51,6 +51,14 @@ public class Text implements Displayable {
         this.c = new Color(r, g, b, 1f);
     }
 
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
     public void setTxt(String txt) {
         this.txt = txt;
     }
