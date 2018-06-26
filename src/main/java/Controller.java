@@ -2,7 +2,6 @@ import static org.lwjgl.glfw.GLFW.*;
 
 import graphics.Input.*;
 
-import java.security.Key;
 import java.util.ArrayList;
 
 public class Controller {
@@ -10,32 +9,23 @@ public class Controller {
     private Model model;
     private int codedPos = -1;
     private ArrayList<Button> cardButtons;
+    private ArrayList<Button> cardDelButtons;
     private Checkbox[][] rulesCheckboxes;
     private Slider delaySlider;
     private Selection selection;
     private Toolset toolset;
-    private Area area;
     private ClipLib clips;
 
     public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
-        clips = new ClipLib();
+        clips = new ClipLib("clips.txt");
         toolset = new Toolset();
-        selection = new Selection(0,0,1,1);
+        selection = new Selection(0, 0, 1, 1);
         cardButtons = new ArrayList<>();
+        cardDelButtons = new ArrayList<>();
         rulesCheckboxes = new Checkbox[2][13];
-
-
-        delaySlider=new Slider.Builder()
-                .xTrack(view.toolsX+50)
-                .yTrack(view.toolsY + 300)
-                .widthTrack(300)
-                .heightTrack(40)
-                .widthThumb(20)
-                .heightThumb(50)
-                .build();
-
+        delaySlider = new Slider(view.previewX + 50, view.previewY + 400, 300, 10);
         initButtons();
         initCheckboxes();
     }
@@ -54,12 +44,13 @@ public class Controller {
     }
 
     private void display() {
-        codedPos = view.display(model.getGridValues(),selection, model.getClipboard());
+        codedPos = view.display(model.getGridValues(), selection, model.getClipboard());
 
         for (Checkbox[] checkbox : rulesCheckboxes)
             for (int i = 0; i < model.getRuleSize(); i++)
                 checkbox[i].draw();
         for (Button button : cardButtons) button.display();
+        for (Button button : cardDelButtons) button.display();
         toolset.display();
         delaySlider.draw();
         clips.displayButtons();
@@ -67,25 +58,38 @@ public class Controller {
     }
 
     private void handleEvents() {
-        area = view.getArea();
+        switch (view.getState()) {
+            case clipboard:
+
+                break;
+            case grid:
+
+                break;
+
+            case cards:
+
+                break;
+
+            case tools:
+
+                break;
+
+            case preview:
+
+                break;
+        }
         handleSliders();
         handleButtons();
         toolset.handleTools();
         handleCheckboxes();
         handleSelection();
         clips.handleButtons();
-        if (KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE))
-            view.closeWindow();
-        if (KeyboardHandler.isKeyClicked(GLFW_KEY_SPACE))
-            model.randomize();
-        if (KeyboardHandler.isKeyClicked(GLFW_KEY_ENTER))
-            model.update();
-        if (KeyboardHandler.isKeyClicked(GLFW_KEY_D))
-            model.nextCard();
-        if (KeyboardHandler.isKeyClicked(GLFW_KEY_A))
-            model.prevCard();
-        if (KeyboardHandler.isKeyClicked(GLFW_KEY_P))
-            model.pause();
+        if (KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE)) view.closeWindow();
+        if (KeyboardHandler.isKeyClicked(GLFW_KEY_SPACE)) model.randomize();
+        if (KeyboardHandler.isKeyClicked(GLFW_KEY_ENTER)) model.update();
+        if (KeyboardHandler.isKeyClicked(GLFW_KEY_D)) model.nextCard();
+        if (KeyboardHandler.isKeyClicked(GLFW_KEY_A)) model.prevCard();
+        if (KeyboardHandler.isKeyClicked(GLFW_KEY_P)) model.pause();
         if (KeyboardHandler.isKeyDown(GLFW_KEY_LEFT_CONTROL)) {
             if (KeyboardHandler.isKeyClicked(GLFW_KEY_1))
                 addCard(gridType.Squared);
@@ -106,36 +110,21 @@ public class Controller {
             model.moveGrid(MouseHandler.xRel(), MouseHandler.yRel());
         }
 
-        switch(toolset.getTool()){
-           case Draw:
-
-                break;
-
-            case Eraser:
-
-                break;
-
-            case Selection:
-
-                break;
-        }
-
-        if(KeyboardHandler.isKeyDown(GLFW_KEY_LEFT_CONTROL)){
-            if(KeyboardHandler.isKeyClicked(GLFW_KEY_L)){
+        if (KeyboardHandler.isKeyDown(GLFW_KEY_LEFT_CONTROL)) {
+            if (KeyboardHandler.isKeyClicked(GLFW_KEY_L)) {
                 clips.loadFromFile("clips.txt");
             }
-            if(KeyboardHandler.isKeyClicked(GLFW_KEY_S)){
+            if (KeyboardHandler.isKeyClicked(GLFW_KEY_S)) {
                 clips.saveToFile("clips.txt");
             }
-            if(KeyboardHandler.isKeyClicked(GLFW_KEY_A)){
+            if (KeyboardHandler.isKeyClicked(GLFW_KEY_A)) {
                 int i = clips.size();
-                clips.addClip(model.getClipboard(),()->model.setClipboard(clips.getClipboard(i)),()-> System.out.println("delete"));
+                clips.addClip(model.getClipboard(), () -> model.setClipboard(clips.getClipboard(i)), () -> System.out.println("delete"));
             }
-            if(KeyboardHandler.isKeyClicked(GLFW_KEY_G)){
+            if (KeyboardHandler.isKeyClicked(GLFW_KEY_G)) {
                 model.setClipboard(clips.getClipboard(0));
             }
         }
-
 
 
         KeyboardHandler.clear();
@@ -144,24 +133,22 @@ public class Controller {
         MouseHandler.clear();
     }
 
-    private void handleSelection(){
-        if(codedPos!=-1) {
+    private void handleSelection() {
+        if (codedPos != -1) {
             if (KeyboardHandler.isKeyClicked(GLFW_KEY_LEFT_SHIFT))
                 selection.setXY(codedPos);
             if (KeyboardHandler.isKeyDown(GLFW_KEY_LEFT_SHIFT))
                 selection.setWH(codedPos);
         }
-        if(KeyboardHandler.isKeyDown(GLFW_KEY_LEFT_CONTROL)) {
+        if (KeyboardHandler.isKeyDown(GLFW_KEY_LEFT_CONTROL)) {
             if (KeyboardHandler.isKeyClicked(GLFW_KEY_C))
                 if (selection.isSelected()) model.setClipboard(selection.getClipboard(model.getGridValues()));
             if (KeyboardHandler.isKeyClicked(GLFW_KEY_V))
-                model.pasteClipboard((codedPos - (codedPos%Game.GRIDSIZE)) / Game.GRIDSIZE,codedPos%Game.GRIDSIZE);
+                model.pasteClipboard((codedPos - (codedPos % Game.GRIDSIZE)) / Game.GRIDSIZE, codedPos % Game.GRIDSIZE);
         }
 
 
     }
-
-
 
 
     private void handleSliders() {
@@ -171,13 +158,17 @@ public class Controller {
         if (delaySlider.state()) {
             if (!MouseButtonsHandler.isKeyDown(0)) delaySlider.changeState();
             delaySlider.slide((int) MouseHandler.xPos());
-            model.setDelay(delaySlider.getPercent()*0.005);
+            model.setDelay(delaySlider.getPercent() * 0.005);
         }
 
     }
 
     private void initButtons() {
-        addCardButton(404, 2, 150, 30, "Hexagonal", () -> model.setCardIndex(0));
+        addCardButton(404, 2, 150, 30, model.getGridValues().getClass().getName(), () -> model.setCardIndex(0), () -> {
+            model.delCard(0);
+            cardButtons.remove(0);
+            cardDelButtons.remove(0);
+        });
     }
 
     private void initCheckboxes() {
@@ -198,12 +189,13 @@ public class Controller {
         }
     }
 
-    private void setDelaySlider(){
-        delaySlider.setPercent((int)(model.getDelay()/0.005));
+    private void setDelaySlider() {
+        delaySlider.setPercent((int) (model.getDelay() / 0.005));
     }
 
-    private void addCardButton(int x, int y, int width, int height, String text, ButtonHandler handler) {
-        cardButtons.add(new Button(x, y, width, height, text, handler, 0.5f, 0.5f, 0.5f));
+    private void addCardButton(int x, int y, int width, int height, String text, ButtonHandler copyHandle, ButtonHandler delHandle) {
+        cardButtons.add(new Button(x, y, (int) (0.8 * width), height, text, copyHandle, 0.5f, 0.5f, 0.5f));
+        cardDelButtons.add(new Button(x + (int) (0.8 * width), y, (int) (0.2 * width), height, "x", delHandle, 0.8f, 0, 0));
     }
 
     private void handleButtons() {
@@ -213,6 +205,15 @@ public class Controller {
                     button.press();
                     setRulesCheckboxes();
                     setDelaySlider();
+                    break;
+                }
+            }
+            for (Button button : cardDelButtons) {
+                if (button.isFocused((int) MouseHandler.xPos(), (int) MouseHandler.yPos())) {
+                    button.press();
+                    setRulesCheckboxes();
+                    setDelaySlider();
+                    break;
                 }
             }
         }
@@ -232,28 +233,38 @@ public class Controller {
     private void addCard(gridType type) {
 
         model.addCard(type);
-        String name = "";
         int n = model.getCardsAmount() - 1;
-        switch (type) {
-            case Squared:
-                name = "Squared";
-                break;
-            case Triangular:
-                name = "Triangular";
-                break;
-            case Hexagonal:
-                name = "Hexagonal";
-                break;
-        }
         addCardButton(
-                cardButtons.get(cardButtons.size() - 1).getX() + cardButtons.get(cardButtons.size() - 1).getWidth() + 2,
-                cardButtons.get(cardButtons.size() - 1).getY(),
-                cardButtons.get(cardButtons.size() - 1).getWidth(),
-                cardButtons.get(cardButtons.size() - 1).getHeight(),
-                name,
-                () -> model.setCardIndex(n)
+                Area.cards.getX() + 152 * n,
+                Area.cards.getY(),
+                150,
+                Area.cards.getHeight(),
+                model.getGridValues().getClass().getName(),
+                () -> model.setCardIndex(n),
+                () -> {
+                    cardButtons.remove(n);
+                    cardDelButtons.remove(n);
+                    model.delCard(n);
+                    resetCardButtons();
+                }
         );
         setRulesCheckboxes();
         setDelaySlider();
+    }
+
+    private void resetCardButtons() {
+        for (int i = 0; i < cardButtons.size(); i++) {
+            int I = i;
+            cardButtons.get(i).setPosition(Area.cards.getX() + 152 * i, Area.cards.getY());
+            cardDelButtons.get(i).setPosition(Area.cards.getX() + 152 * i + (int) (0.8 * 152), Area.cards.getY());
+            cardButtons.get(i).setHandler(() -> model.setCardIndex(I));
+            cardDelButtons.get(i).setHandler(
+                    () -> {
+                        cardButtons.remove(I);
+                        cardDelButtons.remove(I);
+                        model.delCard(I);
+                        resetCardButtons();
+                    });
+        }
     }
 }
