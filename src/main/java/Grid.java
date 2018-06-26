@@ -180,4 +180,3 @@ public abstract class Grid {
         oldY = 0;
     }
 }
-

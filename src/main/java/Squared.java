@@ -28,4 +28,3 @@ public class Squared extends Grid
     }
 }
 
-

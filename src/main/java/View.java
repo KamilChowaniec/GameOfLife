@@ -381,7 +381,6 @@ public class View
                             if (clipboard.isCellAlive(ii,jj))
                                 Triangle.display(x + (i + ii - clipboard.getWidth() / 2 + clipXoff) * cellWidth + ((j + jj - clipboard.getHeight() / 2 + clipYoff) % 2) * cellWidth, y + (j + jj - clipboard.getHeight() / 2 + clipYoff) * cellHeight, a, ((i + ii - clipboard.getWidth() / 2 + clipXoff) % 2) > 0, true);
 
-
                 }
             }
 

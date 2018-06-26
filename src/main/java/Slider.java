@@ -88,7 +88,6 @@ public class Slider
         }
     }
 
-
     public void draw()
     {
         Rectangle.display(xTrack,yTrack,widthTrack,heightTrack,false);
