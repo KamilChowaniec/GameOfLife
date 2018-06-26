@@ -11,6 +11,7 @@ public class Controller {
     private ArrayList<Button> cardButtons;
     private ArrayList<Button> cardDelButtons;
     private Button[] addButtons;
+    private Button[] menuButtons;
     private Checkbox[][] rulesCheckboxes;
     private Slider delaySlider;
     private Selection selection;
@@ -22,8 +23,18 @@ public class Controller {
         cardButtons = new ArrayList<>();
         cardDelButtons = new ArrayList<>();
         addButtons = new Button[3];
+        menuButtons = new Button[5];
         rulesCheckboxes = new Checkbox[2][13];
-        delaySlider = new Slider(view.previewX + 50, view.previewY + 400, 300, 10);
+
+        delaySlider = new Slider.Builder()
+                .xTrack(view.toolsX+50)
+                .yTrack(view.toolsY+650)
+                .widthTrack(300)
+                .heightTrack(40)
+                .widthThumb(20)
+                .heightThumb(50)
+                .build();
+
         initButtons();
         initCheckboxes();
     }
@@ -50,6 +61,7 @@ public class Controller {
         for (Button button : cardButtons) button.display();
         for (Button button : cardDelButtons) button.display();
         for (Button button : addButtons) button.display();
+        for (Button button : menuButtons) button.display();
 
         delaySlider.draw();
         view.display();
@@ -58,22 +70,14 @@ public class Controller {
     private void handleEvents() {
         switch (view.getState()) {
             case clipboard:
-
                 break;
             case grid:
-
                 break;
-
             case cards:
-
                 break;
-
             case tools:
-
                 break;
-
             case preview:
-
                 break;
         }
         handleSliders();
@@ -101,7 +105,6 @@ public class Controller {
 
         model.incZoom((int) ScrollHandler.wheelMovement());
 
-        //   model.
         if (MouseButtonsHandler.isKeyDown(GLFW_MOUSE_BUTTON_MIDDLE)) {
             model.moveGrid(MouseHandler.xRel(), MouseHandler.yRel());
         }
@@ -124,10 +127,7 @@ public class Controller {
             if (KeyboardHandler.isKeyClicked(GLFW_KEY_V))
                 model.pasteClipboard((codedPos - (codedPos % Game.GRIDSIZE)) / Game.GRIDSIZE, codedPos % Game.GRIDSIZE);
         }
-
-
     }
-
 
     private void handleSliders() {
         if (delaySlider.isFocused((int) MouseHandler.xPos(), (int) MouseHandler.yPos()) && MouseButtonsHandler.isKeyDown(0) && !delaySlider.state()) {
@@ -138,7 +138,6 @@ public class Controller {
             delaySlider.slide((int) MouseHandler.xPos());
             model.setDelay(delaySlider.getPercent() * 0.005);
         }
-
     }
 
     private void initButtons() {
@@ -147,18 +146,49 @@ public class Controller {
             cardButtons.remove(0);
             cardDelButtons.remove(0);
         });
-        addButtons[0] = new Button(Area.tools.getX(),Area.tools.getY(), Area.tools.getWidth(),30,"Squared",
+
+        addButtons[0] = new Button(Area.tools.getX()+(int)(Area.tools.getWidth()*0.1),Area.tools.getY()+250, (int)(Area.tools.getWidth()*0.8),50,"            Nowy Squared",
                 ()-> addCard(gridType.Squared),
                 0.5f,0.5f,0.5f
         );
-        addButtons[1] = new Button(Area.tools.getX(),Area.tools.getY() + 62, Area.tools.getWidth(),30,"Triangular",
+        addButtons[1] = new Button(Area.tools.getX()+(int)(Area.tools.getWidth()*0.1),Area.tools.getY() + 350, (int)(Area.tools.getWidth()*0.8),50,"          Nowy Triangular",
                 ()-> addCard(gridType.Triangular),
                 0.5f,0.5f,0.5f
         );
-        addButtons[2] = new Button(Area.tools.getX(),Area.tools.getY() + 94, Area.tools.getWidth(),30,"Hexagonal",
+        addButtons[2] = new Button(Area.tools.getX()+(int)(Area.tools.getWidth()*0.1),Area.tools.getY() + 450, (int)(Area.tools.getWidth()*0.8),50,"         Nowy Hexagonal",
                 ()-> addCard(gridType.Hexagonal),
                 0.5f,0.5f,0.5f
         );
+
+        menuButtons[0] = new Button(Area.tools.getX()+(int)(Area.tools.getWidth()*0.1),Area.tools.getY() + 50, (int)(Area.tools.getWidth()*0.8),50,"            START / STOP",
+                ()-> model.pause(),
+                0.5f,0.5f,0.5f
+        );
+
+        menuButtons[1] = new Button(Area.tools.getX()+(int)(Area.tools.getWidth()*0.1),Area.tools.getY() + 150, (int)(Area.tools.getWidth()*0.8),50,"              RANDOMIZE",
+                ()-> model.randomize(),
+                0.5f,0.5f,0.5f
+        );
+
+        menuButtons[2] = new Button(Area.tools.getX(),Area.tools.getY()+575, Area.tools.getWidth(),50,"       Ustaw predkosc sliderem",
+                ()-> n(),
+                0.5f,0.5f,0.5f
+        );
+
+        menuButtons[3] = new Button(Area.tools.getX(),Area.tools.getY()+775, Area.tools.getWidth(),50,"      Zywych sasiadow do narodzin",
+                ()-> n(),
+                0.5f,0.5f,0.5f
+        );
+
+        menuButtons[4] = new Button(Area.tools.getX(),Area.tools.getY()+925, Area.tools.getWidth(),50,"      Zywych sasaidow do smierci",
+                ()-> n(),
+                0.5f,0.5f,0.5f
+        );
+    }
+
+    private void n()
+    {
+        return;
     }
 
     private void initCheckboxes() {
@@ -166,7 +196,7 @@ public class Controller {
             for (int j = 0; j < 13; j++) {
                 int x = i;
                 int y = j;
-                rulesCheckboxes[i][j] = new Checkbox(Area.grid.getX() + Area.grid.getWidth() + 20 + 40 * j, view.gridY + 50 + i * 40, 25, (state) -> model.setRule(x, y, state));
+                rulesCheckboxes[i][j] = new Checkbox(Area.tools.getX() + 10 + 30 * j, Area.tools.getX() + 850 + i * 150, 20, (state) -> model.setRule(x, y, state));
             }
         setRulesCheckboxes();
     }
@@ -198,6 +228,16 @@ public class Controller {
                     return;
                 }
             }
+
+            for (Button button : menuButtons) {
+                if (button.isFocused((int) MouseHandler.xPos(), (int) MouseHandler.yPos())) {
+                    button.press();
+                    setRulesCheckboxes();
+                    setDelaySlider();
+                    return;
+                }
+            }
+
             for (Button button : cardButtons) {
                 if (button.isFocused((int) MouseHandler.xPos(), (int) MouseHandler.yPos())) {
                     button.press();

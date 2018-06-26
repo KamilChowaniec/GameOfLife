@@ -117,6 +117,7 @@ public class Model {
     public int getRuleSize() {
         return cards.get(cardIndex).getRulesSize();
     }
-
-
 }
+
+
+

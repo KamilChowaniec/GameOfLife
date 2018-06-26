@@ -62,42 +62,6 @@ public class Clipboard {
         return height;
     }
 
-    public void readFromFile(Scanner scan) {
-        width = scan.nextInt();
-        height = scan.nextInt();
-        data = new boolean[width][height];
-        boolean state = scan.nextInt() == 0;
-        int count = 0;
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                if (count == 0) {
-                    count = scan.nextInt();
-                    state = !state;
-                }
-                data[i][j] = state;
-                count--;
 
-            }
-        }
-    }
-
-    public void saveToFile(PrintWriter printer) {
-        printer.print(width + " " + height + " ");
-        boolean state = data[0][0];
-        int count = 0;
-        printer.print((state ? 1 : 0) + " ");
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                if (data[i][j] == state) {
-                    count++;
-                } else {
-                    printer.print(count + " ");
-                    count = 1;
-                    state = !state;
-                }
-            }
-        }
-        printer.print(count);
-    }
 
 }
