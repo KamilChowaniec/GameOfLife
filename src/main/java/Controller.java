@@ -25,7 +25,17 @@ public class Controller {
         selection = new Selection(0,0,1,1);
         cardButtons = new ArrayList<>();
         rulesCheckboxes = new Checkbox[2][13];
-        delaySlider = new Slider(view.previewX + 50, view.previewY + 400, 300, 10);
+
+
+        delaySlider=new Slider.Builder()
+                .xTrack(view.toolsX+50)
+                .yTrack(view.toolsY + 300)
+                .widthTrack(300)
+                .heightTrack(40)
+                .widthThumb(20)
+                .heightThumb(50)
+                .build();
+
         initButtons();
         initCheckboxes();
     }
@@ -97,7 +107,7 @@ public class Controller {
         }
 
         switch(toolset.getTool()){
-            case Draw:
+           case Draw:
 
                 break;
 
