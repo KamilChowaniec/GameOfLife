@@ -27,7 +27,7 @@ public class Model {
     }
 
     public void delCard(int index){
-        GridPool.releseGrid(cards.get(index).getGrid());
+        GridPool.releaseGrid(cards.get(index).getGrid());
         cards.remove(index);
         if(cardIndex < 0 ) cardIndex=0;
         else if(cardIndex > cards.size()-1) cardIndex = cards.size() -1;

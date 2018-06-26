@@ -72,18 +72,65 @@ public class Controller {
             case clipboard:
                 break;
             case grid:
+                handleSelection();
                 break;
             case cards:
+                if (MouseButtonsHandler.isKeyClicked(GLFW_MOUSE_BUTTON_LEFT))
+                {
+                    for (Button button : cardButtons)
+                    {
+                        if (button.isFocused((int) MouseHandler.xPos(), (int) MouseHandler.yPos()))
+                        {
+                            button.press();
+                            setRulesCheckboxes();
+                            setDelaySlider();
+                            return;
+                        }
+                    }
+
+                    for (Button button : cardDelButtons) {
+                        if (button.isFocused((int) MouseHandler.xPos(), (int) MouseHandler.yPos())) {
+                            button.press();
+                            setRulesCheckboxes();
+                            setDelaySlider();
+                            return;
+                        }
+                    }
+                }
                 break;
             case tools:
-                break;
+                handleSliders();
+                handleCheckboxes();
+                if (MouseButtonsHandler.isKeyClicked(GLFW_MOUSE_BUTTON_LEFT))
+                {
+                    for (Button button : addButtons)
+                    {
+                        if (button.isFocused((int) MouseHandler.xPos(), (int) MouseHandler.yPos()))
+                        {
+                            button.press();
+                            setRulesCheckboxes();
+                            setDelaySlider();
+                            return;
+                        }
+                    }
+
+                    for (Button button : menuButtons)
+                    {
+                        if (button.isFocused((int) MouseHandler.xPos(), (int) MouseHandler.yPos()))
+                        {
+                            button.press();
+                            setRulesCheckboxes();
+                            setDelaySlider();
+                            return;
+                        }
+                    }
+                }
+                    break;
             case preview:
                 break;
         }
-        handleSliders();
-        handleButtons();
-        handleCheckboxes();
-        handleSelection();
+
+
         if (KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE)) view.closeWindow();
         if (KeyboardHandler.isKeyClicked(GLFW_KEY_SPACE)) model.randomize();
         if (KeyboardHandler.isKeyClicked(GLFW_KEY_ENTER)) model.update();
@@ -218,44 +265,7 @@ public class Controller {
         cardDelButtons.add(new Button(x + (int) (0.8 * width), y, (int) (0.2 * width), height, "x", delHandle, 0.8f, 0, 0));
     }
 
-    private void handleButtons() {
-        if (MouseButtonsHandler.isKeyClicked(GLFW_MOUSE_BUTTON_LEFT)) {
-            for (Button button : addButtons) {
-                if (button.isFocused((int) MouseHandler.xPos(), (int) MouseHandler.yPos())) {
-                    button.press();
-                    setRulesCheckboxes();
-                    setDelaySlider();
-                    return;
-                }
-            }
 
-            for (Button button : menuButtons) {
-                if (button.isFocused((int) MouseHandler.xPos(), (int) MouseHandler.yPos())) {
-                    button.press();
-                    setRulesCheckboxes();
-                    setDelaySlider();
-                    return;
-                }
-            }
-
-            for (Button button : cardButtons) {
-                if (button.isFocused((int) MouseHandler.xPos(), (int) MouseHandler.yPos())) {
-                    button.press();
-                    setRulesCheckboxes();
-                    setDelaySlider();
-                    return;
-                }
-            }
-            for (Button button : cardDelButtons) {
-                if (button.isFocused((int) MouseHandler.xPos(), (int) MouseHandler.yPos())) {
-                    button.press();
-                    setRulesCheckboxes();
-                    setDelaySlider();
-                    return;
-                }
-            }
-        }
-    }
 
     private void handleCheckboxes() {
         if (MouseButtonsHandler.isKeyClicked(GLFW_MOUSE_BUTTON_LEFT)) {

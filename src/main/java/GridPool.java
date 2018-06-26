@@ -51,7 +51,7 @@ public class GridPool {
         return false;
     }
 
-    public static void releseGrid(Grid obj){
+    public static void releaseGrid(Grid obj){
         cleanUp(obj);
         available.add(popElement(inUse,obj));
     }
