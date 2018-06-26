@@ -10,6 +10,7 @@ public class Model {
         cards = new ArrayList<>();
         cards.add(new Card(gridType.Triangular));
         cardIndex = 0;
+        new GridPool();
     }
 
     public void update() {
@@ -26,6 +27,7 @@ public class Model {
     }
 
     public void delCard(int index){
+        GridPool.releseGrid(cards.get(index).getGrid());
         cards.remove(index);
         if(cardIndex < 0 ) cardIndex=0;
         else if(cardIndex > cards.size()-1) cardIndex = cards.size() -1;

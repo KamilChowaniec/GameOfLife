@@ -28,4 +28,8 @@ public class CellProperties {
     public Color getColor() {
         return color;
     }
+
+    public void reset(){
+        lived = 0;
+    }
 }

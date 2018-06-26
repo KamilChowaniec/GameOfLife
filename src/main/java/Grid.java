@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public abstract class Grid {
     protected CellProperties[][] cellProperties;
     protected boolean[][] alive;
@@ -67,14 +69,13 @@ public abstract class Grid {
             }
     }
 
-    public void incZoom(int offset)
-    {
+    public void incZoom(int offset) {
         zoom += offset;
-        if(zoom>150) zoom+=10*offset;
-        else if(zoom>125) zoom+=7*offset;
-        else if (zoom > 100) zoom+=5*offset;
-        else if(zoom>75) zoom+=2*offset;
-        else if(zoom>50) zoom+=offset;
+        if (zoom > 150) zoom += 10 * offset;
+        else if (zoom > 125) zoom += 7 * offset;
+        else if (zoom > 100) zoom += 5 * offset;
+        else if (zoom > 75) zoom += 2 * offset;
+        else if (zoom > 50) zoom += offset;
         if (zoom > 200) zoom = 200;
         else if (zoom < 0) zoom = 0;
     }
@@ -158,6 +159,25 @@ public abstract class Grid {
 
     public void setDiffY(double diffY) {
         this.diffY = diffY;
+    }
+
+    public void reset() {
+        for (int i = 0; i < cellProperties.length; i++)
+            for (int j = 0; j < cellProperties[0].length; j++) {
+                alive[i][j] = false;
+                buffer[i][j] = false;
+                cellProperties[i][j].reset();
+            }
+        zoom = 0;
+        xoff = 0;
+        yoff = 0;
+        prevZoom = 0;
+        diffX = 0;
+        diffY = 0;
+        highlightedI = 0;
+        highlightedJ = 0;
+        oldX = 0;
+        oldY = 0;
     }
 }
 

@@ -12,26 +12,23 @@ public class Card {
 
     private double delay;
 
-    // gridType: 0-Squared, 1-Triangular, 2-Hexagonal
     public Card(gridType type) {
+        grid = GridPool.getGrid(type);
         pause = false;
         delay = 0;
         timer = glfwGetTime() + delay;
         switch (type) {
             case Squared:
-                grid = new Squared();
                 rules = new boolean[2][9];
                 rules[0][2] = true;
                 rules[0][3] = true;
                 rules[1][3] = true;
                 break;
             case Triangular:
-                grid = new Triangular();
                 rules = new boolean[2][13];
                 rules[1][1] = true;
                 break;
             case Hexagonal:
-                grid = new Hexagonal();
                 rules = new boolean[2][7];
                 rules[0][3] = true;
                 rules[0][4] = true;
