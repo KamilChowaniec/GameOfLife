@@ -25,6 +25,13 @@ public class Model {
         cardIndex = cards.size() - 1;
     }
 
+    public void delCard(int index){
+        cards.remove(index);
+        if(cardIndex < 0 ) cardIndex=0;
+        else if(cardIndex > cards.size()-1) cardIndex = cards.size() -1;
+
+    }
+
     public void setCardIndex(int cardIndex) {
         this.cardIndex = cardIndex;
     }
