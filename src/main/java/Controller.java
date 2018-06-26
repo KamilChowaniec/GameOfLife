@@ -10,20 +10,18 @@ public class Controller {
     private int codedPos = -1;
     private ArrayList<Button> cardButtons;
     private ArrayList<Button> cardDelButtons;
+    private Button[] addButtons;
     private Checkbox[][] rulesCheckboxes;
     private Slider delaySlider;
     private Selection selection;
-    private Toolset toolset;
-    private ClipLib clips;
 
     public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
-        clips = new ClipLib("clips.txt");
-        toolset = new Toolset();
         selection = new Selection(0, 0, 1, 1);
         cardButtons = new ArrayList<>();
         cardDelButtons = new ArrayList<>();
+        addButtons = new Button[3];
         rulesCheckboxes = new Checkbox[2][13];
         delaySlider = new Slider(view.previewX + 50, view.previewY + 400, 300, 10);
         initButtons();
@@ -47,13 +45,13 @@ public class Controller {
         codedPos = view.display(model.getGridValues(), selection, model.getClipboard());
 
         for (Checkbox[] checkbox : rulesCheckboxes)
-            for (int i = 0; i < model.getRuleSize(); i++)
-                checkbox[i].draw();
+            for (int i = 0; i < model.getRuleSize(); i++) checkbox[i].draw();
+
         for (Button button : cardButtons) button.display();
         for (Button button : cardDelButtons) button.display();
-        toolset.display();
+        for (Button button : addButtons) button.display();
+
         delaySlider.draw();
-        clips.displayButtons();
         view.display();
     }
 
@@ -80,10 +78,8 @@ public class Controller {
         }
         handleSliders();
         handleButtons();
-        toolset.handleTools();
         handleCheckboxes();
         handleSelection();
-        clips.handleButtons();
         if (KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE)) view.closeWindow();
         if (KeyboardHandler.isKeyClicked(GLFW_KEY_SPACE)) model.randomize();
         if (KeyboardHandler.isKeyClicked(GLFW_KEY_ENTER)) model.update();
@@ -109,24 +105,6 @@ public class Controller {
         if (MouseButtonsHandler.isKeyDown(GLFW_MOUSE_BUTTON_MIDDLE)) {
             model.moveGrid(MouseHandler.xRel(), MouseHandler.yRel());
         }
-
-        if (KeyboardHandler.isKeyDown(GLFW_KEY_LEFT_CONTROL)) {
-            if (KeyboardHandler.isKeyClicked(GLFW_KEY_L)) {
-                clips.loadFromFile("clips.txt");
-            }
-            if (KeyboardHandler.isKeyClicked(GLFW_KEY_S)) {
-                clips.saveToFile("clips.txt");
-            }
-            if (KeyboardHandler.isKeyClicked(GLFW_KEY_A)) {
-                int i = clips.size();
-                clips.addClip(model.getClipboard(), () -> model.setClipboard(clips.getClipboard(i)), () -> System.out.println("delete"));
-            }
-            if (KeyboardHandler.isKeyClicked(GLFW_KEY_G)) {
-                model.setClipboard(clips.getClipboard(0));
-            }
-        }
-
-
         KeyboardHandler.clear();
         MouseButtonsHandler.clear();
         ScrollHandler.clear();
@@ -164,11 +142,23 @@ public class Controller {
     }
 
     private void initButtons() {
-        addCardButton(404, 2, 150, 30, model.getGridValues().getClass().getName(), () -> model.setCardIndex(0), () -> {
+        addCardButton(Area.cards.getX(), Area.cards.getY(), 150, Area.cards.getHeight(), model.getGridValues().getClass().getName(), () -> model.setCardIndex(0), () -> {
             model.delCard(0);
             cardButtons.remove(0);
             cardDelButtons.remove(0);
         });
+        addButtons[0] = new Button(Area.tools.getX(),Area.tools.getY(), Area.tools.getWidth(),30,"Squared",
+                ()-> addCard(gridType.Squared),
+                0.5f,0.5f,0.5f
+        );
+        addButtons[1] = new Button(Area.tools.getX(),Area.tools.getY() + 62, Area.tools.getWidth(),30,"Triangular",
+                ()-> addCard(gridType.Triangular),
+                0.5f,0.5f,0.5f
+        );
+        addButtons[2] = new Button(Area.tools.getX(),Area.tools.getY() + 94, Area.tools.getWidth(),30,"Hexagonal",
+                ()-> addCard(gridType.Hexagonal),
+                0.5f,0.5f,0.5f
+        );
     }
 
     private void initCheckboxes() {
@@ -176,7 +166,7 @@ public class Controller {
             for (int j = 0; j < 13; j++) {
                 int x = i;
                 int y = j;
-                rulesCheckboxes[i][j] = new Checkbox(view.gridX + view.gridWidth + 20 + 40 * j, view.gridY + 50 + i * 40, 25, (state) -> model.setRule(x, y, state));
+                rulesCheckboxes[i][j] = new Checkbox(Area.grid.getX() + Area.grid.getWidth() + 20 + 40 * j, view.gridY + 50 + i * 40, 25, (state) -> model.setRule(x, y, state));
             }
         setRulesCheckboxes();
     }
@@ -200,12 +190,20 @@ public class Controller {
 
     private void handleButtons() {
         if (MouseButtonsHandler.isKeyClicked(GLFW_MOUSE_BUTTON_LEFT)) {
+            for (Button button : addButtons) {
+                if (button.isFocused((int) MouseHandler.xPos(), (int) MouseHandler.yPos())) {
+                    button.press();
+                    setRulesCheckboxes();
+                    setDelaySlider();
+                    return;
+                }
+            }
             for (Button button : cardButtons) {
                 if (button.isFocused((int) MouseHandler.xPos(), (int) MouseHandler.yPos())) {
                     button.press();
                     setRulesCheckboxes();
                     setDelaySlider();
-                    break;
+                    return;
                 }
             }
             for (Button button : cardDelButtons) {
@@ -213,7 +211,7 @@ public class Controller {
                     button.press();
                     setRulesCheckboxes();
                     setDelaySlider();
-                    break;
+                    return;
                 }
             }
         }
